@@ -85,6 +85,13 @@ allprojects {
         ...
 ```
 
+If you are targeting Android Pie devices (or above), add Apache Http Legacy to your `AndroidManifest.xml`:
+```xml
+<uses-library
+  android:name="org.apache.http.legacy"
+  android:required="false"/>
+```
+
 ## API
 
 * [`load(...)`](#load)
