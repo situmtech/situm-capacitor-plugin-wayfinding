@@ -1,0 +1,65 @@
+{
+  "name": "situm-capacitor-plugin-wayfinding",
+  "version": "0.0.1",
+  "description": "Situm Wayfinding Plugin for Capacitor has been designed to create indoor location applications in the simplest way. It has been built in the top of the Situm SDK.",
+  "main": "dist/plugin.cjs.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "unpkg": "dist/plugin.js",
+  "files": [
+    "android/src/main/",
+    "android/build.gradle",
+    "dist/",
+    "ios/Plugin/",
+    "SitumCapacitorPluginWayfinding.podspec"
+  ],
+  "author": "",
+  "license": "(MIT OR Apache-2.0)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/situmtech/situm-capacitor-plugin-wayfinding"
+  },
+  "bugs": {
+    "url": "https://github.com/situmtech/situm-capacitor-plugin-wayfinding/issues"
+  },
+  "keywords": [
+    "capacitor",
+    "plugin",
+    "native"
+  ],
+  "scripts": {
+    "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
+    "verify:ios": "cd ios && pod install && xcodebuild -workspace Plugin.xcworkspace -scheme Plugin && cd ..",
+    "verify:android": "cd android && ./gradlew clean build test && cd ..",
+    "verify:web": "npm run build",
+    "docgen": "docgen --api SitumWayfindingPlugin --output-readme DOCGEN.md --output-json dist/docs.json",
+    "build": "npm run clean && tsc",
+    "clean": "rimraf ./dist",
+    "watch": "tsc --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^3.0.0",
+    "@capacitor/cli": "^3.2.3",
+    "@capacitor/core": "^3.0.0",
+    "@capacitor/docgen": "^0.0.10",
+    "@capacitor/ios": "^3.0.0",
+    "rimraf": "^3.0.2",
+    "typescript": "~4.0.3",
+    "@types/resize-observer-browser": "^0.1.6"
+  },
+  "peerDependencies": {
+    "@capacitor/core": "^3.0.0"
+  },
+  "dependencies": {
+    "@capacitor-community/capacitor-googlemaps-native": "git+https://github.com/situmtech/capacitor-google-maps.git#situm-alpha.0"
+  },
+  "capacitor": {
+    "ios": {
+      "src": "ios"
+    },
+    "android": {
+      "src": "android"
+    }
+  }
+}
