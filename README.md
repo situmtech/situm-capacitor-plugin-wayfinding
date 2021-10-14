@@ -69,7 +69,7 @@ const librarySettings = {
           ...
         };
 ```
-2. Android: the Google Maps API KEY must be set in the `AndroidManifest.xml` file (that you will find in the `android` folder) of your project.
+2. Android: the Google Maps API KEY must be set in the `AndroidManifest.xml` file (that you will find in the `android/src/main` folder) of your project.
 ```xml
 <meta-data android:name="com.google.android.geo.API_KEY"
     android:value="[YOUR_ANDROID_GOOGLE_MAPS_APIKEY]"/>
