@@ -15,7 +15,7 @@ Remember that this module implements the Android and iOS native interfaces but n
 To install `situm-capacitor-plugin-wayfinding`, add the next line to your `package.json` file:
 ```json
 "dependencies": {
-    "situm-capacitor-plugin-wayfinding": "TODO -> link to github",
+    "situm-capacitor-plugin-wayfinding": "git+https://github.com/situmtech/situm-capacitor-plugin-wayfinding.git",
     ...
 ```
 Then run `npm install` and `npx cap sync` to effectively install the package, copy the web app build and Capacitor configuration file into the native platform project and update the native plugins and dependencies previously referenced:
