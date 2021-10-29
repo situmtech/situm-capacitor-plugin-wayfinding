@@ -65,7 +65,7 @@ public class CapSitumWayfindingPlugin: CAPPlugin {
     }
     
     //Needed for Android
-    func internalSetOverlays(_ call: CAPPluginCall){
+    @objc func internalSetOverlays(_ call: CAPPluginCall){
     
     }
     
