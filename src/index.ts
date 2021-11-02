@@ -150,7 +150,14 @@ class WayfindingHelper {
     const overlays: Array<SitumMapOverlay> = [];
     elements.forEach(element => {
       const boundingRect = element.getBoundingClientRect();
-      overlays.push(boundingRect);  // DOMRect feets the SitumMapOverlay interface.
+      //TODO: Check why in ios the cast from DOMRect to SitumMapOverlay is not done properly
+      const mo: SitumMapOverlay = {
+        x: boundingRect.x,
+        y: boundingRect.y,
+        width: boundingRect.width,
+        height: boundingRect.height
+      };
+      overlays.push(mo);
     });
     SitumWayfindingInternal.internalSetOverlays({
       overlays: overlays

@@ -66,7 +66,7 @@ public class CapSitumWayfindingPlugin: CAPPlugin {
     
     //Needed for Android
     @objc func internalSetOverlays(_ call: CAPPluginCall){
-    
+            call.resolve()
     }
     
     private func getGMSMapView() -> GMSMapView?{
