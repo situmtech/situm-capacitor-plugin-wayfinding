@@ -32,10 +32,10 @@ The size of this `div` will be the size of the native module. Note that right no
 And finally in your Typescript layer, initialize the module:
 ```typescript
 const librarySettings = {
-    user: "[YOUR_SITUM_USER]",
-    apiKey: "[YOUR_SITUM_APIKEY]",
-    iosGoogleMapsApiKey: "[YOUR_IOS_GOOGLE_MAPS_APIKEY]",
-    buildingId: "[YOUR_BUILDING_ID]",
+    user: "YOUR_SITUM_USER",
+    apiKey: "YOUR_SITUM_APIKEY",
+    iosGoogleMapsApiKey: "YOUR_IOS_GOOGLE_MAPS_APIKEY",
+    buildingId: "YOUR_BUILDING_ID",
     dashboardUrl: "https://dashboard.situm.com",
     hasSearchView: true,
     searchViewPlaceholder: "Capacitor WYF",
@@ -65,14 +65,14 @@ Make sure to enable your API KEY for the platforms of your choice.
 ```typescript
 const librarySettings = {
           ...
-          iosGoogleMapsApiKey: "[YOUR_IOS_GOOGLE_MAPS_APIKEY]",
+          iosGoogleMapsApiKey: "YOUR_IOS_GOOGLE_MAPS_APIKEY",
           ...
         };
 ```
 2. Android: the Google Maps API KEY must be set in the `AndroidManifest.xml` file (that you will find in the `android/src/main` folder) of your project.
 ```xml
 <meta-data android:name="com.google.android.geo.API_KEY"
-    android:value="[YOUR_ANDROID_GOOGLE_MAPS_APIKEY]"/>
+    android:value="YOUR_ANDROID_GOOGLE_MAPS_APIKEY"/>
 ```
 
 ### Dependencies:
