@@ -85,6 +85,13 @@ allprojects {
         ...
 ```
 
+At this moment this module uses [Capacitor Google Maps](https://github.com/situmtech/capacitor-google-maps). Add this dependency to your `package.json` to let Capacitor add the corresponding native project modules:
+```json
+"dependencies": {
+    "@capacitor-community/capacitor-googlemaps-native": "git+https://github.com/situmtech/capacitor-google-maps.git#situm-alpha.0",
+    ...
+```
+
 If you are targeting Android Pie devices (or above), add Apache Http Legacy to your `AndroidManifest.xml`:
 ```xml
 <uses-library
