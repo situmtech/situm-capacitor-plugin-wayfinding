@@ -92,6 +92,13 @@ At this moment this module uses [Capacitor Google Maps](https://github.com/situm
     ...
 ```
 
+#### Android
+
+The location permission is required in your app level `AndroidManifest.xml`:
+```xml
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+```
+
 If you are targeting Android Pie devices (or above), add Apache Http Legacy to your `AndroidManifest.xml`:
 ```xml
 <uses-library

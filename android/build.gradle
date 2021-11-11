@@ -59,7 +59,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:1.3.1"
     implementation 'com.google.android.gms:play-services-maps:16.0.0'
 
-    implementation ('es.situm:situm-wayfinding:0.8.3-alpha@aar') {
+    implementation ('es.situm:situm-wayfinding:0.8.4-alpha@aar') {
         transitive = true
     }
 }
