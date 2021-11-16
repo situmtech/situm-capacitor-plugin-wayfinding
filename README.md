@@ -15,10 +15,10 @@ Remember that this module implements the Android and iOS native interfaces but n
 To install `situm-capacitor-plugin-wayfinding`, add the next line to your `package.json` file:
 ```json
 "dependencies": {
-    "situm-capacitor-plugin-wayfinding": "git+https://github.com/situmtech/situm-capacitor-plugin-wayfinding.git",
-    ...
+    "situm-capacitor-plugin-wayfinding": "latest"
 ```
-Then run `npm install` and `npx cap sync` to effectively install the package, copy the web app build and Capacitor configuration file into the native platform project and update the native plugins and dependencies previously referenced:
+
+Then run `npm install` and `npx cap sync` to install packages, copy the web app build and Capacitor configuration file into the native platform project and update the native plugins and dependencies previously referenced:
 ```bash
 your/project/path$ npm install && npx cap sync
 ```
@@ -27,7 +27,8 @@ In your project, add the HTMLElement that will hold the Situm Wayfinding Module:
 ```html
 <div id="situm-map"></div>
 ```
-The size of this `div` will be the size of the native module. Note that right now it is not possible to modify the size or position of the native element, which affects both scrollable elements and screen rotations.
+The size of this `div` will be the size of the native module. That size must be greater than 0.
+Note that right now it is not possible to modify the size or position of the native element, which affects both scrollable elements and screen rotations.
 
 And finally in your Typescript layer, initialize the module:
 ```typescript
@@ -77,6 +78,14 @@ const librarySettings = {
 
 ### Dependencies:
 
+At this moment this module uses [Capacitor Google Maps](https://github.com/situmtech/capacitor-google-maps). Add this dependency to your `package.json` to let Capacitor add the corresponding native project modules:
+```json
+"dependencies": {
+    "@capacitor-community/capacitor-googlemaps-native": "git+https://github.com/situmtech/capacitor-google-maps.git#situm-alpha.0"
+```
+
+#### Android
+
 This module depends on the [Situm Wayfinding for Android visual component](https://situm.com/docs/01-android-quickstart-guide/). You must add the Situm Repository to your project level `build.gradle` file (again, in the `android` folder of your project):
 ```groovy
 allprojects {
@@ -84,15 +93,6 @@ allprojects {
         maven { url "https://repo.situm.com/artifactory/libs-release-local" }
         ...
 ```
-
-At this moment this module uses [Capacitor Google Maps](https://github.com/situmtech/capacitor-google-maps). Add this dependency to your `package.json` to let Capacitor add the corresponding native project modules:
-```json
-"dependencies": {
-    "@capacitor-community/capacitor-googlemaps-native": "git+https://github.com/situmtech/capacitor-google-maps.git#situm-alpha.0",
-    ...
-```
-
-#### Android
 
 The location permission is required in your app level `AndroidManifest.xml`:
 ```xml
