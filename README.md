@@ -153,16 +153,18 @@ unload() => any
 
 #### LibrarySettings
 
-| Prop                        | Type             |
-| --------------------------- | ---------------- |
-| **`user`**                  | `String` |
-| **`apiKey`**                | `String` |
-| **`iosGoogleMapsApiKey`**   | `String` |
-| **`buildingId`**            | `String` |
-| **`dashboardUrl`**          | `String` |
-| **`hasSearchView`**         | `Boolean` |
-| **`searchViewPlaceholder`** | `Boolean` |
-| **`useDashboardTheme`**     | `Boolean` |
+| Prop                         | Type             |
+| ---------------------------- | ---------------- |
+| **`user`**                   | `String` |
+| **`apiKey`**                 | `String` |
+| **`iosGoogleMapsApiKey`**    | `String` |
+| **`buildingId`**             | `String` |
+| **`dashboardUrl`**           | `String` |
+| **`hasSearchView`**          | `Boolean` |
+| **`searchViewPlaceholder`**  | `Boolean` |
+| **`useDashboardTheme`**      | `Boolean` |
+| **`userPositionIcon?`**      | `String` |
+| **`userPositionArrowIcon?`** | `String` |
 
 
 #### ScreenInfo
