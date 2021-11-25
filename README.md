@@ -114,7 +114,7 @@ Use the parameter `useDashboardTheme` of `LibrarySettings` to decorate the whole
 
 ### Positioning icons
 
-Use the fields `userPositionIcon` in `userPositionArrowIcon` to set the __path__ for the icons representing the user position (without and with orientation respectively).
+Use the fields `userPositionIcon` and `userPositionArrowIcon` in `LibrarySettings` to set the icons representing the user position (without and with orientation respectively).
 
 The path is relative to the native __android assets folder__ and __iOS public folder__. It was inspired in the results of [`npx cap sync`](https://capacitorjs.com/docs/cli/sync) as you will see bellow. For example, for the following tree:
 ```
