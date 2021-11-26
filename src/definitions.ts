@@ -7,6 +7,8 @@ export interface LibrarySettings {
     hasSearchView: Boolean;
     searchViewPlaceholder: String;
     useDashboardTheme: Boolean;
+    userPositionIcon?: String;
+    userPositionArrowIcon?: String;
 }
 export interface ScreenInfo {
     devicePixelRatio: Number;

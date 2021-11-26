@@ -19,16 +19,9 @@ public class CapLibrarySettings: NSObject {
     //var hasSearchView = true
     var useDashboardTheme = true
     
-    public enum CapLibrarySettingsMappingError: Error {
-        case noSitumCredentials
-        case noGoogleMapsApiKey
-    }
-    
-    public static func from(_ call: CAPPluginCall) throws -> CapLibrarySettings {
+    public static func from(_ jsonObject: JSObject) throws -> CapLibrarySettings {
         let capacitorLibrarySettings=CapLibrarySettings()
-        let jsonObject = call.getObject("librarySettings", [:])
         capacitorLibrarySettings.user = jsonObject["user"]  as? String ?? ""
-        
         capacitorLibrarySettings.apiKey = jsonObject["apiKey"]  as? String ?? ""
         capacitorLibrarySettings.googleMapsApiKey = jsonObject["iosGoogleMapsApiKey"]  as? String ?? ""
         capacitorLibrarySettings.buildingId = jsonObject["buildingId"]  as? String ?? ""
@@ -36,11 +29,11 @@ public class CapLibrarySettings: NSObject {
         capacitorLibrarySettings.useDashboardTheme = (jsonObject["useDashboardTheme"]  as? NSString ?? "").boolValue
         
         if capacitorLibrarySettings.user.isEmpty || capacitorLibrarySettings.apiKey.isEmpty {
-            throw CapLibrarySettingsMappingError.noSitumCredentials
+            throw CapSitumWayfinding.CapSitumWayfindingError.noSitumCredentials
         }
         
         if capacitorLibrarySettings.googleMapsApiKey.isEmpty {
-            throw CapLibrarySettingsMappingError.noGoogleMapsApiKey
+            throw CapSitumWayfinding.CapSitumWayfindingError.noGoogleMapsApiKey
         }
         
         return capacitorLibrarySettings
