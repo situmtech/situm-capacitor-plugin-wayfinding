@@ -153,9 +153,11 @@ For the latter, your assets folder will vary depending on the UI framework of yo
 In both cases the execution of `npx cap sync` will copy your assets to a predefined folder, as you can see in the following output:
 
 ```
-Copying web assets from dist to android/app/src/main/assets/public
+$ npx cap sync
 ...
-Copying web assets from dist to ios/App/App/public
+✔ Copying web assets from dist to android/app/src/main/assets/public
+...
+✔ Copying web assets from dist to ios/App/App/public
 ...
 ```
 
