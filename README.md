@@ -106,6 +106,65 @@ If you are targeting Android Pie devices (or above), add Apache Http Legacy to y
   android:required="false"/>
 ```
 
+## Customization:
+
+### Colors
+
+Use the parameter `useDashboardTheme` of `LibrarySettings` to decorate the whole WYF UI with your organization theme.
+
+### Positioning icons
+
+Use the fields `userPositionIcon` and `userPositionArrowIcon` in `LibrarySettings` to set the icons representing the user position (without and with orientation respectively).
+
+The path is relative to the native __android assets folder__ and __iOS public folder__. It was inspired in the results of [`npx cap sync`](https://capacitorjs.com/docs/cli/sync) as you will see bellow. For example, for the following tree:
+```
+android/app/src/main/assets/
+...
+├── images
+│   ├── arrow_icon.png
+│   └── dot_icon.png
+...
+
+ios/App/App/public/
+...
+├── images
+│   ├── arrow_icon.png
+│   └── dot_icon.png
+
+```
+
+Will apply the following path:
+```typescript
+  // LibrarySettings:
+  const librarySettings = {
+    user: "YOUR_SITUM_USER",
+    ...
+    userPositionIcon: "images/dot_icon.png",
+    userPositionArrowIcon: "images/arrow_icon.png"
+  };
+```
+
+You can manually copy the icons in your native projects, or manage them in the web side.
+For the latter, your assets folder will vary depending on the UI framework of your choice, for example:
+
+* Angular: see the [assets property for your build options in the documentation](https://angular.io/guide/workspace-config#additional-build-and-test-options).
+* Vue: see the [public folder](https://cli.vuejs.org/guide/html-and-static-assets.html#the-public-folder).
+
+In both cases the execution of `npx cap sync` will copy your assets to a predefined folder, as you can see in the following output:
+
+```
+$ npx cap sync
+...
+✔ Copying web assets from dist to android/app/src/main/assets/public
+...
+✔ Copying web assets from dist to ios/App/App/public
+...
+```
+
+Check that folders after executing `npx cap sync` to ensure you are setting the correct path to your icons.
+
+Using or not a UI framework is up to you, the rule is to set a path relative to the native assets folders.
+
 ## API
 
 * [`load(...)`](#load)
@@ -153,16 +212,18 @@ unload() => any
 
 #### LibrarySettings
 
-| Prop                        | Type             |
-| --------------------------- | ---------------- |
-| **`user`**                  | `String` |
-| **`apiKey`**                | `String` |
-| **`iosGoogleMapsApiKey`**   | `String` |
-| **`buildingId`**            | `String` |
-| **`dashboardUrl`**          | `String` |
-| **`hasSearchView`**         | `Boolean` |
-| **`searchViewPlaceholder`** | `Boolean` |
-| **`useDashboardTheme`**     | `Boolean` |
+| Prop                         | Type             |
+| ---------------------------- | ---------------- |
+| **`user`**                   | `String` |
+| **`apiKey`**                 | `String` |
+| **`iosGoogleMapsApiKey`**    | `String` |
+| **`buildingId`**             | `String` |
+| **`dashboardUrl`**           | `String` |
+| **`hasSearchView`**          | `Boolean` |
+| **`searchViewPlaceholder`**  | `Boolean` |
+| **`useDashboardTheme`**      | `Boolean` |
+| **`userPositionIcon?`**      | `String` |
+| **`userPositionArrowIcon?`** | `String` |
 
 
 #### ScreenInfo

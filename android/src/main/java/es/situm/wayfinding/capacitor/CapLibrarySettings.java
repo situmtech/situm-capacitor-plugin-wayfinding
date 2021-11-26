@@ -16,6 +16,8 @@ public class CapLibrarySettings {
     Boolean hasSearchView;
     String searchViewPlaceholder;
     Boolean useDashboardTheme;
+    String userPositionIcon;
+    String userPositionArrowIcon;
 
     AppCompatActivity activity;
 
@@ -34,6 +36,8 @@ public class CapLibrarySettings {
         s.hasSearchView = o.getBoolean("hasSearchView", true);
         s.searchViewPlaceholder = o.getString("searchViewPlaceholder");
         s.useDashboardTheme = o.getBoolean("useDashboardTheme", false);
+        s.userPositionIcon = o.getString("userPositionIcon", null);
+        s.userPositionArrowIcon = o.getString("userPositionArrowIcon", null);
         return s;
     }
 
@@ -44,6 +48,8 @@ public class CapLibrarySettings {
         s.setHasSearchView(hasSearchView);
         s.setSearchViewPlaceholder(searchViewPlaceholder);
         s.setUseDashboardTheme(useDashboardTheme);
+        s.setUserPositionIcon(userPositionIcon);
+        s.setUserPositionArrowIcon(userPositionArrowIcon);
         return s;
     }
 
