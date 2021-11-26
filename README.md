@@ -135,14 +135,13 @@ ios/App/App/public/
 
 Will apply the following path:
 ```typescript
-    try {
-      // LibrarySettings:
-      const librarySettings = {
-        user: "YOUR_SITUM_USER",
-        ...
-        userPositionIcon: "images/dot_icon.png",
-        userPositionArrowIcon: "images/arrow_icon.png"
-      };
+  // LibrarySettings:
+  const librarySettings = {
+    user: "YOUR_SITUM_USER",
+    ...
+    userPositionIcon: "images/dot_icon.png",
+    userPositionArrowIcon: "images/arrow_icon.png"
+  };
 ```
 
 You can manually copy the icons in your native projects, or manage them in the web side.
