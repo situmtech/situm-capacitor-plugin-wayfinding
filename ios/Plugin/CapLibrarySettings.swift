@@ -18,6 +18,8 @@ public class CapLibrarySettings: NSObject {
     var buildingId:String = ""
     //var hasSearchView = true
     var useDashboardTheme = true
+    var userPositionIcon = ""
+    var userPositionArrowIcon = ""
     
     public static func from(_ jsonObject: JSObject) throws -> CapLibrarySettings {
         let capacitorLibrarySettings=CapLibrarySettings()
@@ -27,7 +29,8 @@ public class CapLibrarySettings: NSObject {
         capacitorLibrarySettings.buildingId = jsonObject["buildingId"]  as? String ?? ""
         //capacitorLibrarySettings.hasSearchView = (jsonObject["hasSearchView"]  as? NSString ?? "").boolValue
         capacitorLibrarySettings.useDashboardTheme = (jsonObject["useDashboardTheme"]  as? NSString ?? "").boolValue
-        
+        capacitorLibrarySettings.userPositionIcon = jsonObject["userPositionIcon"]  as? String ?? ""
+        capacitorLibrarySettings.userPositionArrowIcon = jsonObject["userPositionArrowIcon"]  as? String ?? ""
         if capacitorLibrarySettings.user.isEmpty || capacitorLibrarySettings.apiKey.isEmpty {
             throw CapSitumWayfinding.CapSitumWayfindingError.noSitumCredentials
         }
@@ -41,9 +44,20 @@ public class CapLibrarySettings: NSObject {
     
     public func toWyfLibraySettings(googleMap: GMSMapView) -> LibrarySettings{
         let credentials = Credentials(user: user, apiKey: apiKey, googleMapsApiKey: googleMapsApiKey)
-        let librarySettings = LibrarySettings.Builder().setCredentials(credentials: credentials).setGoogleMap(googleMap: googleMap ).setBuildingId(buildingId: buildingId).setUseDashboardTheme(useDashboardTheme: useDashboardTheme).build()
+        let librarySettings = LibrarySettings.Builder().setCredentials(credentials: credentials).setGoogleMap(googleMap: googleMap )
+            .setBuildingId(buildingId: buildingId).setUseDashboardTheme(useDashboardTheme: useDashboardTheme)
+            .setUserPositionIcon(userPositionIcon: getNameIcon(nameIcon: userPositionIcon))
+            .setUserPositionArrowIcon(userPositionArrowIcon: getNameIcon(nameIcon: userPositionArrowIcon))
+            .build()
         return librarySettings
-        
     }
     
+    private func getNameIcon(nameIcon: String) -> String {
+        let result = (nameIcon as NSString).lastPathComponent
+        
+        let image = UIImage(named: (result as NSString).deletingPathExtension)
+        let image1 = UIImage(contentsOfFile: "\(Bundle.main.resourcePath!)/public/assets/\(result)")
+        
+        return (result as NSString).deletingPathExtension
+    }
 }
