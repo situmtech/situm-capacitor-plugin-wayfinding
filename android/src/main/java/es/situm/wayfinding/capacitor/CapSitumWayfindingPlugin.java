@@ -23,6 +23,12 @@ import org.json.JSONException;
 import java.lang.reflect.Field;
 import java.util.Map;
 
+import es.situm.sdk.model.cartography.Building;
+import es.situm.sdk.model.cartography.Floor;
+import es.situm.sdk.model.cartography.Poi;
+import es.situm.wayfinding.OnFloorChangeListener;
+import es.situm.wayfinding.OnPoiSelectedListener;
+
 @CapacitorPlugin(name = "SitumWayfinding")
 public class CapSitumWayfindingPlugin extends Plugin {
 
@@ -162,4 +168,54 @@ public class CapSitumWayfindingPlugin extends Plugin {
         }
     }
 
+    @PluginMethod
+    public void internalSetOnPoiSelectedListener(PluginCall call) {
+        call.setKeepAlive(true);
+        final String callbackId = call.getCallbackId();
+        implementation.setOnPoiSelectedListener(new OnPoiSelectedListener() {
+            @Override
+            public void onPOISelected(Poi poi, Floor floor, Building building) {
+                JSObject result = new JSObject();
+                result.put("key", "onPOISelected");
+                result.put("buildingId", building.getIdentifier());
+                result.put("buildingName", building.getName());
+                result.put("floorId", floor.getIdentifier());
+                result.put("floorName", floor.getName());
+                result.put("poiId", poi.getIdentifier());
+                result.put("poiName", poi.getName());
+                resultForCallbackId(callbackId, result);
+            }
+
+            @Override
+            public void onPoiDeselected(Building building) {
+                JSObject result = new JSObject();
+                result.put("key", "onPoiDeselected");
+                result.put("buildingId", building.getIdentifier());
+                resultForCallbackId(callbackId, result);
+            }
+        });
+    }
+
+    @PluginMethod
+    public void internalSetOnFloorChangeListener(PluginCall call) {
+        call.setKeepAlive(true);
+        final String callbackId = call.getCallbackId();
+        implementation.setOnFloorSelectedListener((from, to, building) -> {
+            JSObject result = new JSObject();
+            result.put("key", "onFloorChanged");
+            result.put("buildingId", building.getIdentifier());
+            result.put("buildingName", building.getName());
+            result.put("fromFloorId", from.getIdentifier());
+            result.put("toFloorId", to.getIdentifier());
+            result.put("fromFloorName", from.getName());
+            result.put("toFloorName", to.getName());
+            resultForCallbackId(callbackId, result);
+        });
+    }
+
+
+    private void resultForCallbackId(String callbackId, JSObject result) {
+        PluginCall call = bridge.getSavedCall(callbackId);
+        call.resolve(result);
+    }
 }

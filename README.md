@@ -116,20 +116,20 @@ Use the parameter `useDashboardTheme` of `LibrarySettings` to decorate the whole
 
 Use the fields `userPositionIcon` and `userPositionArrowIcon` in `LibrarySettings` to set the icons representing the user position (without and with orientation respectively).
 
-The path is relative to the native __android assets folder__ and __iOS public folder__. It was inspired in the results of [`npx cap sync`](https://capacitorjs.com/docs/cli/sync) as you will see bellow. For example, for the following tree:
+The path is relative to the native __android assets folder__ and __iOS App folder__. It was inspired in the results of [`npx cap sync`](https://capacitorjs.com/docs/cli/sync) as you will see bellow. For example, for the following tree:
 ```
-android/app/src/main/assets/
+android/app/src/main/assets/public/
 ...
 ├── images
-│   ├── arrow_icon.png
-│   └── dot_icon.png
+│   ├── arrow_icon.png
+│   └── dot_icon.png
 ...
 
 ios/App/App/public/
 ...
 ├── images
-│   ├── arrow_icon.png
-│   └── dot_icon.png
+│   ├── arrow_icon.png
+│   └── dot_icon.png
 
 ```
 
@@ -169,6 +169,8 @@ Using or not a UI framework is up to you, the rule is to set a path relative to 
 
 * [`load(...)`](#load)
 * [`unload()`](#unload)
+* [`setOnPoiSelectedListener()`](#setOnPoiSelectedListener)
+* [`setOnFloorChangeListener()`](#setOnFloorChangeListener)
 * [Interfaces](#interfaces)
 
 
@@ -178,8 +180,8 @@ Using or not a UI framework is up to you, the rule is to set a path relative to 
 load(settings: WayfindingSettings) => Promise<WayfindingResult>
 ```
 
-| Param          | Type                                                              |
-| -------------- | ----------------------------------------------------------------- |
+| Param          | Type                 |
+| -------------- | -------------------- |
 | **`settings`** | `WayfindingSettings` |
 
 **Returns:** `Promise<WayfindingResult>`
@@ -197,14 +199,34 @@ unload() => any
 
 --------------------
 
+### setOnPoiSelectedListener()
+
+```typescript
+setOnPoiSelectedListener((result: OnPoiSelectedResult) { }) => void
+```
+
+**Returns:** `void`
+
+--------------------
+
+### setOnFloorChangeListener()
+
+```typescript
+setOnFloorChangeListener((result: OnFloorChangeResult) { }) => void
+```
+
+**Returns:** `void`
+
+--------------------
+
 
 ### Interfaces
 
 
 #### WayfindingSettings
 
-| Prop                  | Type                   |
-| --------------------- | ---------------------- |
+| Prop                  | Type  |
+| --------------------- | ----- |
 | **`mapId`**           | `any` |
 | **`librarySettings`** | `LibrarySettings` |
 | **`screenInfo`**      | `ScreenInfo` |
@@ -212,8 +234,8 @@ unload() => any
 
 #### LibrarySettings
 
-| Prop                         | Type             |
-| ---------------------------- | ---------------- |
+| Prop                         | Type     |
+| ---------------------------- | -------- |
 | **`user`**                   | `String` |
 | **`apiKey`**                 | `String` |
 | **`iosGoogleMapsApiKey`**    | `String` |
@@ -228,8 +250,8 @@ unload() => any
 
 #### ScreenInfo
 
-| Prop                   | Type             |
-| ---------------------- | ---------------- |
+| Prop                   | Type     |
+| ---------------------- | -------- |
 | **`devicePixelRatio`** | `Number` |
 | **`x`**                | `Number` |
 | **`y`**                | `Number` |
@@ -240,17 +262,43 @@ unload() => any
 #### WayfindingResult
 
 
+#### OnPoiSelectedResult
+
+| Prop               | Type     |
+| ------------------ | -------- |
+| **`key`**          | `String` |
+| **`buildingId`**   | `String` |
+| **`buildingName`** | `String` |
+| **`floorId`**      | `String` |
+| **`floorName`**    | `String` |
+| **`poiId`**        | `String` |
+| **`poiName`**      | `String` |
+
+
+#### OnFloorChangeResult
+
+| Prop                | Type     |
+| ------------------- | -------- |
+| **`key`**           | `String` |
+| **`buildingId`**    | `String` |
+| **`buildingName`**  | `String` |
+| **`fromFloorId`**   | `String` |
+| **`fromFloorName`** | `String` |
+| **`toFloorId`**     | `String` |
+| **`toFloorName`**   | `String` |
+
+
 #### SitumMapOverlays
 
-| Prop           | Type             |
-| -------------- | ---------------- |
+| Prop           | Type  |
+| -------------- | ----- |
 | **`overlays`** | `any` |
 
 
 #### SitumMapOverlay
 
-| Prop         | Type             |
-| ------------ | ---------------- |
+| Prop         | Type     |
+| ------------ | -------- |
 | **`x`**      | `Number` |
 | **`y`**      | `Number` |
 | **`width`**  | `Number` |

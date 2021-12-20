@@ -5,7 +5,9 @@ import {
   WayfindingSettings,
   WayfindingResult,
   LibrarySettings,
-  SitumMapOverlays
+  SitumMapOverlays,
+  OnPoiSelectedListener,
+  OnFloorChangeListener
 } from './definitions';
 
 export class SitumWayfindingWeb extends WebPlugin implements SitumWayfindingPlugin {
@@ -27,6 +29,16 @@ export class SitumWayfindingWeb extends WebPlugin implements SitumWayfindingPlug
 
   async internalUnload(): Promise<any> {
     console.log(`SitumWayfindingPlugin#unload() call.`)
+    throw this.unimplemented("Not implemented on web.");
+  }
+
+  async internalSetOnPoiSelectedListener(callback: OnPoiSelectedListener): Promise<any> {
+    console.log(`SitumWayfindingPlugin#setOnPoiSelectedListener() call with params: ${callback}.`)
+    throw this.unimplemented("Not implemented on web.");
+  }
+
+  async internalSetOnFloorChangeListener(callback: OnFloorChangeListener): Promise<any> {
+    console.log(`SitumWayfindingPlugin#setOnFloorSelectedListener() call with params: ${callback}.`)
     throw this.unimplemented("Not implemented on web.");
   }
 }

@@ -33,9 +33,37 @@ export interface WayfindingSettings {
 }
 export interface WayfindingResult {
 }
+export interface OnPoiSelectedResult {
+    key: String;
+    buildingId: String;
+    buildingName: String;
+    floorId: String;
+    floorName: String;
+    poiId: String;
+    poiName: String;
+}
+export type OnPoiSelectedListener = ( // Callback
+    result: OnPoiSelectedResult,
+    err?: any
+  ) => void;
+export interface OnFloorChangeResult {
+    key: String;
+    buildingId: String;
+    buildingName: String;
+    fromFloorId: String;
+    toFloorId: String;
+    fromFloorName: String;
+    toFloorName: String;
+}
+export type OnFloorChangeListener = ( // Callback
+    result: OnFloorChangeResult,
+    err?: any
+  ) => void;
 export interface SitumWayfindingPlugin {
     // The real native call.
     internalLoad(settings: WayfindingSettings): Promise<WayfindingResult>;
     internalSetOverlays(overlays: SitumMapOverlays): Promise<any>;
     internalUnload(): Promise<any>;
+    internalSetOnPoiSelectedListener(callback: OnPoiSelectedListener): Promise<any>;
+    internalSetOnFloorChangeListener(callback: OnFloorChangeListener): Promise<any>;
 }
