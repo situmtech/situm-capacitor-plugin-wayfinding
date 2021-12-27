@@ -17,6 +17,7 @@ public class CapLibrarySettings: NSObject {
     var googleMapsApiKey:String = ""
     var buildingId:String = ""
     //var hasSearchView = true
+    var searchViewPlaceholder = ""
     var useDashboardTheme = true
     var userPositionIcon = ""
     var userPositionArrowIcon = ""
@@ -28,6 +29,7 @@ public class CapLibrarySettings: NSObject {
         capacitorLibrarySettings.googleMapsApiKey = jsonObject["iosGoogleMapsApiKey"]  as? String ?? ""
         capacitorLibrarySettings.buildingId = jsonObject["buildingId"]  as? String ?? ""
         //capacitorLibrarySettings.hasSearchView = (jsonObject["hasSearchView"]  as? NSString ?? "").boolValue
+        capacitorLibrarySettings.searchViewPlaceholder = jsonObject["searchViewPlaceholder"]  as? String ?? ""
         capacitorLibrarySettings.useDashboardTheme = (jsonObject["useDashboardTheme"]  as? NSString ?? "").boolValue
         capacitorLibrarySettings.userPositionIcon = jsonObject["userPositionIcon"]  as? String ?? ""
         capacitorLibrarySettings.userPositionArrowIcon = jsonObject["userPositionArrowIcon"]  as? String ?? ""
@@ -45,7 +47,9 @@ public class CapLibrarySettings: NSObject {
     public func toWyfLibraySettings(googleMap: GMSMapView) -> LibrarySettings{
         let credentials = Credentials(user: user, apiKey: apiKey, googleMapsApiKey: googleMapsApiKey)
         let librarySettings = LibrarySettings.Builder().setCredentials(credentials: credentials).setGoogleMap(googleMap: googleMap )
-            .setBuildingId(buildingId: buildingId).setUseDashboardTheme(useDashboardTheme: useDashboardTheme)
+            .setBuildingId(buildingId: buildingId)
+            .setUseDashboardTheme(useDashboardTheme: useDashboardTheme)
+            .setSearchViewPlaceholder(searchViewPlaceholder: searchViewPlaceholder)
             .setUserPositionIcon(userPositionIcon: getNameIcon(nameIcon: userPositionIcon))
             .setUserPositionArrowIcon(userPositionArrowIcon: getNameIcon(nameIcon: userPositionArrowIcon))
             .build()
@@ -54,10 +58,6 @@ public class CapLibrarySettings: NSObject {
     
     private func getNameIcon(nameIcon: String) -> String {
         let result = (nameIcon as NSString).lastPathComponent
-        
-        let image = UIImage(named: (result as NSString).deletingPathExtension)
-        let image1 = UIImage(contentsOfFile: "\(Bundle.main.resourcePath!)/public/assets/\(result)")
-        
-        return (result as NSString).deletingPathExtension
+        return result
     }
 }
