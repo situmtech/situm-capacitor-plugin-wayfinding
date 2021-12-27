@@ -7,7 +7,8 @@ import {
   LibrarySettings,
   SitumMapOverlays,
   OnPoiSelectedResult,
-  OnFloorChangeResult
+  OnFloorChangeResult,
+  CaptureTouchEvents
 } from './definitions';
 
 export class SitumWayfindingWeb extends WebPlugin implements SitumWayfindingPlugin {
@@ -38,6 +39,11 @@ export class SitumWayfindingWeb extends WebPlugin implements SitumWayfindingPlug
   }
   internalSetOnFloorChangeListener(callback: (data: OnFloorChangeResult) => void): Promise<string> {
     console.log(`SitumWayfindingPlugin#setOnFloorSelectedListener() call with params ${callback}.`)
+    throw new Error('Method not implemented.');
+  }
+
+  internalSetCaptureTouchEvents(options: CaptureTouchEvents): Promise<any> {
+    console.log(`SitumWayfindingPlugin#internalSetCaptureTouchEvents() call with params ${options}.`)
     throw new Error('Method not implemented.');
   }
 

@@ -35,6 +35,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
     private final CapSitumWayfinding implementation = new CapSitumWayfinding();
     private View libraryTargetView = null;
     private CapScreenInfo screenInfo = null;
+    private boolean captureTouchEvents = true;
 
     @PluginMethod
     public void internalLoad(PluginCall call) {
@@ -95,7 +96,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
             int x = (int) event.getX();
             int y = (int) event.getY();
             // Delegate event to map if event is inside the map rect.
-            if (screenInfo.contains(x, y)) {
+            if (captureTouchEvents && screenInfo.contains(x, y)) {
                 // Delegate (also) to WebView if there is a child view in the given point.
                 if (screenInfo.overlaysContains(x, y)) {
                     bridge.getWebView().dispatchTouchEvent(event);
@@ -214,6 +215,11 @@ public class CapSitumWayfindingPlugin extends Plugin {
         });
     }
 
+    @PluginMethod
+    public void internalSetCaptureTouchEvents(PluginCall call) {
+        captureTouchEvents = call.getBoolean("captureEvents", true);
+        call.resolve();
+    }
 
     private void resultForCallbackId(String callbackId, JSObject result) {
         PluginCall call = bridge.getSavedCall(callbackId);

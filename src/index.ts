@@ -7,7 +7,8 @@ import type {
   WayfindingResult,
   SitumMapOverlay,
   OnPoiSelectedResult,
-  OnFloorChangeResult
+  OnFloorChangeResult,
+  CaptureTouchEvents
 } from './definitions';
 
 const SitumWayfindingInternal = registerPlugin<SitumWayfindingPlugin>(
@@ -114,6 +115,10 @@ class WayfindingTSWrapper {
 
   async setOnFloorChangeListener(callback: (data: OnFloorChangeResult) => void) {
     SitumWayfindingInternal.internalSetOnFloorChangeListener(callback);
+  }
+
+  async setCaptureTouchEvents(options: CaptureTouchEvents): Promise<any> {
+    return SitumWayfindingInternal.internalSetCaptureTouchEvents(options);
   }
 
 };

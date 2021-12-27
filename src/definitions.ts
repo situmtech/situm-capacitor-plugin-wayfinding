@@ -52,6 +52,9 @@ export interface OnFloorChangeResult {
     fromFloorName: String;
     toFloorName: String;
 }
+export interface CaptureTouchEvents {
+    captureEvents: Boolean
+}
 export interface SitumWayfindingPlugin {
     // The real native call.
     internalLoad(settings: WayfindingSettings): Promise<WayfindingResult>;
@@ -61,4 +64,5 @@ export interface SitumWayfindingPlugin {
     ): Promise<CallbackID>;
     internalSetOnFloorChangeListener(callback: (data: OnFloorChangeResult) => void
     ): Promise<CallbackID>;
+    internalSetCaptureTouchEvents(options: CaptureTouchEvents): Promise<any>
 }
