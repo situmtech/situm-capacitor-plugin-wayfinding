@@ -30,7 +30,7 @@ public class CapLibrarySettings: NSObject {
         capacitorLibrarySettings.buildingId = jsonObject["buildingId"]  as? String ?? ""
         //capacitorLibrarySettings.hasSearchView = (jsonObject["hasSearchView"]  as? NSString ?? "").boolValue
         capacitorLibrarySettings.searchViewPlaceholder = jsonObject["searchViewPlaceholder"]  as? String ?? ""
-        capacitorLibrarySettings.useDashboardTheme = (jsonObject["useDashboardTheme"]  as? NSString ?? "").boolValue
+        capacitorLibrarySettings.useDashboardTheme = (jsonObject["useDashboardTheme"]  as? Bool ?? false)
         capacitorLibrarySettings.userPositionIcon = jsonObject["userPositionIcon"]  as? String ?? ""
         capacitorLibrarySettings.userPositionArrowIcon = jsonObject["userPositionArrowIcon"]  as? String ?? ""
         if capacitorLibrarySettings.user.isEmpty || capacitorLibrarySettings.apiKey.isEmpty {
