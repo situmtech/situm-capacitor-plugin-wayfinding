@@ -6,8 +6,8 @@ import type {
   LibrarySettings,
   WayfindingResult,
   SitumMapOverlay,
-  OnPoiSelectedListener,
-  OnFloorChangeListener
+  OnPoiSelectedResult,
+  OnFloorChangeResult
 } from './definitions';
 
 const SitumWayfindingInternal = registerPlugin<SitumWayfindingPlugin>(
@@ -108,12 +108,12 @@ class WayfindingTSWrapper {
     }
   }
 
-  async setOnPoiSelectedListener(callback: OnPoiSelectedListener): Promise<any> {
-    return SitumWayfindingInternal.internalSetOnPoiSelectedListener(callback);
+  async setOnPoiSelectedListener(callback: (data: OnPoiSelectedResult) => void) {
+    SitumWayfindingInternal.internalSetOnPoiSelectedListener(callback);
   }
 
-  async setOnFloorChangeListener(callback: OnFloorChangeListener): Promise<any> {
-    return SitumWayfindingInternal.internalSetOnFloorChangeListener(callback);
+  async setOnFloorChangeListener(callback: (data: OnFloorChangeResult) => void) {
+    SitumWayfindingInternal.internalSetOnFloorChangeListener(callback);
   }
 
 };

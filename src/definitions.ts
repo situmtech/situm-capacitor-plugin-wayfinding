@@ -1,3 +1,4 @@
+export type CallbackID = string;
 export interface LibrarySettings {
     user: String;
     apiKey: String;
@@ -42,10 +43,6 @@ export interface OnPoiSelectedResult {
     poiId: String;
     poiName: String;
 }
-export type OnPoiSelectedListener = ( // Callback
-    result: OnPoiSelectedResult,
-    err?: any
-  ) => void;
 export interface OnFloorChangeResult {
     key: String;
     buildingId: String;
@@ -55,15 +52,13 @@ export interface OnFloorChangeResult {
     fromFloorName: String;
     toFloorName: String;
 }
-export type OnFloorChangeListener = ( // Callback
-    result: OnFloorChangeResult,
-    err?: any
-  ) => void;
 export interface SitumWayfindingPlugin {
     // The real native call.
     internalLoad(settings: WayfindingSettings): Promise<WayfindingResult>;
     internalSetOverlays(overlays: SitumMapOverlays): Promise<any>;
     internalUnload(): Promise<any>;
-    internalSetOnPoiSelectedListener(callback: OnPoiSelectedListener): Promise<any>;
-    internalSetOnFloorChangeListener(callback: OnFloorChangeListener): Promise<any>;
+    internalSetOnPoiSelectedListener(callback: (data: OnPoiSelectedResult) => void
+    ): Promise<CallbackID>;
+    internalSetOnFloorChangeListener(callback: (data: OnFloorChangeResult) => void
+    ): Promise<CallbackID>;
 }

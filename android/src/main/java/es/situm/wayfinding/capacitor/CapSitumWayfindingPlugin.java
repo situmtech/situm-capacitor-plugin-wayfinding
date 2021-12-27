@@ -168,7 +168,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
         }
     }
 
-    @PluginMethod
+    @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
     public void internalSetOnPoiSelectedListener(PluginCall call) {
         call.setKeepAlive(true);
         final String callbackId = call.getCallbackId();
@@ -197,7 +197,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
         });
     }
 
-    @PluginMethod
+    @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
     public void internalSetOnFloorChangeListener(PluginCall call) {
         call.setKeepAlive(true);
         final String callbackId = call.getCallbackId();

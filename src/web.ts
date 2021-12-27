@@ -6,8 +6,8 @@ import {
   WayfindingResult,
   LibrarySettings,
   SitumMapOverlays,
-  OnPoiSelectedListener,
-  OnFloorChangeListener
+  OnPoiSelectedResult,
+  OnFloorChangeResult
 } from './definitions';
 
 export class SitumWayfindingWeb extends WebPlugin implements SitumWayfindingPlugin {
@@ -32,13 +32,13 @@ export class SitumWayfindingWeb extends WebPlugin implements SitumWayfindingPlug
     throw this.unimplemented("Not implemented on web.");
   }
 
-  async internalSetOnPoiSelectedListener(callback: OnPoiSelectedListener): Promise<any> {
-    console.log(`SitumWayfindingPlugin#setOnPoiSelectedListener() call with params: ${callback}.`)
-    throw this.unimplemented("Not implemented on web.");
+  internalSetOnPoiSelectedListener(callback: (data: OnPoiSelectedResult) => void): Promise<string> {
+    console.log(`SitumWayfindingPlugin#setOnPoiSelectedListener() call with params ${callback}.`)
+    throw new Error('Method not implemented.');
+  }
+  internalSetOnFloorChangeListener(callback: (data: OnFloorChangeResult) => void): Promise<string> {
+    console.log(`SitumWayfindingPlugin#setOnFloorSelectedListener() call with params ${callback}.`)
+    throw new Error('Method not implemented.');
   }
 
-  async internalSetOnFloorChangeListener(callback: OnFloorChangeListener): Promise<any> {
-    console.log(`SitumWayfindingPlugin#setOnFloorSelectedListener() call with params: ${callback}.`)
-    throw this.unimplemented("Not implemented on web.");
-  }
 }
