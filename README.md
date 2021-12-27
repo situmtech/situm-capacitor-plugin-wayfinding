@@ -27,6 +27,7 @@ In your project, add the HTMLElement that will hold the Situm Wayfinding Module:
 ```html
 <div id="situm-map"></div>
 ```
+
 The size of this `div` will be the size of the native module. That size must be greater than 0.
 Note that right now it is not possible to modify the size or position of the native element, which affects both scrollable elements and screen rotations.
 
