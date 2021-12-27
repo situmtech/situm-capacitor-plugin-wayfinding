@@ -176,7 +176,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
             @Override
             public void onPOISelected(Poi poi, Floor floor, Building building) {
                 JSObject result = new JSObject();
-                result.put("key", "onPOISelected");
+                result.put("key", "onPoiSelected");
                 result.put("buildingId", building.getIdentifier());
                 result.put("buildingName", building.getName());
                 result.put("floorId", floor.getIdentifier());
@@ -191,6 +191,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
                 JSObject result = new JSObject();
                 result.put("key", "onPoiDeselected");
                 result.put("buildingId", building.getIdentifier());
+                result.put("buildingName", building.getName());
                 resultForCallbackId(callbackId, result);
             }
         });
