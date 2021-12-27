@@ -30,6 +30,13 @@ In your project, add the HTMLElement that will hold the Situm Wayfinding Module:
 The size of this `div` will be the size of the native module. That size must be greater than 0.
 Note that right now it is not possible to modify the size or position of the native element, which affects both scrollable elements and screen rotations.
 
+The native map will be drawn behind your HTML. Make sure the background of the parent HTML elements is transparent. For example, in ionic:
+```css
+ion-content {
+    --background: none;
+}
+```
+
 And finally in your Typescript layer, initialize the module:
 ```typescript
 const librarySettings = {
