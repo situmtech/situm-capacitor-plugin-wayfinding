@@ -7,3 +7,4 @@
 
 ### Changed
 * Updated iOS WYF native dependency to version to 0.1.18
+
