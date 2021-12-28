@@ -177,12 +177,13 @@ Using or not a UI framework is up to you, the rule is to set a path relative to 
 
 * [`load(...)`](#load)
 * [`unload()`](#unload)
-* [`setOnPoiSelectedListener()`](#setOnPoiSelectedListener)
-* [`setOnFloorChangeListener()`](#setOnFloorChangeListener)
+* [`setOnPoiSelectedListener(...)`](#setOnPoiSelectedListener)
+* [`setOnFloorChangeListener(...)`](#setOnFloorChangeListener)
+* [`setCaptureTouchEvents(...)`](#setCaptureTouchEvents)
 * [Interfaces](#interfaces)
 
 
-### load(...)
+### load
 
 ```typescript
 load(settings: WayfindingSettings) => Promise<WayfindingResult>
@@ -197,7 +198,7 @@ load(settings: WayfindingSettings) => Promise<WayfindingResult>
 --------------------
 
 
-### unload()
+### unload
 
 ```typescript
 unload() => any
@@ -207,26 +208,36 @@ unload() => any
 
 --------------------
 
-### setOnPoiSelectedListener()
+### setOnPoiSelectedListener
 
 ```typescript
-setOnPoiSelectedListener((result: OnPoiSelectedResult) { }) => void
+setOnPoiSelectedListener(callback: (data: OnPoiSelectedResult) => void)
 ```
 
 **Returns:** `void`
 
 --------------------
 
-### setOnFloorChangeListener()
+### setOnFloorChangeListener
 
 ```typescript
-setOnFloorChangeListener((result: OnFloorChangeResult) { }) => void
+setOnFloorChangeListener(callback: (data: OnFloorChangeResult) => void)
 ```
 
 **Returns:** `void`
 
 --------------------
 
+
+### setCaptureTouchEvents
+
+```typescript
+setCaptureTouchEvents(options: CaptureTouchEvents)
+```
+
+**Returns:** `void`
+
+--------------------
 
 ### Interfaces
 
@@ -295,6 +306,12 @@ setOnFloorChangeListener((result: OnFloorChangeResult) { }) => void
 | **`toFloorId`**     | `String` |
 | **`toFloorName`**   | `String` |
 
+
+### CaptureTouchEvents
+
+| Prop                | Type      |
+| ------------------- | --------- |
+| **`captureEvents`** | `Boolean` |
 
 #### SitumMapOverlays
 
