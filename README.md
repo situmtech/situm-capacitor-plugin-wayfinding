@@ -211,6 +211,8 @@ unload() => any
 
 ### onPoiSelected
 
+Get notified every time a Poi is selected.
+
 ```typescript
 onPoiSelected(callback: (data: OnPoiSelectedResult) => void)
 ```
@@ -220,6 +222,8 @@ onPoiSelected(callback: (data: OnPoiSelectedResult) => void)
 --------------------
 
 ### onPoiDeselected
+
+Get notified every time a Poi is deselected.
 
 ```typescript
 onPoiDeselected(callback: (data: OnPoiDeselectedResult) => void)
@@ -231,6 +235,8 @@ onPoiDeselected(callback: (data: OnPoiDeselectedResult) => void)
 
 ### onFloorChange
 
+Get notified when the floor displayed in the map is changed.
+
 ```typescript
 onFloorChange(callback: (data: OnFloorChangeResult) => void)
 ```
@@ -241,6 +247,8 @@ onFloorChange(callback: (data: OnFloorChangeResult) => void)
 
 
 ### setCaptureTouchEvents
+
+Use this method to disable the capture of touch events. This is useful to enable events on HTML elements defined outside the map div.
 
 ```typescript
 setCaptureTouchEvents(options: CaptureTouchEvents)
