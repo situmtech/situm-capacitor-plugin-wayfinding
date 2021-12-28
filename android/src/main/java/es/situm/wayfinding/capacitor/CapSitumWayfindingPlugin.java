@@ -37,6 +37,37 @@ public class CapSitumWayfindingPlugin extends Plugin {
     private CapScreenInfo screenInfo = null;
     private boolean captureTouchEvents = true;
 
+    // Keep alive callbacks:
+    private String onPoiSelectedCallbackId = null;
+    private String onPoiDeselectedCallbackId = null;
+
+    // WYF Android uses a single listener for both onPoiSelected and onPoiDeselected:
+    private final OnPoiSelectedListener onPoiSelectedListener = new OnPoiSelectedListener() {
+        @Override
+        public void onPOISelected(Poi poi, Floor floor, Building building) {
+            if (onPoiSelectedCallbackId != null) {
+                JSObject result = new JSObject();
+                result.put("buildingId", building.getIdentifier());
+                result.put("buildingName", building.getName());
+                result.put("floorId", floor.getIdentifier());
+                result.put("floorName", floor.getName());
+                result.put("poiId", poi.getIdentifier());
+                result.put("poiName", poi.getName());
+                resultForCallbackId(onPoiSelectedCallbackId, result);
+            }
+        }
+
+        @Override
+        public void onPoiDeselected(Building building) {
+            if (onPoiDeselectedCallbackId != null) {
+                JSObject result = new JSObject();
+                result.put("buildingId", building.getIdentifier());
+                result.put("buildingName", building.getName());
+                resultForCallbackId(onPoiDeselectedCallbackId, result);
+            }
+        }
+    };
+
     @PluginMethod
     public void internalLoad(PluginCall call) {
         try {
@@ -62,6 +93,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
                     return;
                 }
                 libraryTargetView = activity.findViewById(es.situm.maps.library.R.id.situm_maps_library_target);
+                implementation.setOnPoiSelectedListener(onPoiSelectedListener);
                 setupTouchEventsDispatching();
                 JSObject response = new JSObject();
                 response.put("loadResult", libraryResult);
@@ -172,30 +204,19 @@ public class CapSitumWayfindingPlugin extends Plugin {
     @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
     public void internalOnPoiSelected(PluginCall call) {
         call.setKeepAlive(true);
-        final String callbackId = call.getCallbackId();
-        implementation.setOnPoiSelectedListener(new OnPoiSelectedListener() {
-            @Override
-            public void onPOISelected(Poi poi, Floor floor, Building building) {
-                JSObject result = new JSObject();
-                result.put("key", "onPoiSelected");
-                result.put("buildingId", building.getIdentifier());
-                result.put("buildingName", building.getName());
-                result.put("floorId", floor.getIdentifier());
-                result.put("floorName", floor.getName());
-                result.put("poiId", poi.getIdentifier());
-                result.put("poiName", poi.getName());
-                resultForCallbackId(callbackId, result);
-            }
+        if (onPoiSelectedCallbackId != null) {
+            releaseCallbackById(onPoiSelectedCallbackId);
+        }
+        onPoiSelectedCallbackId = call.getCallbackId();
+    }
 
-            @Override
-            public void onPoiDeselected(Building building) {
-                JSObject result = new JSObject();
-                result.put("key", "onPoiDeselected");
-                result.put("buildingId", building.getIdentifier());
-                result.put("buildingName", building.getName());
-                resultForCallbackId(callbackId, result);
-            }
-        });
+    @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
+    public void internalOnPoiDeselected(PluginCall call) {
+        call.setKeepAlive(true);
+        if (onPoiDeselectedCallbackId != null) {
+            releaseCallbackById(onPoiDeselectedCallbackId);
+        }
+        onPoiDeselectedCallbackId = call.getCallbackId();
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
@@ -219,6 +240,13 @@ public class CapSitumWayfindingPlugin extends Plugin {
     public void internalSetCaptureTouchEvents(PluginCall call) {
         captureTouchEvents = call.getBoolean("captureEvents", true);
         call.resolve();
+    }
+
+    private void releaseCallbackById(String callbackId) {
+        PluginCall call = bridge.getSavedCall(callbackId);
+        if (call != null && call.isKeptAlive()) {
+            call.release(bridge);
+        }
     }
 
     private void resultForCallbackId(String callbackId, JSObject result) {

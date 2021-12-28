@@ -35,7 +35,6 @@ export interface WayfindingSettings {
 export interface WayfindingResult {
 }
 export interface OnPoiSelectedResult {
-    key: String;
     buildingId: String;
     buildingName: String;
     floorId: String;
@@ -43,8 +42,11 @@ export interface OnPoiSelectedResult {
     poiId: String;
     poiName: String;
 }
+export interface OnPoiDeselectedResult {
+    buildingId: String;
+    buildingName: String;
+}
 export interface OnFloorChangeResult {
-    key: String;
     buildingId: String;
     buildingName: String;
     fromFloorId: String;
@@ -60,9 +62,8 @@ export interface SitumWayfindingPlugin {
     internalLoad(settings: WayfindingSettings): Promise<WayfindingResult>;
     internalSetOverlays(overlays: SitumMapOverlays): Promise<any>;
     internalUnload(): Promise<any>;
-    internalOnPoiSelected(callback: (data: OnPoiSelectedResult) => void
-    ): Promise<CallbackID>;
-    internalOnFloorChange(callback: (data: OnFloorChangeResult) => void
-    ): Promise<CallbackID>;
+    internalOnPoiSelected(callback: (data: OnPoiSelectedResult) => void): Promise<CallbackID>;
+    internalOnPoiDeselected(callback: (data: OnPoiDeselectedResult) => void): Promise<CallbackID>;
+    internalOnFloorChange(callback: (data: OnFloorChangeResult) => void): Promise<CallbackID>;
     internalSetCaptureTouchEvents(options: CaptureTouchEvents): Promise<any>
 }

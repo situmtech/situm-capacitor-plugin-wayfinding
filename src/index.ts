@@ -7,6 +7,7 @@ import type {
   WayfindingResult,
   SitumMapOverlay,
   OnPoiSelectedResult,
+  OnPoiDeselectedResult,
   OnFloorChangeResult,
   CaptureTouchEvents
 } from './definitions';
@@ -111,6 +112,10 @@ class WayfindingTSWrapper {
 
   async onPoiSelected(callback: (data: OnPoiSelectedResult) => void) {
     SitumWayfindingInternal.internalOnPoiSelected(callback);
+  }
+
+  async onPoiDeselected(callback: (data: OnPoiDeselectedResult) => void) {
+    SitumWayfindingInternal.internalOnPoiDeselected(callback);
   }
 
   async onFloorChange(callback: (data: OnFloorChangeResult) => void) {

@@ -7,6 +7,7 @@ import {
   LibrarySettings,
   SitumMapOverlays,
   OnPoiSelectedResult,
+  OnPoiDeselectedResult,
   OnFloorChangeResult,
   CaptureTouchEvents
 } from './definitions';
@@ -35,6 +36,11 @@ export class SitumWayfindingWeb extends WebPlugin implements SitumWayfindingPlug
 
   internalOnPoiSelected(callback: (data: OnPoiSelectedResult) => void): Promise<string> {
     console.log(`SitumWayfindingPlugin#setOnPoiSelectedListener() call with params ${callback}.`)
+    throw new Error('Method not implemented.');
+  }
+
+  internalOnPoiDeselected(callback: (data: OnPoiDeselectedResult) => void): Promise<string> {
+    console.log(`SitumWayfindingPlugin#internalOnPoiDeselected() call with params ${callback}.`)
     throw new Error('Method not implemented.');
   }
 

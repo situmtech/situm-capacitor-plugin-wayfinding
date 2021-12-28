@@ -177,8 +177,9 @@ Using or not a UI framework is up to you, the rule is to set a path relative to 
 
 * [`load(...)`](#load)
 * [`unload()`](#unload)
-* [`setOnPoiSelectedListener(...)`](#setOnPoiSelectedListener)
-* [`setOnFloorChangeListener(...)`](#setOnFloorChangeListener)
+* [`onPoiSelected(...)`](#onPoiSelected)
+* [`onPoiDeselected(...)`](#onPoiDeselected)
+* [`onFloorChange(...)`](#onFloorChange)
 * [`setCaptureTouchEvents(...)`](#setCaptureTouchEvents)
 * [Interfaces](#interfaces)
 
@@ -212,6 +213,16 @@ unload() => any
 
 ```typescript
 onPoiSelected(callback: (data: OnPoiSelectedResult) => void)
+```
+
+**Returns:** `void`
+
+--------------------
+
+### onPoiDeselected
+
+```typescript
+onPoiDeselected(callback: (data: OnPoiDeselectedResult) => void)
 ```
 
 **Returns:** `void`
@@ -285,13 +296,20 @@ setCaptureTouchEvents(options: CaptureTouchEvents)
 
 | Prop               | Type     |
 | ------------------ | -------- |
-| **`key`**          | `String` |
 | **`buildingId`**   | `String` |
 | **`buildingName`** | `String` |
 | **`floorId`**      | `String` |
 | **`floorName`**    | `String` |
 | **`poiId`**        | `String` |
 | **`poiName`**      | `String` |
+
+
+#### OnPoiDeselectedResult
+
+| Prop               | Type     |
+| ------------------ | -------- |
+| **`buildingId`**   | `String` |
+| **`buildingName`** | `String` |
 
 
 #### OnFloorChangeResult
@@ -312,6 +330,7 @@ setCaptureTouchEvents(options: CaptureTouchEvents)
 | Prop                | Type      |
 | ------------------- | --------- |
 | **`captureEvents`** | `Boolean` |
+
 
 #### SitumMapOverlays
 
