@@ -170,7 +170,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
-    public void internalSetOnPoiSelectedListener(PluginCall call) {
+    public void internalOnPoiSelected(PluginCall call) {
         call.setKeepAlive(true);
         final String callbackId = call.getCallbackId();
         implementation.setOnPoiSelectedListener(new OnPoiSelectedListener() {
@@ -199,7 +199,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
-    public void internalSetOnFloorChangeListener(PluginCall call) {
+    public void internalOnFloorChange(PluginCall call) {
         call.setKeepAlive(true);
         final String callbackId = call.getCallbackId();
         implementation.setOnFloorSelectedListener((from, to, building) -> {

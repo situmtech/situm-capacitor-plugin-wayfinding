@@ -60,9 +60,9 @@ export interface SitumWayfindingPlugin {
     internalLoad(settings: WayfindingSettings): Promise<WayfindingResult>;
     internalSetOverlays(overlays: SitumMapOverlays): Promise<any>;
     internalUnload(): Promise<any>;
-    internalSetOnPoiSelectedListener(callback: (data: OnPoiSelectedResult) => void
+    internalOnPoiSelected(callback: (data: OnPoiSelectedResult) => void
     ): Promise<CallbackID>;
-    internalSetOnFloorChangeListener(callback: (data: OnFloorChangeResult) => void
+    internalOnFloorChange(callback: (data: OnFloorChangeResult) => void
     ): Promise<CallbackID>;
     internalSetCaptureTouchEvents(options: CaptureTouchEvents): Promise<any>
 }

@@ -208,20 +208,20 @@ unload() => any
 
 --------------------
 
-### setOnPoiSelectedListener
+### onPoiSelected
 
 ```typescript
-setOnPoiSelectedListener(callback: (data: OnPoiSelectedResult) => void)
+onPoiSelected(callback: (data: OnPoiSelectedResult) => void)
 ```
 
 **Returns:** `void`
 
 --------------------
 
-### setOnFloorChangeListener
+### onFloorChange
 
 ```typescript
-setOnFloorChangeListener(callback: (data: OnFloorChangeResult) => void)
+onFloorChange(callback: (data: OnFloorChangeResult) => void)
 ```
 
 **Returns:** `void`

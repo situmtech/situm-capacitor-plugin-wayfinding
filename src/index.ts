@@ -109,12 +109,12 @@ class WayfindingTSWrapper {
     }
   }
 
-  async setOnPoiSelectedListener(callback: (data: OnPoiSelectedResult) => void) {
-    SitumWayfindingInternal.internalSetOnPoiSelectedListener(callback);
+  async onPoiSelected(callback: (data: OnPoiSelectedResult) => void) {
+    SitumWayfindingInternal.internalOnPoiSelected(callback);
   }
 
-  async setOnFloorChangeListener(callback: (data: OnFloorChangeResult) => void) {
-    SitumWayfindingInternal.internalSetOnFloorChangeListener(callback);
+  async onFloorChange(callback: (data: OnFloorChangeResult) => void) {
+    SitumWayfindingInternal.internalOnFloorChange(callback);
   }
 
   async setCaptureTouchEvents(options: CaptureTouchEvents): Promise<any> {

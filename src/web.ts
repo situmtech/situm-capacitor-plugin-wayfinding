@@ -33,11 +33,12 @@ export class SitumWayfindingWeb extends WebPlugin implements SitumWayfindingPlug
     throw this.unimplemented("Not implemented on web.");
   }
 
-  internalSetOnPoiSelectedListener(callback: (data: OnPoiSelectedResult) => void): Promise<string> {
+  internalOnPoiSelected(callback: (data: OnPoiSelectedResult) => void): Promise<string> {
     console.log(`SitumWayfindingPlugin#setOnPoiSelectedListener() call with params ${callback}.`)
     throw new Error('Method not implemented.');
   }
-  internalSetOnFloorChangeListener(callback: (data: OnFloorChangeResult) => void): Promise<string> {
+
+  internalOnFloorChange(callback: (data: OnFloorChangeResult) => void): Promise<string> {
     console.log(`SitumWayfindingPlugin#setOnFloorSelectedListener() call with params ${callback}.`)
     throw new Error('Method not implemented.');
   }
