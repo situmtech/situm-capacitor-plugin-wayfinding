@@ -9,7 +9,8 @@ import type {
   OnPoiSelectedResult,
   OnPoiDeselectedResult,
   OnFloorChangeResult,
-  CaptureTouchEvents
+  CaptureTouchEvents,
+  Poi
 } from './definitions';
 
 const SitumWayfindingInternal = registerPlugin<SitumWayfindingPlugin>(
@@ -122,8 +123,12 @@ class WayfindingTSWrapper {
     SitumWayfindingInternal.internalOnFloorChange(callback);
   }
 
-  async setCaptureTouchEvents(options: CaptureTouchEvents): Promise<any> {
-    return SitumWayfindingInternal.internalSetCaptureTouchEvents(options);
+  async setCaptureTouchEvents(options: CaptureTouchEvents) {
+    SitumWayfindingInternal.internalSetCaptureTouchEvents(options);
+  }
+
+  async centerPoi(poi: Poi) {
+    SitumWayfindingInternal.internalCenterPoi(poi);
   }
 
 };

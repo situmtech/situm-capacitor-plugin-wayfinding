@@ -5,11 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.getcapacitor.PluginCall;
 import com.google.android.gms.maps.MapView;
 import com.hemangkumar.capacitorgooglemaps.CustomMapView;
+
+import java.util.Collection;
 
 import es.situm.sdk.SitumSdk;
 import es.situm.sdk.error.Error;
@@ -109,7 +112,33 @@ public class CapSitumWayfinding {
         library.setOnFloorSelectedListener(listener);
     }
 
+    public void centerPoi(@NonNull String buildingId, @NonNull String poiId, @NonNull CommunicationManagerResult<Poi> callback) {
+        SitumSdk.communicationManager().fetchIndoorPOIsFromBuilding(buildingId, new Handler<Collection<Poi>>() {
+            @Override
+            public void onSuccess(Collection<Poi> pois) {
+                for (Poi poi: pois) {
+                    if (poiId.equals(poi.getIdentifier())) {
+                        library.centerPoi(poi);
+                        callback.onSuccess(poi);
+                        return;
+                    }
+                }
+                callback.onError("Poi with id=" + poiId + " not found for building with id=" + buildingId);
+            }
+
+            @Override
+            public void onFailure(Error error) {
+                callback.onError(error.getMessage());
+            }
+        });
+    }
+
     interface SitumWayfindingCallback {
         void onLoadResult(CapLibraryLoadResult result);
+    }
+
+    interface CommunicationManagerResult<T> {
+        void onSuccess(T result);
+        void onError(String message);
     }
 }

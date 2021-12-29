@@ -181,6 +181,7 @@ Using or not a UI framework is up to you, the rule is to set a path relative to 
 * [`onPoiDeselected(...)`](#onPoiDeselected)
 * [`onFloorChange(...)`](#onFloorChange)
 * [`setCaptureTouchEvents(...)`](#setCaptureTouchEvents)
+* [`centerPoi(...)`](#centerPoi)
 * [Interfaces](#interfaces)
 
 
@@ -215,6 +216,11 @@ Get notified every time a Poi is selected.
 
 ```typescript
 onPoiSelected(callback: (data: OnPoiSelectedResult) => void)
+
+// Example:
+SitumWayfinding.onPoiSelected((result: OnPoiSelectedResult) => {
+  console.log(`Selected ${result.poiName} at ${result.buildingName}`);
+});
 ```
 
 **Returns:** `void`
@@ -227,6 +233,11 @@ Get notified every time a Poi is deselected.
 
 ```typescript
 onPoiDeselected(callback: (data: OnPoiDeselectedResult) => void)
+
+// Example:
+SitumWayfinding.onPoiDeselected((result: OnPoiDeselectedResult) => {
+  console.log(`Deselected poi at ${result.buildingName}`);
+});
 ```
 
 **Returns:** `void`
@@ -239,6 +250,11 @@ Get notified when the floor displayed in the map is changed.
 
 ```typescript
 onFloorChange(callback: (data: OnFloorChangeResult) => void)
+
+// Example:
+SitumWayfinding.onFloorChange((result: OnFloorChangeResult) => {
+  console.log(`Floor changed from ${result.fromFloorName} to ${result.toFloorName}`);
+});
 ```
 
 **Returns:** `void`
@@ -257,6 +273,21 @@ setCaptureTouchEvents(options: CaptureTouchEvents)
 **Returns:** `void`
 
 --------------------
+
+
+### centerPoi
+
+Use this method to center a POI using both building and POI identifiers.
+
+```typescript
+centerPoi(poi: Poi)
+```
+
+**Returns:** `void`
+
+--------------------
+
+
 
 ### Interfaces
 
@@ -324,13 +355,20 @@ setCaptureTouchEvents(options: CaptureTouchEvents)
 
 | Prop                | Type     |
 | ------------------- | -------- |
-| **`key`**           | `String` |
 | **`buildingId`**    | `String` |
 | **`buildingName`**  | `String` |
 | **`fromFloorId`**   | `String` |
 | **`fromFloorName`** | `String` |
 | **`toFloorId`**     | `String` |
 | **`toFloorName`**   | `String` |
+
+
+#### Poi
+
+| Prop                | Type     |
+| ------------------- | -------- |
+| **`id`**            | `String` |
+| **`buildingId`**    | `String` |
 
 
 ### CaptureTouchEvents

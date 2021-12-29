@@ -9,7 +9,8 @@ import {
   OnPoiSelectedResult,
   OnPoiDeselectedResult,
   OnFloorChangeResult,
-  CaptureTouchEvents
+  CaptureTouchEvents,
+  Poi
 } from './definitions';
 
 export class SitumWayfindingWeb extends WebPlugin implements SitumWayfindingPlugin {
@@ -54,4 +55,8 @@ export class SitumWayfindingWeb extends WebPlugin implements SitumWayfindingPlug
     throw new Error('Method not implemented.');
   }
 
+  internalCenterPoi(poi: Poi): Promise<void> {
+    console.log(`SitumWayfindingPlugin#internalCenterPoi() call with params ${poi}.`)
+    throw new Error('Method not implemented.');
+  }
 }

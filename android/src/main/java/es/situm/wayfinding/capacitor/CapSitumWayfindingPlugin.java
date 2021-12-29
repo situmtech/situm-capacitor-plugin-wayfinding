@@ -236,10 +236,31 @@ public class CapSitumWayfindingPlugin extends Plugin {
         });
     }
 
-    @PluginMethod
+    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
     public void internalSetCaptureTouchEvents(PluginCall call) {
         captureTouchEvents = call.getBoolean("captureEvents", true);
         call.resolve();
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
+    public void internalCenterPoi(PluginCall call) {
+        final String buildingId = call.getString("buildingId", null);
+        final String poiId = call.getString("id", null);
+        if (buildingId != null && poiId != null) {
+            implementation.centerPoi(buildingId, poiId, new CapSitumWayfinding.CommunicationManagerResult<Poi>() {
+                @Override
+                public void onSuccess(Poi result) {
+                    call.resolve();
+                }
+
+                @Override
+                public void onError(String message) {
+                    call.reject(message);
+                }
+            });
+        } else {
+            call.reject("Both id and buildingId properties required.");
+        }
     }
 
     private void releaseCallbackById(String callbackId) {
