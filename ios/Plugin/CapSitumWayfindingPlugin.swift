@@ -19,7 +19,7 @@ public class CapSitumWayfindingPlugin: CAPPlugin {
         case noProperViewHierarchy
     }
     
-    //MARK: Publis methods implementation
+    //MARK: Public methods implementation
     
     @objc func internalLoad(_ call: CAPPluginCall) {
         DispatchQueue.main.async {
@@ -68,6 +68,19 @@ public class CapSitumWayfindingPlugin: CAPPlugin {
         touchDistributorView?.screenInfo = screenInfo
         call.resolve()
     }
+    
+    @objc func internalOnPoiSelected(_ call: CAPPluginCall){
+    }
+    
+    @objc func internalOnPoiDeselected(_ call: CAPPluginCall){
+    }
+    
+    @objc func internalOnFloorChange(_ call: CAPPluginCall){
+    }
+    
+    @objc func internalSetCaptureTouchEvents(_ call: CAPPluginCall){
+    }
+    
         
     //MARK: Prepare WebView and GSMMapView for SitumWayfinding
     
