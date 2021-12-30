@@ -50,14 +50,9 @@ public class CapLibrarySettings: NSObject {
             .setBuildingId(buildingId: buildingId)
             .setUseDashboardTheme(useDashboardTheme: useDashboardTheme)
             .setSearchViewPlaceholder(searchViewPlaceholder: searchViewPlaceholder)
-            .setUserPositionIcon(userPositionIcon: getNameIcon(nameIcon: userPositionIcon))
-            .setUserPositionArrowIcon(userPositionArrowIcon: getNameIcon(nameIcon: userPositionArrowIcon))
+            .setUserPositionIcon(userPositionIcon: userPositionIcon)
+            .setUserPositionArrowIcon(userPositionArrowIcon: userPositionArrowIcon)
             .build()
         return librarySettings
-    }
-    
-    private func getNameIcon(nameIcon: String) -> String {
-        let result = (nameIcon as NSString).lastPathComponent
-        return result
     }
 }

@@ -27,8 +27,16 @@ In your project, add the HTMLElement that will hold the Situm Wayfinding Module:
 ```html
 <div id="situm-map"></div>
 ```
+
 The size of this `div` will be the size of the native module. That size must be greater than 0.
 Note that right now it is not possible to modify the size or position of the native element, which affects both scrollable elements and screen rotations.
+
+The native map will be drawn behind your HTML. Make sure the background of the parent HTML elements is transparent. For example, in ionic:
+```css
+ion-content {
+    --background: none;
+}
+```
 
 And finally in your Typescript layer, initialize the module:
 ```typescript
@@ -116,20 +124,24 @@ Use the parameter `useDashboardTheme` of `LibrarySettings` to decorate the whole
 
 Use the fields `userPositionIcon` and `userPositionArrowIcon` in `LibrarySettings` to set the icons representing the user position (without and with orientation respectively).
 
-The path is relative to the native __android assets folder__ and __iOS public folder__. It was inspired in the results of [`npx cap sync`](https://capacitorjs.com/docs/cli/sync) as you will see bellow. For example, for the following tree:
+The path is relative to the native __android assets folder__ and __iOS App folder__. It was inspired in the results of [`npx cap sync`](https://capacitorjs.com/docs/cli/sync) as you will see bellow. For example, for the following tree:
 ```
 android/app/src/main/assets/
-...
-├── images
-│   ├── arrow_icon.png
-│   └── dot_icon.png
+|   ...
+├── public/
+|   ...
+|   ├── images
+|   │   ├── dot_icon.png
+|   │   └── arrow_icon.png
 ...
 
-ios/App/App/public/
-...
-├── images
-│   ├── arrow_icon.png
-│   └── dot_icon.png
+ios/App/App/
+|   ...
+├── public/
+|   ...
+|   ├── images
+|   │   ├── dot_icon.png
+|   │   └── arrow_icon.png
 
 ```
 
@@ -139,8 +151,8 @@ Will apply the following path:
   const librarySettings = {
     user: "YOUR_SITUM_USER",
     ...
-    userPositionIcon: "images/dot_icon.png",
-    userPositionArrowIcon: "images/arrow_icon.png"
+    userPositionIcon: "public/images/dot_icon.png",
+    userPositionArrowIcon: "public/images/arrow_icon.png"
   };
 ```
 
@@ -150,7 +162,7 @@ For the latter, your assets folder will vary depending on the UI framework of yo
 * Angular: see the [assets property for your build options in the documentation](https://angular.io/guide/workspace-config#additional-build-and-test-options).
 * Vue: see the [public folder](https://cli.vuejs.org/guide/html-and-static-assets.html#the-public-folder).
 
-In both cases the execution of `npx cap sync` will copy your assets to a predefined folder, as you can see in the following output:
+In both cases the execution of `npx cap sync` will copy your assets to a predefined `public` folder, as you can see in the following output:
 
 ```
 $ npx cap sync
@@ -169,17 +181,21 @@ Using or not a UI framework is up to you, the rule is to set a path relative to 
 
 * [`load(...)`](#load)
 * [`unload()`](#unload)
+* [`onPoiSelected(...)`](#onPoiSelected)
+* [`onPoiDeselected(...)`](#onPoiDeselected)
+* [`onFloorChange(...)`](#onFloorChange)
+* [`setCaptureTouchEvents(...)`](#setCaptureTouchEvents)
 * [Interfaces](#interfaces)
 
 
-### load(...)
+### load
 
 ```typescript
 load(settings: WayfindingSettings) => Promise<WayfindingResult>
 ```
 
-| Param          | Type                                                              |
-| -------------- | ----------------------------------------------------------------- |
+| Param          | Type                 |
+| -------------- | -------------------- |
 | **`settings`** | `WayfindingSettings` |
 
 **Returns:** `Promise<WayfindingResult>`
@@ -187,7 +203,7 @@ load(settings: WayfindingSettings) => Promise<WayfindingResult>
 --------------------
 
 
-### unload()
+### unload
 
 ```typescript
 unload() => any
@@ -197,14 +213,62 @@ unload() => any
 
 --------------------
 
+### onPoiSelected
+
+Get notified every time a Poi is selected.
+
+```typescript
+onPoiSelected(callback: (data: OnPoiSelectedResult) => void)
+```
+
+**Returns:** `void`
+
+--------------------
+
+### onPoiDeselected
+
+Get notified every time a Poi is deselected.
+
+```typescript
+onPoiDeselected(callback: (data: OnPoiDeselectedResult) => void)
+```
+
+**Returns:** `void`
+
+--------------------
+
+### onFloorChange
+
+Get notified when the floor displayed in the map is changed.
+
+```typescript
+onFloorChange(callback: (data: OnFloorChangeResult) => void)
+```
+
+**Returns:** `void`
+
+--------------------
+
+
+### setCaptureTouchEvents
+
+Use this method to disable the capture of touch events. This is useful to enable events on HTML elements defined outside the map div.
+
+```typescript
+setCaptureTouchEvents(options: CaptureTouchEvents)
+```
+
+**Returns:** `void`
+
+--------------------
 
 ### Interfaces
 
 
 #### WayfindingSettings
 
-| Prop                  | Type                   |
-| --------------------- | ---------------------- |
+| Prop                  | Type  |
+| --------------------- | ----- |
 | **`mapId`**           | `any` |
 | **`librarySettings`** | `LibrarySettings` |
 | **`screenInfo`**      | `ScreenInfo` |
@@ -212,8 +276,8 @@ unload() => any
 
 #### LibrarySettings
 
-| Prop                         | Type             |
-| ---------------------------- | ---------------- |
+| Prop                         | Type     |
+| ---------------------------- | -------- |
 | **`user`**                   | `String` |
 | **`apiKey`**                 | `String` |
 | **`iosGoogleMapsApiKey`**    | `String` |
@@ -228,8 +292,8 @@ unload() => any
 
 #### ScreenInfo
 
-| Prop                   | Type             |
-| ---------------------- | ---------------- |
+| Prop                   | Type     |
+| ---------------------- | -------- |
 | **`devicePixelRatio`** | `Number` |
 | **`x`**                | `Number` |
 | **`y`**                | `Number` |
@@ -240,17 +304,57 @@ unload() => any
 #### WayfindingResult
 
 
+#### OnPoiSelectedResult
+
+| Prop               | Type     |
+| ------------------ | -------- |
+| **`buildingId`**   | `String` |
+| **`buildingName`** | `String` |
+| **`floorId`**      | `String` |
+| **`floorName`**    | `String` |
+| **`poiId`**        | `String` |
+| **`poiName`**      | `String` |
+
+
+#### OnPoiDeselectedResult
+
+| Prop               | Type     |
+| ------------------ | -------- |
+| **`buildingId`**   | `String` |
+| **`buildingName`** | `String` |
+
+
+#### OnFloorChangeResult
+
+| Prop                | Type     |
+| ------------------- | -------- |
+| **`key`**           | `String` |
+| **`buildingId`**    | `String` |
+| **`buildingName`**  | `String` |
+| **`fromFloorId`**   | `String` |
+| **`fromFloorName`** | `String` |
+| **`toFloorId`**     | `String` |
+| **`toFloorName`**   | `String` |
+
+
+### CaptureTouchEvents
+
+| Prop                | Type      |
+| ------------------- | --------- |
+| **`captureEvents`** | `Boolean` |
+
+
 #### SitumMapOverlays
 
-| Prop           | Type             |
-| -------------- | ---------------- |
+| Prop           | Type  |
+| -------------- | ----- |
 | **`overlays`** | `any` |
 
 
 #### SitumMapOverlay
 
-| Prop         | Type             |
-| ------------ | ---------------- |
+| Prop         | Type     |
+| ------------ | -------- |
 | **`x`**      | `Number` |
 | **`y`**      | `Number` |
 | **`width`**  | `Number` |
