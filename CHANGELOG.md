@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.7] - 2021-12-30
+
+### Added
+
+* Added `onPoiSelected`, `onPoiDeselected` and `onFloorChange` methods for listening POIs and floors events.
+* Android implementation is available now for both POIs and floors events.
+* Added `setCaptureTouchEvents` method to disable/enable the capture of UI events inside the map box. Working only in Android right now.
+
+### Fixed
+* `userPositionIcon` and `userPositionArrowIcon` routes are now also valid for iOS.
+
+## [0.0.6] - 2021-12-28
+
+### Added 
+* Implementation in iOS of fields `searchViewPlaceholder`, `useDashboardTheme`, `userPositionIcon` and `userPositionArrowIcon` in `LibrarySettings`
+
+### Changed
+* Updated iOS WYF native dependency to version to 0.1.18
+
 ## [0.0.5] - 2021-12-14
 
 ### Changed

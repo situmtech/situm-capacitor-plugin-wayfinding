@@ -7,4 +7,8 @@ CAP_PLUGIN(CapSitumWayfindingPlugin, "SitumWayfinding",
            CAP_PLUGIN_METHOD(internalLoad, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(internalUnload, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(internalSetOverlays, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(internalOnPoiSelected, CAPPluginReturnCallback);
+           CAP_PLUGIN_METHOD(internalOnPoiDeselected, CAPPluginReturnCallback);
+           CAP_PLUGIN_METHOD(internalOnFloorChange, CAPPluginReturnCallback);
+           CAP_PLUGIN_METHOD(internalSetCaptureTouchEvents, CAPPluginReturnNone);
 )
