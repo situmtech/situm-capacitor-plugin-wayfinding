@@ -243,6 +243,26 @@ public class CapSitumWayfindingPlugin extends Plugin {
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_NONE)
+    public void internalCenterBuilding(PluginCall call) {
+        final String buildingId = call.getString("id", null);
+        if (buildingId != null) {
+            implementation.centerBuilding(buildingId, new CapSitumWayfinding.CommunicationManagerResult<Building>() {
+                @Override
+                public void onSuccess(Building result) {
+                    call.resolve();
+                }
+
+                @Override
+                public void onError(String message) {
+                    call.reject(message);
+                }
+            });
+        } else {
+            call.reject("Building id property required.");
+        }
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
     public void internalCenterPoi(PluginCall call) {
         final String buildingId = call.getString("buildingId", null);
         final String poiId = call.getString("id", null);

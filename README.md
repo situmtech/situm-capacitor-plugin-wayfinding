@@ -181,6 +181,7 @@ Using or not a UI framework is up to you, the rule is to set a path relative to 
 * [`onPoiDeselected(...)`](#onPoiDeselected)
 * [`onFloorChange(...)`](#onFloorChange)
 * [`setCaptureTouchEvents(...)`](#setCaptureTouchEvents)
+* [`centerBuilding(...)`](#centerBuilding)
 * [`centerPoi(...)`](#centerPoi)
 * [Interfaces](#interfaces)
 
@@ -275,6 +276,19 @@ setCaptureTouchEvents(options: CaptureTouchEvents)
 --------------------
 
 
+### centerBuilding
+
+Use this method to center a building by identifier.
+
+```typescript
+centerBuilding(building: Building)
+```
+
+**Returns:** `Promise<void>`
+
+--------------------
+
+
 ### centerPoi
 
 Use this method to center a POI using both building and POI identifiers.
@@ -283,7 +297,7 @@ Use this method to center a POI using both building and POI identifiers.
 centerPoi(poi: Poi)
 ```
 
-**Returns:** `void`
+**Returns:** `Promise<void>`
 
 --------------------
 
@@ -361,6 +375,13 @@ centerPoi(poi: Poi)
 | **`fromFloorName`** | `String` |
 | **`toFloorId`**     | `String` |
 | **`toFloorName`**   | `String` |
+
+
+#### Building
+
+| Prop                | Type     |
+| ------------------- | -------- |
+| **`id`**            | `String` |
 
 
 #### Poi

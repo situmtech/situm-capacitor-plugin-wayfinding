@@ -26,6 +26,7 @@ import es.situm.wayfinding.OnFloorChangeListener;
 import es.situm.wayfinding.OnPoiSelectedListener;
 import es.situm.wayfinding.SitumMapsLibrary;
 import es.situm.wayfinding.SitumMapsListener;
+import es.situm.wayfinding.actions.ActionsCallback;
 
 public class CapSitumWayfinding {
 
@@ -112,14 +113,37 @@ public class CapSitumWayfinding {
         library.setOnFloorSelectedListener(listener);
     }
 
+    public void centerBuilding(@NonNull String buildingId, @NonNull CommunicationManagerResult<Building> callback) {
+        SitumSdk.communicationManager().fetchBuildingInfo(buildingId, new Handler<BuildingInfo>() {
+            @Override
+            public void onSuccess(BuildingInfo buildingInfo) {
+                library.centerBuilding(buildingInfo.getBuilding(), new ActionsCallback() {
+                    @Override
+                    public void onActionConcluded() {
+                        callback.onSuccess(buildingInfo.getBuilding());
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Error error) {
+                callback.onError(error.getMessage());
+            }
+        });
+    }
+
     public void centerPoi(@NonNull String buildingId, @NonNull String poiId, @NonNull CommunicationManagerResult<Poi> callback) {
         SitumSdk.communicationManager().fetchIndoorPOIsFromBuilding(buildingId, new Handler<Collection<Poi>>() {
             @Override
             public void onSuccess(Collection<Poi> pois) {
                 for (Poi poi: pois) {
                     if (poiId.equals(poi.getIdentifier())) {
-                        library.centerPoi(poi);
-                        callback.onSuccess(poi);
+                        library.centerPoi(poi, new ActionsCallback() {
+                            @Override
+                            public void onActionConcluded() {
+                                callback.onSuccess(poi);
+                            }
+                        });
                         return;
                     }
                 }
