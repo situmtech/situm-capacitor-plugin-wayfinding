@@ -5,7 +5,11 @@ import type {
   SitumWayfindingPlugin,
   LibrarySettings,
   WayfindingResult,
-  SitumMapOverlay
+  SitumMapOverlay,
+  OnPoiSelectedResult,
+  OnPoiDeselectedResult,
+  OnFloorChangeResult,
+  CaptureTouchEvents
 } from './definitions';
 
 const SitumWayfindingInternal = registerPlugin<SitumWayfindingPlugin>(
@@ -105,6 +109,23 @@ class WayfindingTSWrapper {
       this.helper.stop();
     }
   }
+
+  async onPoiSelected(callback: (data: OnPoiSelectedResult) => void) {
+    SitumWayfindingInternal.internalOnPoiSelected(callback);
+  }
+
+  async onPoiDeselected(callback: (data: OnPoiDeselectedResult) => void) {
+    SitumWayfindingInternal.internalOnPoiDeselected(callback);
+  }
+
+  async onFloorChange(callback: (data: OnFloorChangeResult) => void) {
+    SitumWayfindingInternal.internalOnFloorChange(callback);
+  }
+
+  async setCaptureTouchEvents(options: CaptureTouchEvents): Promise<any> {
+    return SitumWayfindingInternal.internalSetCaptureTouchEvents(options);
+  }
+
 };
 
 class WayfindingHelper {

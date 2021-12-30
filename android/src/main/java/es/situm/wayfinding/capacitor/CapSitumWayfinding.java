@@ -7,13 +7,20 @@ import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.getcapacitor.PluginCall;
 import com.google.android.gms.maps.MapView;
+import com.hemangkumar.capacitorgooglemaps.CustomMapView;
 
 import es.situm.sdk.SitumSdk;
 import es.situm.sdk.error.Error;
+import es.situm.sdk.model.cartography.Building;
 import es.situm.sdk.model.cartography.BuildingInfo;
+import es.situm.sdk.model.cartography.Floor;
+import es.situm.sdk.model.cartography.Poi;
 import es.situm.sdk.utils.Handler;
 import es.situm.wayfinding.LibrarySettings;
+import es.situm.wayfinding.OnFloorChangeListener;
+import es.situm.wayfinding.OnPoiSelectedListener;
 import es.situm.wayfinding.SitumMapsLibrary;
 import es.situm.wayfinding.SitumMapsListener;
 
@@ -92,6 +99,14 @@ public class CapSitumWayfinding {
             rootView.removeView(rootView.findViewById(R.id.situm_maps_dispatcher));
             library = null;
         });
+    }
+
+    public void setOnPoiSelectedListener(OnPoiSelectedListener listener) {
+        library.setOnPoiSelectedListener(listener);
+    }
+
+    public void setOnFloorSelectedListener(OnFloorChangeListener listener) {
+        library.setOnFloorSelectedListener(listener);
     }
 
     interface SitumWayfindingCallback {
