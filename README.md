@@ -126,18 +126,22 @@ Use the fields `userPositionIcon` and `userPositionArrowIcon` in `LibrarySetting
 
 The path is relative to the native __android assets folder__ and __iOS App folder__. It was inspired in the results of [`npx cap sync`](https://capacitorjs.com/docs/cli/sync) as you will see bellow. For example, for the following tree:
 ```
-android/app/src/main/assets/public/
-...
-├── images
-│   ├── arrow_icon.png
-│   └── dot_icon.png
+android/app/src/main/assets/
+|   ...
+├── public/
+|   ...
+|   ├── images
+|   │   ├── dot_icon.png
+|   │   └── arrow_icon.png
 ...
 
-ios/App/App/public/
-...
-├── images
-│   ├── arrow_icon.png
-│   └── dot_icon.png
+ios/App/App/
+|   ...
+├── public/
+|   ...
+|   ├── images
+|   │   ├── dot_icon.png
+|   │   └── arrow_icon.png
 
 ```
 
@@ -147,8 +151,8 @@ Will apply the following path:
   const librarySettings = {
     user: "YOUR_SITUM_USER",
     ...
-    userPositionIcon: "images/dot_icon.png",
-    userPositionArrowIcon: "images/arrow_icon.png"
+    userPositionIcon: "public/images/dot_icon.png",
+    userPositionArrowIcon: "public/images/arrow_icon.png"
   };
 ```
 
@@ -158,7 +162,7 @@ For the latter, your assets folder will vary depending on the UI framework of yo
 * Angular: see the [assets property for your build options in the documentation](https://angular.io/guide/workspace-config#additional-build-and-test-options).
 * Vue: see the [public folder](https://cli.vuejs.org/guide/html-and-static-assets.html#the-public-folder).
 
-In both cases the execution of `npx cap sync` will copy your assets to a predefined folder, as you can see in the following output:
+In both cases the execution of `npx cap sync` will copy your assets to a predefined `public` folder, as you can see in the following output:
 
 ```
 $ npx cap sync
