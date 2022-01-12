@@ -177,6 +177,44 @@ Check that folders after executing `npx cap sync` to ensure you are setting the 
 
 Using or not a UI framework is up to you, the rule is to set a path relative to the native assets folders.
 
+## How does this plugin work?
+
+### The map div:
+
+This plugin generates a native map view, and puts it **under the browser** (the map view is not an HTML element). You can specify the size and position of the map view using its containing `<div>` (the map div).
+
+![How it works](images/how_it_works.png?raw=true "How it works")
+
+The plugin changes the background of the map div to transparent in your application. If any other HTML element is displayed **over or behind** the map div, then it will cover the native map. For example, it is known that Ionic `ion-content` will set a solid background to your contents, so if you put the map div inside an `ion-content` element you will probably need to force its brackground to transparent:
+
+```html
+...
+<ion-content>
+  <div id="situm-map"></div>
+  ...
+</ion-content>
+```
+
+```css
+ion-content {
+    --background: none;
+}
+```
+
+### Touch events dispatching:
+
+This plugin adds a native transparent layer over the map that will capture and handle every touch event of your app. Once the map is loaded:
+* Every touch event inside the map bounds will be dispathed to the native map. 
+* Any HTML element **inside the map div** will also receive the same touch events:
+```html
+    <div id="situm-map">
+      <!-- The function onOverlayClick() will be called. -->
+      <div id="mapOverlay" (click)="onOverlayClick();"><p>HTML element</p></div>
+    </div>
+```
+* Any HTML element outside the map bounds will also receive the touch events.
+* The plugin will not dispatch touch events to any HTML element defined **outside the map div but inside the map bounds**. You can use the method `setCaptureTouchEvents(false)` to prevent this and handle every touch event in your app. Call `setCaptureTouchEvents(true)` to return the control to the map.
+
 ## API
 
 * [`load(...)`](#load)
@@ -185,8 +223,10 @@ Using or not a UI framework is up to you, the rule is to set a path relative to 
 * [`onPoiDeselected(...)`](#onPoiDeselected)
 * [`onFloorChange(...)`](#onFloorChange)
 * [`setCaptureTouchEvents(...)`](#setCaptureTouchEvents)
-* [`centerBuilding(...)`](#centerBuilding)
-* [`centerPoi(...)`](#centerPoi)
+* [`selectBuilding(...)`](#selectBuilding)
+* [`selectPoi(...)`](#selectPoi)
+* [`findRouteToPoi(...)`](#findRouteToPoi)
+* [`findRouteToLocation(...)`](#findRouteToLocation)
 * [Interfaces](#interfaces)
 
 
@@ -280,12 +320,12 @@ setCaptureTouchEvents(options: CaptureTouchEvents)
 --------------------
 
 
-### centerBuilding
+### selectBuilding
 
-Use this method to center a building by identifier.
+Use this method to select a building by identifier.
 
 ```typescript
-centerBuilding(building: Building)
+selectBuilding(building: Building)
 ```
 
 **Returns:** `Promise<void>`
@@ -293,18 +333,43 @@ centerBuilding(building: Building)
 --------------------
 
 
-### centerPoi
+### selectPoi
 
-Use this method to center a POI using both building and POI identifiers.
+Use this method to select a POI using both building and POI identifiers.
 
 ```typescript
-centerPoi(poi: Poi)
+selectPoi(poi: Poi)
 ```
 
 **Returns:** `Promise<void>`
 
 --------------------
 
+
+### findRouteToPoi
+
+Use this method to request navigation to the given POI.
+
+```typescript
+findRouteToPoi(poi: Poi)
+```
+
+**Returns:** `Promise<void>`
+
+--------------------
+
+
+### findRouteToLocation
+
+Use this method to request navigation to a given location, in a given floor.
+
+```typescript
+findRouteToLocation(location: BuildingLocation)
+```
+
+**Returns:** `Promise<void>`
+
+--------------------
 
 
 ### Interfaces
@@ -386,6 +451,16 @@ centerPoi(poi: Poi)
 | Prop                | Type     |
 | ------------------- | -------- |
 | **`id`**            | `String` |
+
+
+#### BuildingLocation
+
+| Prop                | Type     |
+| ------------------- | -------- |
+| **`buildingId`**    | `String` |
+| **`floorId`**       | `String` |
+| **`latitude`**      | `String` |
+| **`longitude`**     | `String` |
 
 
 #### Poi

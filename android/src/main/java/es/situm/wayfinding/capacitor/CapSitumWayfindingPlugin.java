@@ -229,9 +229,11 @@ public class CapSitumWayfindingPlugin extends Plugin {
             result.put("buildingId", building.getIdentifier());
             result.put("buildingName", building.getName());
             result.put("fromFloorId", from.getIdentifier());
-            result.put("toFloorId", to.getIdentifier());
             result.put("fromFloorName", from.getName());
-            result.put("toFloorName", to.getName());
+            if (to != null) {
+                result.put("toFloorId", to.getIdentifier());
+                result.put("toFloorName", to.getName());
+            }
             resultForCallbackId(callbackId, result);
         });
     }
@@ -243,7 +245,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_NONE)
-    public void internalCenterBuilding(PluginCall call) {
+    public void internalSelectBuilding(PluginCall call) {
         final String buildingId = call.getString("id", null);
         if (buildingId != null) {
             implementation.centerBuilding(buildingId, new CapSitumWayfinding.CommunicationManagerResult<Building>() {
@@ -263,7 +265,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_NONE)
-    public void internalCenterPoi(PluginCall call) {
+    public void internalSelectPoi(PluginCall call) {
         final String buildingId = call.getString("buildingId", null);
         final String poiId = call.getString("id", null);
         if (buildingId != null && poiId != null) {
@@ -280,6 +282,41 @@ public class CapSitumWayfindingPlugin extends Plugin {
             });
         } else {
             call.reject("Both id and buildingId properties required.");
+        }
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
+    public void internalFindRouteToPoi(PluginCall call) {
+        final String buildingId = call.getString("buildingId", null);
+        final String poiId = call.getString("id", null);
+        if (buildingId != null && poiId != null) {
+            implementation.findRouteToPoi(buildingId, poiId, new CapSitumWayfinding.CommunicationManagerResult<Poi>() {
+                @Override
+                public void onSuccess(Poi result) {
+                    call.resolve();
+                }
+
+                @Override
+                public void onError(String message) {
+                    call.reject(message);
+                }
+            });
+        } else {
+            call.reject("Both id and buildingId properties required.");
+        }
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
+    public void internalFindRouteToLocation(PluginCall call) {
+        final String buildingId = call.getString("buildingId", null);
+        final String floorId = call.getString("floorId", null);
+        final Double latitude = call.getDouble("latitude");
+        final Double longitude = call.getDouble("longitude");
+        if (buildingId != null && floorId != null && latitude!=null && longitude != null) {
+            implementation.findRouteToLocation(buildingId, floorId, latitude, longitude);
+            call.resolve();
+        } else {
+            call.reject("Required parameters: buildingId, floorId, latitude, longitude.");
         }
     }
 

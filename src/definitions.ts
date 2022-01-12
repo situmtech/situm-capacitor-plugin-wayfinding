@@ -64,6 +64,12 @@ export interface Poi {
 export interface Building {
     id: String;
 }
+export interface BuildingLocation {
+    buildingId: String
+    floorId: String
+    latitude: Number
+    longitude: Number
+}
 export interface SitumWayfindingPlugin {
     // The real native call.
     internalLoad(settings: WayfindingSettings): Promise<WayfindingResult>;
@@ -73,6 +79,8 @@ export interface SitumWayfindingPlugin {
     internalOnPoiDeselected(callback: (data: OnPoiDeselectedResult) => void): Promise<CallbackID>;
     internalOnFloorChange(callback: (data: OnFloorChangeResult) => void): Promise<CallbackID>;
     internalSetCaptureTouchEvents(options: CaptureTouchEvents): Promise<void>
-    internalCenterBuilding(building: Building): Promise<void>;
-    internalCenterPoi(poi: Poi): Promise<void>;
+    internalSelectBuilding(building: Building): Promise<void>;
+    internalSelectPoi(poi: Poi): Promise<void>;
+    internalFindRouteToPoi(poi: Poi): Promise<void>;
+    internalFindRouteToLocation(location: BuildingLocation): Promise<void>;
 }
