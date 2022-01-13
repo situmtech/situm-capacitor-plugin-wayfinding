@@ -83,7 +83,10 @@ public class CapSitumWayfinding {
 
                 @Override
                 public void onError(int error) {
-                    result.error = "Error loading SitumMapsLibrary, error code is " + error;
+                    String message = CapUtils.loadErrorCodeToMessage(error);
+                    result.error = "Error loading SitumMapsLibrary: " + message;
+                    Log.e("ATAG", result.error);
+                    callback.onLoadResult(result);
                 }
             });
             library.load();
@@ -130,7 +133,7 @@ public class CapSitumWayfinding {
     }
 
     public void centerPoi(@NonNull String buildingId, @NonNull String poiId, @NonNull CommunicationManagerResult<Poi> callback) {
-        runOnPoi(buildingId, poiId, new CommunicationManagerResult<Poi>() {
+        CapUtils.runOnPoi(buildingId, poiId, new CommunicationManagerResult<Poi>() {
             @Override
             public void onSuccess(Poi poi) {
                 library.centerPoi(poi, new ActionsCallback() {
@@ -149,7 +152,7 @@ public class CapSitumWayfinding {
     }
 
     public void navigateToPoi(@NonNull String buildingId, @NonNull String poiId, @NonNull CommunicationManagerResult<Poi> callback) {
-        runOnPoi(buildingId, poiId, new CommunicationManagerResult<Poi>() {
+        CapUtils.runOnPoi(buildingId, poiId, new CommunicationManagerResult<Poi>() {
             @Override
             public void onSuccess(Poi poi) {
                 library.findRouteToPoi(poi);
@@ -166,27 +169,6 @@ public class CapSitumWayfinding {
     public void navigateToLocation(@NonNull String buildingId, @NonNull String floorId, double latitude, double longitude) {
         this.capacitorLibrarySettings.activity.runOnUiThread(() ->
                 library.findRouteToLocation(buildingId, floorId, latitude, longitude));
-    }
-
-    private void runOnPoi(@NonNull String buildingId, @NonNull String poiId, @NonNull CommunicationManagerResult<Poi> callback) {
-        // Executes an arbitrary action after fetching a POI, if the given POI id is found.
-        SitumSdk.communicationManager().fetchIndoorPOIsFromBuilding(buildingId, new Handler<Collection<Poi>>() {
-            @Override
-            public void onSuccess(Collection<Poi> pois) {
-                for (Poi poi : pois) {
-                    if (poiId.equals(poi.getIdentifier())) {
-                        callback.onSuccess(poi);
-                        return;
-                    }
-                }
-                callback.onError("Poi with id=" + poiId + " not found for building with id=" + buildingId);
-            }
-
-            @Override
-            public void onFailure(Error error) {
-                callback.onError(error.getMessage());
-            }
-        });
     }
 
     interface SitumWayfindingCallback {
