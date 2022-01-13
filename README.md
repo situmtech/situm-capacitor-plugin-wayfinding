@@ -225,8 +225,8 @@ This plugin adds a native transparent layer over the map that will capture and h
 * [`setCaptureTouchEvents(...)`](#setCaptureTouchEvents)
 * [`selectBuilding(...)`](#selectBuilding)
 * [`selectPoi(...)`](#selectPoi)
-* [`findRouteToPoi(...)`](#findRouteToPoi)
-* [`findRouteToLocation(...)`](#findRouteToLocation)
+* [`navigateToPoi(...)`](#navigateToPoi)
+* [`navigateToLocation(...)`](#navigateToLocation)
 * [Interfaces](#interfaces)
 
 
@@ -346,12 +346,12 @@ selectPoi(poi: Poi)
 --------------------
 
 
-### findRouteToPoi
+### navigateToPoi
 
 Use this method to request navigation to the given POI.
 
 ```typescript
-findRouteToPoi(poi: Poi)
+navigateToPoi(poi: Poi)
 ```
 
 **Returns:** `Promise<void>`
@@ -359,12 +359,12 @@ findRouteToPoi(poi: Poi)
 --------------------
 
 
-### findRouteToLocation
+### navigateToLocation
 
 Use this method to request navigation to a given location, in a given floor.
 
 ```typescript
-findRouteToLocation(location: BuildingLocation)
+navigateToLocation(location: BuildingLocation)
 ```
 
 **Returns:** `Promise<void>`

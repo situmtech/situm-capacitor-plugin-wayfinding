@@ -67,13 +67,13 @@ export class SitumWayfindingWeb extends WebPlugin implements SitumWayfindingPlug
     throw new Error('Method not implemented.');
   }
 
-  internalFindRouteToPoi(poi: Poi): Promise<void> {
-    console.log(`SitumWayfindingPlugin#internalFindRouteToPoi() call with params ${poi}.`)
+  internalNavigateToPoi(poi: Poi): Promise<void> {
+    console.log(`SitumWayfindingPlugin#internalNavigateToPoi() call with params ${poi}.`)
     throw new Error('Method not implemented.');
   }
 
-  internalFindRouteToLocation(location: BuildingLocation): Promise<void> {
-    console.log(`SitumWayfindingPlugin#internalFindRouteToLocation() call with params ${location}.`)
+  internalNavigateToLocation(location: BuildingLocation): Promise<void> {
+    console.log(`SitumWayfindingPlugin#internalNavigateToLocation() call with params ${location}.`)
     throw new Error('Method not implemented.');
   }
 }

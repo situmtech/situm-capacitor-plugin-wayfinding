@@ -3,7 +3,7 @@
 ### Added
 
 * Added methods `selectPoi(...)` and `selectBuilding(...)` to select a POI or a Building in the map.
-* Added methods `findRouteToPoi(...)` and `findRouteToLocation(...)` to request navigation to a POI or a location.
+* Added methods `navigateToPoi(...)` and `navigateToLocation(...)` to request navigation to a POI or a location.
 
 ### Changed
 

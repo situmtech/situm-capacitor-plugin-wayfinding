@@ -148,7 +148,7 @@ public class CapSitumWayfinding {
         });
     }
 
-    public void findRouteToPoi(@NonNull String buildingId, @NonNull String poiId, @NonNull CommunicationManagerResult<Poi> callback) {
+    public void navigateToPoi(@NonNull String buildingId, @NonNull String poiId, @NonNull CommunicationManagerResult<Poi> callback) {
         runOnPoi(buildingId, poiId, new CommunicationManagerResult<Poi>() {
             @Override
             public void onSuccess(Poi poi) {
@@ -163,7 +163,7 @@ public class CapSitumWayfinding {
         });
     }
 
-    public void findRouteToLocation(@NonNull String buildingId, @NonNull String floorId, double latitude, double longitude) {
+    public void navigateToLocation(@NonNull String buildingId, @NonNull String floorId, double latitude, double longitude) {
         this.capacitorLibrarySettings.activity.runOnUiThread(() ->
                 library.findRouteToLocation(buildingId, floorId, latitude, longitude));
     }
@@ -175,7 +175,6 @@ public class CapSitumWayfinding {
             public void onSuccess(Collection<Poi> pois) {
                 for (Poi poi : pois) {
                     if (poiId.equals(poi.getIdentifier())) {
-                        library.findRouteToPoi(poi);
                         callback.onSuccess(poi);
                         return;
                     }

@@ -81,6 +81,6 @@ export interface SitumWayfindingPlugin {
     internalSetCaptureTouchEvents(options: CaptureTouchEvents): Promise<void>
     internalSelectBuilding(building: Building): Promise<void>;
     internalSelectPoi(poi: Poi): Promise<void>;
-    internalFindRouteToPoi(poi: Poi): Promise<void>;
-    internalFindRouteToLocation(location: BuildingLocation): Promise<void>;
+    internalNavigateToPoi(poi: Poi): Promise<void>;
+    internalNavigateToLocation(location: BuildingLocation): Promise<void>;
 }

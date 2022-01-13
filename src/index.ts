@@ -137,12 +137,12 @@ class WayfindingTSWrapper {
     return SitumWayfindingInternal.internalSelectBuilding(building);
   }
 
-  async findRouteToPoi(poi: Poi): Promise<void> {
-    return SitumWayfindingInternal.internalFindRouteToPoi(poi);
+  async navigateToPoi(poi: Poi): Promise<void> {
+    return SitumWayfindingInternal.internalNavigateToPoi(poi);
   }
 
-  async findRouteToLocation(location: BuildingLocation): Promise<void> {
-    return SitumWayfindingInternal.internalFindRouteToLocation(location);
+  async navigateToLocation(location: BuildingLocation): Promise<void> {
+    return SitumWayfindingInternal.internalNavigateToLocation(location);
   }
 
 };

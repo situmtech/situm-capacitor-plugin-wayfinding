@@ -26,7 +26,6 @@ import java.util.Map;
 import es.situm.sdk.model.cartography.Building;
 import es.situm.sdk.model.cartography.Floor;
 import es.situm.sdk.model.cartography.Poi;
-import es.situm.wayfinding.OnFloorChangeListener;
 import es.situm.wayfinding.OnPoiSelectedListener;
 
 @CapacitorPlugin(name = "SitumWayfinding")
@@ -286,11 +285,11 @@ public class CapSitumWayfindingPlugin extends Plugin {
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_NONE)
-    public void internalFindRouteToPoi(PluginCall call) {
+    public void internalNavigateToPoi(PluginCall call) {
         final String buildingId = call.getString("buildingId", null);
         final String poiId = call.getString("id", null);
         if (buildingId != null && poiId != null) {
-            implementation.findRouteToPoi(buildingId, poiId, new CapSitumWayfinding.CommunicationManagerResult<Poi>() {
+            implementation.navigateToPoi(buildingId, poiId, new CapSitumWayfinding.CommunicationManagerResult<Poi>() {
                 @Override
                 public void onSuccess(Poi result) {
                     call.resolve();
@@ -307,13 +306,13 @@ public class CapSitumWayfindingPlugin extends Plugin {
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_NONE)
-    public void internalFindRouteToLocation(PluginCall call) {
+    public void internalNavigateToLocation(PluginCall call) {
         final String buildingId = call.getString("buildingId", null);
         final String floorId = call.getString("floorId", null);
         final Double latitude = call.getDouble("latitude");
         final Double longitude = call.getDouble("longitude");
         if (buildingId != null && floorId != null && latitude!=null && longitude != null) {
-            implementation.findRouteToLocation(buildingId, floorId, latitude, longitude);
+            implementation.navigateToLocation(buildingId, floorId, latitude, longitude);
             call.resolve();
         } else {
             call.reject("Required parameters: buildingId, floorId, latitude, longitude.");
