@@ -411,9 +411,6 @@ findRouteToLocation(location: BuildingLocation)
 | **`height`**           | `Number` |
 
 
-#### WayfindingResult
-
-
 #### OnPoiSelectedResult
 
 | Prop               | Type     |
@@ -471,7 +468,7 @@ findRouteToLocation(location: BuildingLocation)
 | **`buildingId`**    | `String` |
 
 
-### CaptureTouchEvents
+#### CaptureTouchEvents
 
 | Prop                | Type      |
 | ------------------- | --------- |
