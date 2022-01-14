@@ -10,8 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.MapView;
 
-import java.util.Collection;
-
 import es.situm.sdk.SitumSdk;
 import es.situm.sdk.error.Error;
 import es.situm.sdk.model.cartography.Building;
@@ -63,7 +61,7 @@ public class CapSitumWayfinding {
                     result.library = library;
                     if (capacitorLibrarySettings.hasBuildingId()) {
                         // TODO: decide one building mode vs center building.
-                        centerBuilding(capacitorLibrarySettings.buildingId, new CommunicationManagerResult<Building>() {
+                        centerBuilding(capacitorLibrarySettings.buildingId, new Callback<Building>() {
                             @Override
                             public void onSuccess(Building building) {
                                 callback.onLoadResult(result);
@@ -83,7 +81,7 @@ public class CapSitumWayfinding {
 
                 @Override
                 public void onError(int error) {
-                    String message = CapUtils.loadErrorCodeToMessage(error);
+                    String message = CapUtils.getErrorMessage(error);
                     result.error = "Error loading SitumMapsLibrary: " + message;
                     Log.e("ATAG", result.error);
                     callback.onLoadResult(result);
@@ -113,7 +111,7 @@ public class CapSitumWayfinding {
         library.setOnFloorSelectedListener(listener);
     }
 
-    public void centerBuilding(@NonNull String buildingId, @NonNull CommunicationManagerResult<Building> callback) {
+    public void centerBuilding(@NonNull String buildingId, @NonNull Callback<Building> callback) {
         SitumSdk.communicationManager().fetchBuildingInfo(buildingId, new Handler<BuildingInfo>() {
             @Override
             public void onSuccess(BuildingInfo buildingInfo) {
@@ -132,8 +130,8 @@ public class CapSitumWayfinding {
         });
     }
 
-    public void centerPoi(@NonNull String buildingId, @NonNull String poiId, @NonNull CommunicationManagerResult<Poi> callback) {
-        CapUtils.runOnPoi(buildingId, poiId, new CommunicationManagerResult<Poi>() {
+    public void centerPoi(@NonNull String buildingId, @NonNull String poiId, @NonNull Callback<Poi> callback) {
+        CapCommunicationManager.fetchPoi(buildingId, poiId, new CapCommunicationManager.Callback<Poi>() {
             @Override
             public void onSuccess(Poi poi) {
                 library.centerPoi(poi, new ActionsCallback() {
@@ -151,8 +149,8 @@ public class CapSitumWayfinding {
         });
     }
 
-    public void navigateToPoi(@NonNull String buildingId, @NonNull String poiId, @NonNull CommunicationManagerResult<Poi> callback) {
-        CapUtils.runOnPoi(buildingId, poiId, new CommunicationManagerResult<Poi>() {
+    public void navigateToPoi(@NonNull String buildingId, @NonNull String poiId, @NonNull Callback<Poi> callback) {
+        CapCommunicationManager.fetchPoi(buildingId, poiId, new CapCommunicationManager.Callback<Poi>() {
             @Override
             public void onSuccess(Poi poi) {
                 library.findRouteToPoi(poi);
@@ -175,7 +173,7 @@ public class CapSitumWayfinding {
         void onLoadResult(CapLibraryLoadResult result);
     }
 
-    interface CommunicationManagerResult<T> {
+    interface Callback<T> {
         void onSuccess(T result);
 
         void onError(String message);
