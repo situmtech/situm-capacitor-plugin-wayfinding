@@ -26,7 +26,6 @@ import java.util.Map;
 import es.situm.sdk.model.cartography.Building;
 import es.situm.sdk.model.cartography.Floor;
 import es.situm.sdk.model.cartography.Poi;
-import es.situm.wayfinding.OnFloorChangeListener;
 import es.situm.wayfinding.OnPoiSelectedListener;
 
 @CapacitorPlugin(name = "SitumWayfinding")
@@ -229,17 +228,95 @@ public class CapSitumWayfindingPlugin extends Plugin {
             result.put("buildingId", building.getIdentifier());
             result.put("buildingName", building.getName());
             result.put("fromFloorId", from.getIdentifier());
-            result.put("toFloorId", to.getIdentifier());
             result.put("fromFloorName", from.getName());
-            result.put("toFloorName", to.getName());
+            if (to != null) {
+                result.put("toFloorId", to.getIdentifier());
+                result.put("toFloorName", to.getName());
+            }
             resultForCallbackId(callbackId, result);
         });
     }
 
-    @PluginMethod
+    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
     public void internalSetCaptureTouchEvents(PluginCall call) {
         captureTouchEvents = call.getBoolean("captureEvents", true);
         call.resolve();
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
+    public void internalSelectBuilding(PluginCall call) {
+        final String buildingId = call.getString("id", null);
+        if (buildingId != null) {
+            implementation.centerBuilding(buildingId, new CapSitumWayfinding.CommunicationManagerResult<Building>() {
+                @Override
+                public void onSuccess(Building result) {
+                    call.resolve();
+                }
+
+                @Override
+                public void onError(String message) {
+                    call.reject(message);
+                }
+            });
+        } else {
+            call.reject("Building id property required.");
+        }
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
+    public void internalSelectPoi(PluginCall call) {
+        final String buildingId = call.getString("buildingId", null);
+        final String poiId = call.getString("id", null);
+        if (buildingId != null && poiId != null) {
+            implementation.centerPoi(buildingId, poiId, new CapSitumWayfinding.CommunicationManagerResult<Poi>() {
+                @Override
+                public void onSuccess(Poi result) {
+                    call.resolve();
+                }
+
+                @Override
+                public void onError(String message) {
+                    call.reject(message);
+                }
+            });
+        } else {
+            call.reject("Both id and buildingId properties required.");
+        }
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
+    public void internalNavigateToPoi(PluginCall call) {
+        final String buildingId = call.getString("buildingId", null);
+        final String poiId = call.getString("id", null);
+        if (buildingId != null && poiId != null) {
+            implementation.navigateToPoi(buildingId, poiId, new CapSitumWayfinding.CommunicationManagerResult<Poi>() {
+                @Override
+                public void onSuccess(Poi result) {
+                    call.resolve();
+                }
+
+                @Override
+                public void onError(String message) {
+                    call.reject(message);
+                }
+            });
+        } else {
+            call.reject("Both id and buildingId properties required.");
+        }
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
+    public void internalNavigateToLocation(PluginCall call) {
+        final String buildingId = call.getString("buildingId", null);
+        final String floorId = call.getString("floorId", null);
+        final Double latitude = call.getDouble("latitude");
+        final Double longitude = call.getDouble("longitude");
+        if (buildingId != null && floorId != null && latitude!=null && longitude != null) {
+            implementation.navigateToLocation(buildingId, floorId, latitude, longitude);
+            call.resolve();
+        } else {
+            call.reject("Required parameters: buildingId, floorId, latitude, longitude.");
+        }
     }
 
     private void releaseCallbackById(String callbackId) {
