@@ -81,6 +81,18 @@ public class CapSitumWayfindingPlugin: CAPPlugin {
     @objc func internalSetCaptureTouchEvents(_ call: CAPPluginCall){
     }
     
+    @objc func internalSelectBuilding(_ call: CAPPluginCall){
+    }
+    
+    @objc func internalSelectPoi(_ call: CAPPluginCall){
+    }
+    
+    @objc func internalNavigateToPoi(_ call: CAPPluginCall){
+    }
+    
+    @objc func internalNavigateToLocation(_ call: CAPPluginCall){
+    }
+    
         
     //MARK: Prepare WebView and GSMMapView for SitumWayfinding
     
