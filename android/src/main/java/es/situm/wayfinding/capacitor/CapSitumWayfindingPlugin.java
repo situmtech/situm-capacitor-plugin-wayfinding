@@ -247,7 +247,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
     public void internalSelectBuilding(PluginCall call) {
         final String buildingId = call.getString("id", null);
         if (buildingId != null) {
-            implementation.centerBuilding(buildingId, new CapSitumWayfinding.CommunicationManagerResult<Building>() {
+            implementation.centerBuilding(buildingId, new CapSitumWayfinding.Callback<Building>() {
                 @Override
                 public void onSuccess(Building result) {
                     call.resolve();
@@ -268,7 +268,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
         final String buildingId = call.getString("buildingId", null);
         final String poiId = call.getString("id", null);
         if (buildingId != null && poiId != null) {
-            implementation.centerPoi(buildingId, poiId, new CapSitumWayfinding.CommunicationManagerResult<Poi>() {
+            implementation.centerPoi(buildingId, poiId, new CapSitumWayfinding.Callback<Poi>() {
                 @Override
                 public void onSuccess(Poi result) {
                     call.resolve();
@@ -289,7 +289,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
         final String buildingId = call.getString("buildingId", null);
         final String poiId = call.getString("id", null);
         if (buildingId != null && poiId != null) {
-            implementation.navigateToPoi(buildingId, poiId, new CapSitumWayfinding.CommunicationManagerResult<Poi>() {
+            implementation.navigateToPoi(buildingId, poiId, new CapSitumWayfinding.Callback<Poi>() {
                 @Override
                 public void onSuccess(Poi result) {
                     call.resolve();
