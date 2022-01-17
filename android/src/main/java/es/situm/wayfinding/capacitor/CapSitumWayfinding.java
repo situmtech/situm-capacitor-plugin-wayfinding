@@ -5,17 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.getcapacitor.PluginCall;
 import com.google.android.gms.maps.MapView;
-import com.hemangkumar.capacitorgooglemaps.CustomMapView;
 
 import es.situm.sdk.SitumSdk;
 import es.situm.sdk.error.Error;
 import es.situm.sdk.model.cartography.Building;
 import es.situm.sdk.model.cartography.BuildingInfo;
-import es.situm.sdk.model.cartography.Floor;
 import es.situm.sdk.model.cartography.Poi;
 import es.situm.sdk.utils.Handler;
 import es.situm.wayfinding.LibrarySettings;
@@ -23,14 +21,17 @@ import es.situm.wayfinding.OnFloorChangeListener;
 import es.situm.wayfinding.OnPoiSelectedListener;
 import es.situm.wayfinding.SitumMapsLibrary;
 import es.situm.wayfinding.SitumMapsListener;
+import es.situm.wayfinding.actions.ActionsCallback;
 
 public class CapSitumWayfinding {
 
     private SitumMapsLibrary library;
+    private CapLibrarySettings capacitorLibrarySettings;
 
     public void load(MapView mapView, CapLibrarySettings capacitorLibrarySettings, CapScreenInfo screenInfo, SitumWayfindingCallback callback) {
         Log.d("ATAG", "Load method was called!!!");
         AppCompatActivity activity = capacitorLibrarySettings.activity;
+        this.capacitorLibrarySettings = capacitorLibrarySettings;
         activity.runOnUiThread(() -> {
             // Prepare:
             ViewGroup mapViewParent = (ViewGroup) mapView.getParent();
@@ -58,35 +59,36 @@ public class CapSitumWayfinding {
                 @Override
                 public void onSuccess() {
                     result.library = library;
-                    callback.onLoadResult(result);
-                    onLoadSuccess(library, capacitorLibrarySettings);
+                    if (capacitorLibrarySettings.hasBuildingId()) {
+                        // TODO: decide one building mode vs center building.
+                        centerBuilding(capacitorLibrarySettings.buildingId, new Callback<Building>() {
+                            @Override
+                            public void onSuccess(Building building) {
+                                callback.onLoadResult(result);
+                            }
+
+                            @Override
+                            public void onError(String message) {
+                                // Parameter buildingId will be ignored.
+                                callback.onLoadResult(result);
+                            }
+                        });
+                    } else {
+                        callback.onLoadResult(result);
+                    }
+
                 }
 
                 @Override
                 public void onError(int error) {
-                    result.error = "Error loading SitumMapsLibrary, error code is " + error;
+                    String message = CapUtils.getErrorMessage(error);
+                    result.error = "Error loading SitumMapsLibrary: " + message;
+                    Log.e("ATAG", result.error);
+                    callback.onLoadResult(result);
                 }
             });
             library.load();
         });
-    }
-
-    private void onLoadSuccess(SitumMapsLibrary library, CapLibrarySettings capacitorLibrarySettings) {
-        if (capacitorLibrarySettings.hasBuildingId()) {
-            // TODO: decide one building mode vs center building.
-            SitumSdk.communicationManager().fetchBuildingInfo(capacitorLibrarySettings.buildingId, new Handler<BuildingInfo>() {
-                @Override
-                public void onSuccess(BuildingInfo buildingInfo) {
-                    library.centerBuilding(buildingInfo.getBuilding());
-                }
-
-                @Override
-                public void onFailure(Error error) {
-                    // TODO: parameter buildingId will be ignored by now.
-                    Log.e("ATAG", "Error fetching info for building with ID: " + capacitorLibrarySettings.buildingId);
-                }
-            });
-        }
     }
 
     public void unload(ViewGroup rootView) throws IllegalStateException {
@@ -109,7 +111,71 @@ public class CapSitumWayfinding {
         library.setOnFloorSelectedListener(listener);
     }
 
+    public void centerBuilding(@NonNull String buildingId, @NonNull Callback<Building> callback) {
+        SitumSdk.communicationManager().fetchBuildingInfo(buildingId, new Handler<BuildingInfo>() {
+            @Override
+            public void onSuccess(BuildingInfo buildingInfo) {
+                library.centerBuilding(buildingInfo.getBuilding(), new ActionsCallback() {
+                    @Override
+                    public void onActionConcluded() {
+                        callback.onSuccess(buildingInfo.getBuilding());
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Error error) {
+                callback.onError(error.getMessage());
+            }
+        });
+    }
+
+    public void centerPoi(@NonNull String buildingId, @NonNull String poiId, @NonNull Callback<Poi> callback) {
+        CapCommunicationManager.fetchPoi(buildingId, poiId, new CapCommunicationManager.Callback<Poi>() {
+            @Override
+            public void onSuccess(Poi poi) {
+                library.centerPoi(poi, new ActionsCallback() {
+                    @Override
+                    public void onActionConcluded() {
+                        callback.onSuccess(poi);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String message) {
+                callback.onError(message);
+            }
+        });
+    }
+
+    public void navigateToPoi(@NonNull String buildingId, @NonNull String poiId, @NonNull Callback<Poi> callback) {
+        CapCommunicationManager.fetchPoi(buildingId, poiId, new CapCommunicationManager.Callback<Poi>() {
+            @Override
+            public void onSuccess(Poi poi) {
+                library.findRouteToPoi(poi);
+                callback.onSuccess(poi);
+            }
+
+            @Override
+            public void onError(String message) {
+                callback.onError(message);
+            }
+        });
+    }
+
+    public void navigateToLocation(@NonNull String buildingId, @NonNull String floorId, double latitude, double longitude) {
+        this.capacitorLibrarySettings.activity.runOnUiThread(() ->
+                library.findRouteToLocation(buildingId, floorId, latitude, longitude));
+    }
+
     interface SitumWayfindingCallback {
         void onLoadResult(CapLibraryLoadResult result);
+    }
+
+    interface Callback<T> {
+        void onSuccess(T result);
+
+        void onError(String message);
     }
 }

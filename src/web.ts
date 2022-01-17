@@ -9,7 +9,10 @@ import {
   OnPoiSelectedResult,
   OnPoiDeselectedResult,
   OnFloorChangeResult,
-  CaptureTouchEvents
+  CaptureTouchEvents,
+  Poi,
+  Building,
+  BuildingLocation
 } from './definitions';
 
 export class SitumWayfindingWeb extends WebPlugin implements SitumWayfindingPlugin {
@@ -54,4 +57,23 @@ export class SitumWayfindingWeb extends WebPlugin implements SitumWayfindingPlug
     throw new Error('Method not implemented.');
   }
 
+  internalSelectPoi(poi: Poi): Promise<void> {
+    console.log(`SitumWayfindingPlugin#internalSelectPoi() call with params ${poi}.`)
+    throw new Error('Method not implemented.');
+  }
+
+  internalSelectBuilding(building: Building): Promise<void> {
+    console.log(`SitumWayfindingPlugin#internalSelectBuilding() call with params ${building}.`)
+    throw new Error('Method not implemented.');
+  }
+
+  internalNavigateToPoi(poi: Poi): Promise<void> {
+    console.log(`SitumWayfindingPlugin#internalNavigateToPoi() call with params ${poi}.`)
+    throw new Error('Method not implemented.');
+  }
+
+  internalNavigateToLocation(location: BuildingLocation): Promise<void> {
+    console.log(`SitumWayfindingPlugin#internalNavigateToLocation() call with params ${location}.`)
+    throw new Error('Method not implemented.');
+  }
 }
