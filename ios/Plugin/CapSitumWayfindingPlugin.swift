@@ -9,12 +9,16 @@ import GoogleMaps
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc(CapSitumWayfindingPlugin)
-public class CapSitumWayfindingPlugin: CAPPlugin {
+public class CapSitumWayfindingPlugin: CAPPlugin, CapSitumWayfindingNativeToCap {
     private var containerView: UIView?
     private let situmWayFindingWrapper = CapSitumWayfinding()
     private var screenInfo: CapScreenInfo?
     private var touchDistributorView:CapTouchDistributorView?
     
+    private var onPoiSelectedCall: CAPPluginCall?
+    private var onPoiDeselectedCall: CAPPluginCall?
+    private var onFloorChangedCall: CAPPluginCall?
+
     public enum CapPluginError: Error {
         case noProperViewHierarchy
     }
@@ -70,15 +74,35 @@ public class CapSitumWayfindingPlugin: CAPPlugin {
     }
     
     @objc func internalOnPoiSelected(_ call: CAPPluginCall){
+        print("Hello world internalOnPoiSelected")
+        call.keepAlive = true
+
+        self.onPoiSelectedCall = call
     }
     
     @objc func internalOnPoiDeselected(_ call: CAPPluginCall){
+        print("Hello world internalOnPoiSelected")
+
+        call.keepAlive = true
+
+        self.onPoiDeselectedCall = call
     }
     
     @objc func internalOnFloorChange(_ call: CAPPluginCall){
+        print("Hello world internalOnFloorChange")
+
+        call.keepAlive = true
+
+        self.onFloorChangedCall = call
     }
     
     @objc func internalSetCaptureTouchEvents(_ call: CAPPluginCall){
+        print("internalSetCaptureTouchEvents")
+
+        // Check if touch events are captura by native view or map..
+        self.touchDistributorView?.setIsGesturesAllowed(isGestureAllowed: call.getBool("captureEvents", true))
+        
+        call.resolve()
     }
     
     @objc func internalSelectBuilding(_ call: CAPPluginCall){
@@ -142,7 +166,46 @@ public class CapSitumWayfindingPlugin: CAPPlugin {
         self.bridge?.viewController?.view.addSubview(touchDistributorView)
         return touchDistributorView
     }
+
+    // MARK: CapSitumWayfindingNativeToCap methods
+    public func onPoiSelected(poi: SITPOI, level: SITFloor, building: SITBuilding) {
+        if let cal = self.onPoiSelectedCall {
+            let result: Dictionary = [
+                "buildingId" : building.identifier,
+                "buildingName" : building.name,
+                "floorId" : level.identifier,
+                "floorName" : level.name,
+                "poiId" : poi.identifier,
+                "poiName" : poi.name
+            ]
+            
+            cal.resolve(result)
+        }
+    }
     
+    public func onPoiDeselected(building: SITBuilding) {
+        if let cal = self.onPoiDeselectedCall {
+            let result: Dictionary = [
+                "buildingId" : building.identifier,
+                "buildingName" : building.name,
+            ]
+            cal.resolve(result)
+        }
+    }
+    
+    public func onFloorChanged(from: SITFloor, to: SITFloor, building: SITBuilding) {
+        if let cal = self.onPoiDeselectedCall {
+            let result: Dictionary = [
+                "buildingId" : building.identifier,
+                "buildingName" : building.name,
+                "fromFloorId" : from.identifier,
+                "fromFloorName" : from.name,
+                "toFloorId" : to.identifier,
+                "toFloorName" : to.name
+            ]
+            cal.resolve(result)
+        }
+    }
 }
 
 //Needed to find the proper view in the window hierarchy

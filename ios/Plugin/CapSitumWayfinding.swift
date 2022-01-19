@@ -3,8 +3,19 @@ import SitumWayfinding
 import Capacitor
 import GoogleMaps
 
-@objc public class CapSitumWayfinding: NSObject {
+public protocol CapSitumWayfindingNativeToCap {
+    func onPoiSelected(poi: SITPOI, level: SITFloor, building: SITBuilding)
+
+    func onPoiDeselected(building: SITBuilding)
+    
+    func onFloorChanged(from:SITFloor, to:SITFloor, building:SITBuilding)
+
+}
+
+@objc public class CapSitumWayfinding: NSObject, OnPoiSelectionListener, OnFloorChangeListener {
     private var library: SitumMapsLibrary?
+
+    public var delegate: CapSitumWayfindingNativeToCap?
     
     public enum CapSitumWayfindingError: Error {
         case noSitumCredentials
@@ -15,6 +26,9 @@ import GoogleMaps
     public func load(containerView:UIView?, googleMapView:GMSMapView, librarySettings:JSObject) throws{
         let librarySettings = try CapLibrarySettings.from(librarySettings).toWyfLibraySettings(googleMap: googleMapView)
         self.library = SitumMapsLibrary.init(containedBy: containerView!, controlledBy: containerView!.parentViewController!, withSettings: librarySettings)
+        self.library?.setOnFloorChangeListener(listener: self)
+        self.library?.setOnPoiSelectionListener(listener: self)
+
         do{
             try self.library!.load()
         }catch{
@@ -26,6 +40,25 @@ import GoogleMaps
         if let ulibrary = library{
             ulibrary.stopPositioning()
             ulibrary.stopNavigation()
+        }
+    }
+
+    // MARK:
+    public func onPoiSelected(poi: SITPOI, level: SITFloor, building: SITBuilding) {
+        if let del = self.delegate {
+            del.onPoiSelected(poi: poi, level: level, building: building)
+        }
+    }
+    
+    public func onPoiDeselected(building: SITBuilding) {
+        if let del = self.delegate {
+            del.onPoiDeselected(building: building)
+        }
+    }
+    
+    public func onFloorChanged(from: SITFloor, to: SITFloor, building: SITBuilding) {
+        if let del = self.delegate {
+            del.onFloorChanged(from: from, to: to, building: building)
         }
     }
 }
