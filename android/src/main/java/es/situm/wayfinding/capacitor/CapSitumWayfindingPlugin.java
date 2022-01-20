@@ -34,7 +34,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
     private final CapSitumWayfinding implementation = new CapSitumWayfinding();
     private View libraryTargetView = null;
     private CapScreenInfo screenInfo = null;
-    private boolean captureTouchEvents = true;
+    private boolean captureTouchEvents = false;
 
     // Keep alive callbacks:
     private String onPoiSelectedCallbackId = null;
@@ -96,6 +96,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
                 setupTouchEventsDispatching();
                 JSObject response = new JSObject();
                 response.put("loadResult", libraryResult);
+                this.captureTouchEvents = true;
                 call.resolve(response);
                 getBridge().releaseCall(callbackId);
             });
