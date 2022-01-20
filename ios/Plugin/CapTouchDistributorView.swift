@@ -24,7 +24,7 @@ import Foundation
 public class CapTouchDistributorView:UIView{
     var webScrollView:UIView? = nil
     var screenInfo: CapScreenInfo?
-    var isGestureAllowed: Bool = false
+    var isGestureAllowed: Bool = true
     
     //MARK: Init
     
