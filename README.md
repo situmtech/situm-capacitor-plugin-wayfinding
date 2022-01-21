@@ -228,6 +228,7 @@ This plugin adds a native transparent layer over the map that will capture and h
 * [`selectPoi(...)`](#selectPoi)
 * [`navigateToPoi(...)`](#navigateToPoi)
 * [`navigateToLocation(...)`](#navigateToLocation)
+* [`stopPositioning()`](#stopPositioning)
 * [Interfaces](#interfaces)
 
 
@@ -366,6 +367,19 @@ Use this method to request navigation to a given location, in a given floor.
 
 ```typescript
 navigateToLocation(location: BuildingLocation)
+```
+
+**Returns:** `Promise<void>`
+
+--------------------
+
+
+### stopPositioning
+
+Use this method to stop positioning. This method also stops navigation if it was started.
+
+```typescript
+stopPositioning()
 ```
 
 **Returns:** `Promise<void>`

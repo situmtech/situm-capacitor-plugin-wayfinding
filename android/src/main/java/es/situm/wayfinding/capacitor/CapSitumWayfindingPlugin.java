@@ -320,6 +320,11 @@ public class CapSitumWayfindingPlugin extends Plugin {
         }
     }
 
+    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
+    public void internalStopPositioning(PluginCall call) {
+        implementation.stopPositioning();
+    }
+
     private void releaseCallbackById(String callbackId) {
         PluginCall call = bridge.getSavedCall(callbackId);
         if (call != null && call.isKeptAlive()) {
