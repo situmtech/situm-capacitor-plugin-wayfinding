@@ -216,6 +216,12 @@ This plugin adds a native transparent layer over the map that will capture and h
 * Any HTML element outside the map bounds will also receive the touch events.
 * The plugin will not dispatch touch events to any HTML element defined **outside the map div but inside the map bounds**. You can use the method `setCaptureTouchEvents(false)` to prevent this and handle every touch event in your app. Call `setCaptureTouchEvents(true)` to return the control to the map.
 
+### Frameworks navigation
+
+Common applications will probably use the navigation pattern established by some framework like Angular, React or Vue. It is possible for the framework to recreate the page on which the map div is defined (for example, when the page is removed from the stack). In such cases, the map div HTMLElement reference gets obsolete. As a consecuence, event delegation stops working properly when interacting with HTML elements displayed over the native map.
+
+To solve this inconvenience you can call `load(HTMLElement element, ...)` as many times as you need to refresh the underlying reference and make the plugin work as expected.
+
 ## API
 
 * [`load(...)`](#load)
