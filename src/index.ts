@@ -25,85 +25,97 @@ const SitumWayfindingInternal = registerPlugin<SitumWayfindingPlugin>(
 class WayfindingTSWrapper {
 
   helper?: WayfindingHelper;
+  moduleInitialized: Boolean = false;
 
   async load(element: HTMLElement, librarySettings: LibrarySettings) : Promise<WayfindingResult> {
     element.style.background = '';
-    const boundingRect = element.getBoundingClientRect();
 
-    // Capacitor Google Maps initialization:
-    await CapacitorGoogleMaps.initialize({
-      key: librarySettings.iosGoogleMapsApiKey?.toString(),
-      devicePixelRatio: window.devicePixelRatio,
-    });
+    if (!this.moduleInitialized) {
+      this.moduleInitialized = true;
+      const boundingRect = element.getBoundingClientRect();
 
-    const result = await CapacitorGoogleMaps.createMap({
-      boundingRect: {
+      // Capacitor Google Maps initialization:
+      await CapacitorGoogleMaps.initialize({
+        key: librarySettings.iosGoogleMapsApiKey?.toString(),
+        devicePixelRatio: window.devicePixelRatio,
+      });
+
+      const result = await CapacitorGoogleMaps.createMap({
+        boundingRect: {
+          width: Math.round(boundingRect.width),
+          height: Math.round(boundingRect.height),
+          x: Math.round(boundingRect.x),
+          y: Math.round(boundingRect.y),
+        },
+        cameraPosition: {
+          target: {
+            latitude: 0,
+            longitude: 0,
+          },
+          zoom: 12,
+          bearing: 0,
+          tilt: 0
+        },
+        preferences: {
+          gestures: {
+            isScrollAllowedDuringRotateOrZoom: false,
+            isRotateAllowed: true,
+            isScrollAllowed: false,
+            isTiltAllowed: true,
+            isZoomAllowed: true
+          },
+          appearance: {
+            style: null,
+            isMyLocationDotShown: false,
+            isBuildingsShown: true,
+            isIndoorShown: true,
+            isTrafficShown: false,
+            type: 1
+          },
+          controls: {
+            isCompassButtonEnabled: false,
+            isMapToolbarEnabled: false,
+            isMyLocationButtonEnabled: false,
+            isZoomButtonsEnabled: false
+          },
+          minZoom: 2,
+          maxZoom: 21,
+          liteMode: false,
+          padding: 0
+        },
+      });
+      element.setAttribute('data-maps-id', result.googleMap.mapId);
+      // END CGM.
+
+      // TODO: probably the CGM dependency should be removed to get a cleaner code.
+      // TODO: uncomment if CGM is finally removed:
+      // element.setAttribute('data-maps-id', 'situm-wyf');
+      // const boundingRect = element.getBoundingClientRect();
+      const screenInfo = {
         width: Math.round(boundingRect.width),
         height: Math.round(boundingRect.height),
         x: Math.round(boundingRect.x),
         y: Math.round(boundingRect.y),
-      },
-      cameraPosition: {
-        target: {
-          latitude: 0,
-          longitude: 0,
-        },
-        zoom: 12,
-        bearing: 0,
-        tilt: 0
-      },
-      preferences: {
-        gestures: {
-          isScrollAllowedDuringRotateOrZoom: false,
-          isRotateAllowed: true,
-          isScrollAllowed: false,
-          isTiltAllowed: true,
-          isZoomAllowed: true
-        },
-        appearance: {
-          style: null,
-          isMyLocationDotShown: false,
-          isBuildingsShown: true,
-          isIndoorShown: true,
-          isTrafficShown: false,
-          type: 1
-        },
-        controls: {
-          isCompassButtonEnabled: false,
-          isMapToolbarEnabled: false,
-          isMyLocationButtonEnabled: false,
-          isZoomButtonsEnabled: false
-        },
-        minZoom: 2,
-        maxZoom: 21,
-        liteMode: false,
-        padding: 0
-      },
-    });
-    element.setAttribute('data-maps-id', result.googleMap.mapId);
-    // END CGM.
-
-    // TODO: probably the CGM dependency should be removed to get a cleaner code.
-    // TODO: uncomment if CGM is finally removed:
-    // element.setAttribute('data-maps-id', 'situm-wyf');
-    // const boundingRect = element.getBoundingClientRect();
-    const screenInfo = {
-      width: Math.round(boundingRect.width),
-      height: Math.round(boundingRect.height),
-      x: Math.round(boundingRect.x),
-      y: Math.round(boundingRect.y),
-      devicePixelRatio: window.devicePixelRatio,
+        devicePixelRatio: window.devicePixelRatio,
+      }
+      // Performs the native load call:
+      const loadResponse = await SitumWayfindingInternal.internalLoad({
+        mapId: result.googleMap.mapId,
+        librarySettings: librarySettings,
+        screenInfo: screenInfo
+      });
+      // Let the native layer know the areas of the screen where the touch events should be
+      // dispatched by the webview.
+      this.helper = new WayfindingHelper(element);
+      this.helper.init();
+      return loadResponse;
+    } else {
+      // Update the map div reference. This is applies to (for example) Angular view recreations.
+      // When the view is distroyed/recreated, our HTMLElement reference gets obsolete. A new
+      // reference is needed to perform dom observations.
+      this.helper?.onHTMLElementRecreated(element);
+      return {};
     }
-    const loadResponse = await SitumWayfindingInternal.internalLoad({
-      mapId: result.googleMap.mapId,
-      librarySettings: librarySettings,
-      screenInfo: screenInfo
-    });
-    // Let the native layer know the areas of the screen where the touch events should be
-    // dispatched by the webview.
-    this.helper = new WayfindingHelper(element);
-    this.helper.init();
-    return loadResponse;
   }
 
   async unload(): Promise<any> {
@@ -173,6 +185,12 @@ class WayfindingHelper {
     this.observeMutations();
     // Also observe changes in the size of that elements to keep native layer up to date.
     this.observeResize();
+  }
+
+  onHTMLElementRecreated(element: HTMLElement) {
+    this.stop();
+    this.element = element;
+    this.init();
   }
 
   stop() {

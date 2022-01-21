@@ -49,6 +49,7 @@ const librarySettings = {
     hasSearchView: true,
     searchViewPlaceholder: "Capacitor WYF",
     useDashboardTheme: false,
+    setCaptureTouchEvents: true
 };
 await SitumWayfinding.load(element, librarySettings);
 ```
@@ -386,18 +387,19 @@ navigateToLocation(location: BuildingLocation)
 
 #### LibrarySettings
 
-| Prop                         | Type     |
-| ---------------------------- | -------- |
-| **`user`**                   | `String` |
-| **`apiKey`**                 | `String` |
-| **`iosGoogleMapsApiKey`**    | `String` |
-| **`buildingId`**             | `String` |
-| **`dashboardUrl`**           | `String` |
-| **`hasSearchView`**          | `Boolean` |
-| **`searchViewPlaceholder`**  | `Boolean` |
-| **`useDashboardTheme`**      | `Boolean` |
-| **`userPositionIcon?`**      | `String` |
-| **`userPositionArrowIcon?`** | `String` |
+| Prop                         | Type     | Default |
+| ---------------------------- | -------- | ------- |
+| **`user`**                   | `String` | |
+| **`apiKey`**                 | `String` | |
+| **`iosGoogleMapsApiKey`**    | `String` | |
+| **`buildingId`**             | `String` | |
+| **`dashboardUrl`**           | `String` | |
+| **`hasSearchView`**          | `Boolean` | true |
+| **`searchViewPlaceholder`**  | `String` | |
+| **`useDashboardTheme`**      | `Boolean` | false |
+| **`userPositionIcon?`**      | `String` | |
+| **`userPositionArrowIcon?`** | `String` | |
+| **`captureTouchEvents?`** | `Boolean` | true |
 
 
 #### ScreenInfo
