@@ -10,6 +10,7 @@ export interface LibrarySettings {
     useDashboardTheme: Boolean;
     userPositionIcon?: String;
     userPositionArrowIcon?: String;
+    captureTouchEvents?: Boolean;
 }
 export interface ScreenInfo {
     devicePixelRatio: Number;
