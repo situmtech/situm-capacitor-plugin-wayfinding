@@ -23,7 +23,7 @@ Then run `npm install` and `npx cap sync` to install packages, copy the web app 
 your/project/path$ npm install && npx cap sync
 ```
 
-In your project, add the HTMLElement that will hold the Situm Wayfinding Module:
+In your project, add the HTMLElement that will hold the Situm Wayfinding Module (the map div):
 ```html
 <div id="situm-map"></div>
 ```
@@ -53,6 +53,9 @@ const librarySettings = {
 };
 await SitumWayfinding.load(element, librarySettings);
 ```
+
+A common use case is to integrate this plugin in the lifecycle of a framework like Angular, React or Vue. I such cases, the framework may destroy and recreate the page on which the map div is defined (for example, after navigating). You must call `load(HTMLElement element, ...)` as many times as you need to tell the plugin that the map div has changed. More information in the section [Frameworks navigation](#frameworks-navigation).
+
 
 ## Requirements:
 
