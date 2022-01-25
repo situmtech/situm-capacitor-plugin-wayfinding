@@ -54,7 +54,7 @@ const librarySettings = {
 await SitumWayfinding.load(element, librarySettings);
 ```
 
-A common use case is to integrate this plugin in the lifecycle of a framework like Angular, React or Vue. I such cases, the framework may destroy and recreate the page on which the map div is defined (for example, after navigating). You must call `load(HTMLElement element, ...)` as many times as you need to tell the plugin that the map div has changed. More information in the section [Frameworks navigation](#frameworks-navigation).
+A common use case is to integrate this plugin in the lifecycle of a framework like Angular, React or Vue. I such cases, the framework may destroy and recreate the page on which the map div is defined (for example, after navigating). You must call `load(HTMLElement element, ...)` as many times as you need to tell the plugin that the map div has changed (for example, at every call to `ionViewDidEnter` if you are using Ionic's lifecycle callbacks). More information in the section [Frameworks navigation](#frameworks-navigation).
 
 
 ## Requirements:
