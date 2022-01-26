@@ -1,5 +1,8 @@
 ## Unreleased
 
 # Added
-* This version connects interfaces in iOS to let the developer know when the user has selected or deselected a Point of Interest and also when the user changes the displayed map from on floor to another.
-* This version implements a new capacitor interface that lets the developer activate and deactivate if the map should responds to gestures on screen or not. 
+* Added iOS functionality for onPoiSelected, onPoiDeselected and onFloorChange methods for listening POIs and floors events.
+* Added iOS functionality to setCaptureTouchEvents method to disable/enable the capture of UI events inside the map box.
+
+# Changed 
+* Updated iOS WYF native dependency to version to 0.1.19
