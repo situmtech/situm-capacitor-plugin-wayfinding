@@ -93,6 +93,9 @@ public class CapSitumWayfindingPlugin: CAPPlugin {
     @objc func internalNavigateToLocation(_ call: CAPPluginCall){
     }
     
+    @objc func internalStopPositioning(_ call: CAPPluginCall){
+    }
+    
         
     //MARK: Prepare WebView and GSMMapView for SitumWayfinding
     
