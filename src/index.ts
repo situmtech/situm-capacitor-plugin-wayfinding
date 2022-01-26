@@ -119,42 +119,46 @@ class WayfindingTSWrapper {
   }
 
   async unload(): Promise<any> {
-    SitumWayfindingInternal.internalUnload();
+    await SitumWayfindingInternal.internalUnload();
     if (this.helper) {
       this.helper.stop();
     }
   }
 
   async onPoiSelected(callback: (data: OnPoiSelectedResult) => void) {
-    SitumWayfindingInternal.internalOnPoiSelected(callback);
+    await SitumWayfindingInternal.internalOnPoiSelected(callback);
   }
 
   async onPoiDeselected(callback: (data: OnPoiDeselectedResult) => void) {
-    SitumWayfindingInternal.internalOnPoiDeselected(callback);
+    await SitumWayfindingInternal.internalOnPoiDeselected(callback);
   }
 
   async onFloorChange(callback: (data: OnFloorChangeResult) => void) {
-    SitumWayfindingInternal.internalOnFloorChange(callback);
+    await SitumWayfindingInternal.internalOnFloorChange(callback);
   }
 
   async setCaptureTouchEvents(options: CaptureTouchEvents) {
-    SitumWayfindingInternal.internalSetCaptureTouchEvents(options);
+    await SitumWayfindingInternal.internalSetCaptureTouchEvents(options);
   }
 
   async selectPoi(poi: Poi): Promise<void> {
-    return SitumWayfindingInternal.internalSelectPoi(poi);
+    return await SitumWayfindingInternal.internalSelectPoi(poi);
   }
 
   async selectBuilding(building: Building): Promise<void> {
-    return SitumWayfindingInternal.internalSelectBuilding(building);
+    return await SitumWayfindingInternal.internalSelectBuilding(building);
   }
 
   async navigateToPoi(poi: Poi): Promise<void> {
-    return SitumWayfindingInternal.internalNavigateToPoi(poi);
+    return await SitumWayfindingInternal.internalNavigateToPoi(poi);
   }
 
   async navigateToLocation(location: BuildingLocation): Promise<void> {
-    return SitumWayfindingInternal.internalNavigateToLocation(location);
+    return await SitumWayfindingInternal.internalNavigateToLocation(location);
+  }
+
+  async stopPositioning(): Promise<void> {
+    return await SitumWayfindingInternal.internalStopPositioning();
   }
 
 };

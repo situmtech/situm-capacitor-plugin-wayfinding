@@ -1,7 +1,11 @@
 ## Unreleased
 
+### Added
+* Added a new method `stopPositioning` that can be used to stop positioning. This method also stops navigation if it was started.
+
 ### Changed
 * Now the method `SitumWayfinding.load(HTMLElement element, ...)` can be called repeatedly.
     * In the first call the native module will be loaded.
     * Successive calls will update the reference to the map div (the given HTMLElement). This is useful in frameworks like Angular that may destroy and recreate the original HTMLElement. In such cases, the HTMLElement reference gets obsolete. As a consecuence, event delegation stops working properly when interacting with HTML elements displayed over the native map. From now on, a call to `load(HTMLElement element, ...)` will make the plugin work as expected.
 * Now `captureTouchEvents` is `false` while the map is loading. The default value `true` can now be overwritten in the `load` call using the field `captureTouchEvents` of `LibrarySettings`. The default value will be assigned on `load` success.
+* Fixed async/await internal calls.

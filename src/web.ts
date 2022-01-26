@@ -76,4 +76,9 @@ export class SitumWayfindingWeb extends WebPlugin implements SitumWayfindingPlug
     console.log(`SitumWayfindingPlugin#internalNavigateToLocation() call with params ${location}.`)
     throw new Error('Method not implemented.');
   }
+
+  internalStopPositioning(): Promise<void> {
+    console.log(`SitumWayfindingPlugin#internalStopPositioning() call.`);
+    throw new Error('Method not implemented.');
+  }
 }

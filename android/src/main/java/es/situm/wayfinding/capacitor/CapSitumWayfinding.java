@@ -169,6 +169,12 @@ public class CapSitumWayfinding {
                 library.findRouteToLocation(buildingId, floorId, latitude, longitude));
     }
 
+    public void stopPositioning() {
+        this.capacitorLibrarySettings.activity.runOnUiThread(() -> {
+            library.stopPositioning();
+        });
+    }
+
     interface SitumWayfindingCallback {
         void onLoadResult(CapLibraryLoadResult result);
     }
