@@ -1,6 +1,7 @@
 import Foundation
 import Capacitor
 import GoogleMaps
+import SitumSDK
 
 
 
@@ -9,7 +10,7 @@ import GoogleMaps
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc(CapSitumWayfindingPlugin)
-public class CapSitumWayfindingPlugin: CAPPlugin, CapSitumWayfindingNativeToCap {
+public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol {
     private var containerView: UIView?
     private let situmWayFindingWrapper = CapSitumWayfinding()
     private var screenInfo: CapScreenInfo?
@@ -37,6 +38,7 @@ public class CapSitumWayfindingPlugin: CAPPlugin, CapSitumWayfindingNativeToCap 
            
             do {
                 try self.situmWayFindingWrapper.load(containerView: self.containerView, googleMapView: googleMapView, librarySettings: settingsJsonObject)
+                self.situmWayFindingWrapper.delegate = self
                 try self.enableHtmlOverMap()
                 call.resolve()
                 self.bridge?.releaseCall(call)
@@ -73,35 +75,9 @@ public class CapSitumWayfindingPlugin: CAPPlugin, CapSitumWayfindingNativeToCap 
         call.resolve()
     }
     
-    @objc func internalOnPoiSelected(_ call: CAPPluginCall){
-        print("Hello world internalOnPoiSelected")
-        call.keepAlive = true
-
-        self.onPoiSelectedCall = call
-    }
-    
-    @objc func internalOnPoiDeselected(_ call: CAPPluginCall){
-        print("Hello world internalOnPoiSelected")
-
-        call.keepAlive = true
-
-        self.onPoiDeselectedCall = call
-    }
-    
-    @objc func internalOnFloorChange(_ call: CAPPluginCall){
-        print("Hello world internalOnFloorChange")
-
-        call.keepAlive = true
-
-        self.onFloorChangedCall = call
-    }
-    
     @objc func internalSetCaptureTouchEvents(_ call: CAPPluginCall){
-        print("internalSetCaptureTouchEvents")
-
         // Check if touch events are captura by native view or map..
         self.touchDistributorView?.setIsGesturesAllowed(isGestureAllowed: call.getBool("captureEvents", true))
-        
         call.resolve()
     }
     
@@ -117,6 +93,21 @@ public class CapSitumWayfindingPlugin: CAPPlugin, CapSitumWayfindingNativeToCap 
     @objc func internalNavigateToLocation(_ call: CAPPluginCall){
     }
     
+    //MARK: Set callbacks to notify on events over the plugin
+    @objc func internalOnPoiSelected(_ call: CAPPluginCall){
+        call.keepAlive = true
+        self.onPoiSelectedCall = call
+    }
+    
+    @objc func internalOnPoiDeselected(_ call: CAPPluginCall){
+        call.keepAlive = true
+        self.onPoiDeselectedCall = call
+    }
+    
+    @objc func internalOnFloorChange(_ call: CAPPluginCall){
+        call.keepAlive = true
+        self.onFloorChangedCall = call
+    }
         
     //MARK: Prepare WebView and GSMMapView for SitumWayfinding
     
@@ -169,7 +160,7 @@ public class CapSitumWayfindingPlugin: CAPPlugin, CapSitumWayfindingNativeToCap 
 
     // MARK: CapSitumWayfindingNativeToCap methods
     public func onPoiSelected(poi: SITPOI, level: SITFloor, building: SITBuilding) {
-        if let cal = self.onPoiSelectedCall {
+        if let call = self.onPoiSelectedCall {
             let result: Dictionary = [
                 "buildingId" : building.identifier,
                 "buildingName" : building.name,
@@ -178,23 +169,22 @@ public class CapSitumWayfindingPlugin: CAPPlugin, CapSitumWayfindingNativeToCap 
                 "poiId" : poi.identifier,
                 "poiName" : poi.name
             ]
-            
-            cal.resolve(result)
+            call.resolve(result)
         }
     }
     
     public func onPoiDeselected(building: SITBuilding) {
-        if let cal = self.onPoiDeselectedCall {
+        if let call = self.onPoiDeselectedCall {
             let result: Dictionary = [
                 "buildingId" : building.identifier,
                 "buildingName" : building.name,
             ]
-            cal.resolve(result)
+            call.resolve(result)
         }
     }
     
     public func onFloorChanged(from: SITFloor, to: SITFloor, building: SITBuilding) {
-        if let cal = self.onPoiDeselectedCall {
+        if let call = self.onFloorChangedCall {
             let result: Dictionary = [
                 "buildingId" : building.identifier,
                 "buildingName" : building.name,
@@ -203,7 +193,7 @@ public class CapSitumWayfindingPlugin: CAPPlugin, CapSitumWayfindingNativeToCap 
                 "toFloorId" : to.identifier,
                 "toFloorName" : to.name
             ]
-            cal.resolve(result)
+            call.resolve(result)
         }
     }
 }

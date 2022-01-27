@@ -3,11 +3,10 @@ import SitumWayfinding
 import Capacitor
 import GoogleMaps
 
-public protocol CapSitumWayfindingNativeToCap {
+//Protocol used to propagate the delegates calls from native to CapSitumWayfindingPlugin
+public protocol WayfindingNativeToCapProtocol {
     func onPoiSelected(poi: SITPOI, level: SITFloor, building: SITBuilding)
-
     func onPoiDeselected(building: SITBuilding)
-    
     func onFloorChanged(from:SITFloor, to:SITFloor, building:SITBuilding)
 
 }
@@ -15,7 +14,7 @@ public protocol CapSitumWayfindingNativeToCap {
 @objc public class CapSitumWayfinding: NSObject, OnPoiSelectionListener, OnFloorChangeListener {
     private var library: SitumMapsLibrary?
 
-    public var delegate: CapSitumWayfindingNativeToCap?
+    public var delegate: WayfindingNativeToCapProtocol?
     
     public enum CapSitumWayfindingError: Error {
         case noSitumCredentials
@@ -43,7 +42,7 @@ public protocol CapSitumWayfindingNativeToCap {
         }
     }
 
-    // MARK:
+    // MARK: Native Wayfinding delegate methods
     public func onPoiSelected(poi: SITPOI, level: SITFloor, building: SITBuilding) {
         if let del = self.delegate {
             del.onPoiSelected(poi: poi, level: level, building: building)
