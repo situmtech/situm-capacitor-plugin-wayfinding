@@ -18,6 +18,7 @@ public class CapLibrarySettings {
     Boolean useDashboardTheme;
     String userPositionIcon;
     String userPositionArrowIcon;
+    Boolean captureTouchEvents;
 
     AppCompatActivity activity;
 
@@ -38,6 +39,7 @@ public class CapLibrarySettings {
         s.useDashboardTheme = o.getBoolean("useDashboardTheme", false);
         s.userPositionIcon = o.getString("userPositionIcon", null);
         s.userPositionArrowIcon = o.getString("userPositionArrowIcon", null);
+        s.captureTouchEvents = o.getBoolean("captureTouchEvents", true);
         return s;
     }
 

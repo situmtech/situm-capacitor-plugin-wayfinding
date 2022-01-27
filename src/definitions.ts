@@ -10,6 +10,7 @@ export interface LibrarySettings {
     useDashboardTheme: Boolean;
     userPositionIcon?: String;
     userPositionArrowIcon?: String;
+    captureTouchEvents?: Boolean;
 }
 export interface ScreenInfo {
     devicePixelRatio: Number;
@@ -83,4 +84,5 @@ export interface SitumWayfindingPlugin {
     internalSelectPoi(poi: Poi): Promise<void>;
     internalNavigateToPoi(poi: Poi): Promise<void>;
     internalNavigateToLocation(location: BuildingLocation): Promise<void>;
+    internalStopPositioning(): Promise<void>;
 }

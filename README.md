@@ -23,7 +23,7 @@ Then run `npm install` and `npx cap sync` to install packages, copy the web app 
 your/project/path$ npm install && npx cap sync
 ```
 
-In your project, add the HTMLElement that will hold the Situm Wayfinding Module:
+In your project, add the HTMLElement that will hold the Situm Wayfinding Module (the map div):
 ```html
 <div id="situm-map"></div>
 ```
@@ -49,9 +49,13 @@ const librarySettings = {
     hasSearchView: true,
     searchViewPlaceholder: "Capacitor WYF",
     useDashboardTheme: false,
+    setCaptureTouchEvents: true
 };
 await SitumWayfinding.load(element, librarySettings);
 ```
+
+A common use case is to integrate this plugin in the lifecycle of a framework like Angular, React or Vue. I such cases, the framework may destroy and recreate the page on which the map div is defined (for example, after navigating). You must call `load(HTMLElement element, ...)` as many times as you need to tell the plugin that the map div has changed (for example, at every call to `ionViewDidEnter` if you are using Ionic's lifecycle callbacks). More information in the section [Frameworks navigation](#frameworks-navigation).
+
 
 ## Requirements:
 
@@ -215,6 +219,12 @@ This plugin adds a native transparent layer over the map that will capture and h
 * Any HTML element outside the map bounds will also receive the touch events.
 * The plugin will not dispatch touch events to any HTML element defined **outside the map div but inside the map bounds**. You can use the method `setCaptureTouchEvents(false)` to prevent this and handle every touch event in your app. Call `setCaptureTouchEvents(true)` to return the control to the map.
 
+### Frameworks navigation
+
+Common applications will probably use the navigation pattern established by some framework like Angular, React or Vue. It is possible for the framework to recreate the page on which the map div is defined (for example, when the page is removed from the stack). In such cases, the map div HTMLElement reference gets obsolete. As a consecuence, event delegation stops working properly when interacting with HTML elements displayed over the native map.
+
+To solve this inconvenience you can call `load(HTMLElement element, ...)` as many times as you need to refresh the underlying reference and make the plugin work as expected.
+
 ## API
 
 * [`load(...)`](#load)
@@ -227,6 +237,7 @@ This plugin adds a native transparent layer over the map that will capture and h
 * [`selectPoi(...)`](#selectPoi)
 * [`navigateToPoi(...)`](#navigateToPoi)
 * [`navigateToLocation(...)`](#navigateToLocation)
+* [`stopPositioning()`](#stopPositioning)
 * [Interfaces](#interfaces)
 
 
@@ -372,6 +383,19 @@ navigateToLocation(location: BuildingLocation)
 --------------------
 
 
+### stopPositioning
+
+Use this method to stop positioning. This method also stops navigation if it was started.
+
+```typescript
+stopPositioning()
+```
+
+**Returns:** `Promise<void>`
+
+--------------------
+
+
 ### Interfaces
 
 
@@ -386,18 +410,19 @@ navigateToLocation(location: BuildingLocation)
 
 #### LibrarySettings
 
-| Prop                         | Type     |
-| ---------------------------- | -------- |
-| **`user`**                   | `String` |
-| **`apiKey`**                 | `String` |
-| **`iosGoogleMapsApiKey`**    | `String` |
-| **`buildingId`**             | `String` |
-| **`dashboardUrl`**           | `String` |
-| **`hasSearchView`**          | `Boolean` |
-| **`searchViewPlaceholder`**  | `Boolean` |
-| **`useDashboardTheme`**      | `Boolean` |
-| **`userPositionIcon?`**      | `String` |
-| **`userPositionArrowIcon?`** | `String` |
+| Prop                         | Type     | Default |
+| ---------------------------- | -------- | ------- |
+| **`user`**                   | `String` | |
+| **`apiKey`**                 | `String` | |
+| **`iosGoogleMapsApiKey`**    | `String` | |
+| **`buildingId`**             | `String` | |
+| **`dashboardUrl`**           | `String` | |
+| **`hasSearchView`**          | `Boolean` | true |
+| **`searchViewPlaceholder`**  | `String` | |
+| **`useDashboardTheme`**      | `Boolean` | false |
+| **`userPositionIcon?`**      | `String` | |
+| **`userPositionArrowIcon?`** | `String` | |
+| **`captureTouchEvents?`** | `Boolean` | true |
 
 
 #### ScreenInfo

@@ -93,6 +93,9 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
     @objc func internalNavigateToLocation(_ call: CAPPluginCall){
     }
     
+    @objc func internalStopPositioning(_ call: CAPPluginCall){
+    }
+    
     //MARK: Set callbacks to notify on events over the plugin
     @objc func internalOnPoiSelected(_ call: CAPPluginCall){
         call.keepAlive = true
