@@ -1,6 +1,7 @@
 import Foundation
 import Capacitor
 import GoogleMaps
+import SitumSDK
 
 
 
@@ -9,12 +10,16 @@ import GoogleMaps
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc(CapSitumWayfindingPlugin)
-public class CapSitumWayfindingPlugin: CAPPlugin {
+public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol {
     private var containerView: UIView?
     private let situmWayFindingWrapper = CapSitumWayfinding()
     private var screenInfo: CapScreenInfo?
     private var touchDistributorView:CapTouchDistributorView?
     
+    private var onPoiSelectedCall: CAPPluginCall?
+    private var onPoiDeselectedCall: CAPPluginCall?
+    private var onFloorChangedCall: CAPPluginCall?
+
     public enum CapPluginError: Error {
         case noProperViewHierarchy
     }
@@ -33,6 +38,7 @@ public class CapSitumWayfindingPlugin: CAPPlugin {
            
             do {
                 try self.situmWayFindingWrapper.load(containerView: self.containerView, googleMapView: googleMapView, librarySettings: settingsJsonObject)
+                self.situmWayFindingWrapper.delegate = self
                 try self.enableHtmlOverMap()
                 call.resolve()
                 self.bridge?.releaseCall(call)
@@ -69,16 +75,10 @@ public class CapSitumWayfindingPlugin: CAPPlugin {
         call.resolve()
     }
     
-    @objc func internalOnPoiSelected(_ call: CAPPluginCall){
-    }
-    
-    @objc func internalOnPoiDeselected(_ call: CAPPluginCall){
-    }
-    
-    @objc func internalOnFloorChange(_ call: CAPPluginCall){
-    }
-    
     @objc func internalSetCaptureTouchEvents(_ call: CAPPluginCall){
+        // Check if touch events are captura by native view or map..
+        self.touchDistributorView?.setIsGesturesAllowed(isGestureAllowed: call.getBool("captureEvents", true))
+        call.resolve()
     }
     
     @objc func internalSelectBuilding(_ call: CAPPluginCall){
@@ -93,6 +93,24 @@ public class CapSitumWayfindingPlugin: CAPPlugin {
     @objc func internalNavigateToLocation(_ call: CAPPluginCall){
     }
     
+    @objc func internalStopPositioning(_ call: CAPPluginCall){
+    }
+    
+    //MARK: Set callbacks to notify on events over the plugin
+    @objc func internalOnPoiSelected(_ call: CAPPluginCall){
+        call.keepAlive = true
+        self.onPoiSelectedCall = call
+    }
+    
+    @objc func internalOnPoiDeselected(_ call: CAPPluginCall){
+        call.keepAlive = true
+        self.onPoiDeselectedCall = call
+    }
+    
+    @objc func internalOnFloorChange(_ call: CAPPluginCall){
+        call.keepAlive = true
+        self.onFloorChangedCall = call
+    }
         
     //MARK: Prepare WebView and GSMMapView for SitumWayfinding
     
@@ -142,7 +160,45 @@ public class CapSitumWayfindingPlugin: CAPPlugin {
         self.bridge?.viewController?.view.addSubview(touchDistributorView)
         return touchDistributorView
     }
+
+    // MARK: CapSitumWayfindingNativeToCap methods
+    public func onPoiSelected(poi: SITPOI, level: SITFloor, building: SITBuilding) {
+        if let call = self.onPoiSelectedCall {
+            let result: Dictionary = [
+                "buildingId" : building.identifier,
+                "buildingName" : building.name,
+                "floorId" : level.identifier,
+                "floorName" : level.name,
+                "poiId" : poi.identifier,
+                "poiName" : poi.name
+            ]
+            call.resolve(result)
+        }
+    }
     
+    public func onPoiDeselected(building: SITBuilding) {
+        if let call = self.onPoiDeselectedCall {
+            let result: Dictionary = [
+                "buildingId" : building.identifier,
+                "buildingName" : building.name,
+            ]
+            call.resolve(result)
+        }
+    }
+    
+    public func onFloorChanged(from: SITFloor, to: SITFloor, building: SITBuilding) {
+        if let call = self.onFloorChangedCall {
+            let result: Dictionary = [
+                "buildingId" : building.identifier,
+                "buildingName" : building.name,
+                "fromFloorId" : from.identifier,
+                "fromFloorName" : from.name,
+                "toFloorId" : to.identifier,
+                "toFloorName" : to.name
+            ]
+            call.resolve(result)
+        }
+    }
 }
 
 //Needed to find the proper view in the window hierarchy
