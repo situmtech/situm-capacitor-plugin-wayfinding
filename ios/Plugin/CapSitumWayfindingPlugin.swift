@@ -130,7 +130,6 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
     
     //MARK: Error handling
     private func handleLoadError(error:Error, call:CAPPluginCall){
-        print(error.localizedDescription)
         call.reject(error.localizedDescription)
         self.bridge?.releaseCall(call)
     }
