@@ -49,7 +49,7 @@ const librarySettings = {
     hasSearchView: true,
     searchViewPlaceholder: "Capacitor WYF",
     useDashboardTheme: false,
-    setCaptureTouchEvents: true
+    captureTouchEvents: true
 };
 await SitumWayfinding.load(element, librarySettings);
 ```
