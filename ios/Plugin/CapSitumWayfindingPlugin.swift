@@ -19,10 +19,6 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
     private var onPoiSelectedCall: CAPPluginCall?
     private var onPoiDeselectedCall: CAPPluginCall?
     private var onFloorChangedCall: CAPPluginCall?
-
-    public enum CapPluginError: Error {
-        case noProperViewHierarchy
-    }
     
     //MARK: Public methods implementation
     
@@ -35,25 +31,21 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
             let googleMapView:GMSMapView = self.getGMSMapView()!
             self.containerView = self.replaceMapWithContainerView(googleMapView)
             self.screenInfo = CapScreenInfo.from(pixelRatio: devicePixelRatio, screenInfo: screenInfoJsonObject)
-           
-            do {
-                try self.situmWayFindingWrapper.load(containerView: self.containerView, googleMapView: googleMapView, librarySettings: settingsJsonObject)
-                self.situmWayFindingWrapper.delegate = self
-                try self.enableHtmlOverMap()
-                call.resolve()
-                self.bridge?.releaseCall(call)
-            }catch CapPluginError.noProperViewHierarchy{
-                call.reject("UNEXPECTED ERROR laying views!")
-            }catch CapSitumWayfinding.CapSitumWayfindingError.errorLoadingWYF{
-                call.reject("UNEXPECTED ERROR loading Situm Wayfinding!")
-            }catch CapSitumWayfinding.CapSitumWayfindingError.noSitumCredentials {
-                call.reject("SITUM USER OR API key missing!")
-            } catch  CapSitumWayfinding.CapSitumWayfindingError.noGoogleMapsApiKey {
-                call.reject("GOOGLE MAPS API key missing!")
-            }catch {
-                call.reject("UNEXPECTED ERROR obtaining credentials!")
+            self.situmWayFindingWrapper.load(containerView: self.containerView, googleMapView: googleMapView, librarySettings: settingsJsonObject) { result in
+                switch result {
+                case .success:
+                    do{
+                        self.situmWayFindingWrapper.delegate = self
+                        try self.enableHtmlOverMap()
+                        call.resolve()
+                        self.bridge?.releaseCall(call)
+                    }catch{
+                        self.handleLoadError(error: error, call: call)
+                    }
+                case .failure(let error):
+                    self.handleLoadError(error: error, call: call)
+                }
             }
-            
         }
     }
     
@@ -85,9 +77,33 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
     }
     
     @objc func internalSelectPoi(_ call: CAPPluginCall){
+        self.bridge?.saveCall(call)
+        let buildingId = call.getString("buildingId","")
+        let poiID = call.getString("id","")
+        self.situmWayFindingWrapper.selectPoi(buildingId: buildingId, poiId: poiID) { result in
+            switch result {
+            case .success:
+                call.resolve()
+            case .failure(let error):
+                call.reject(error.localizedDescription)
+            }
+            self.bridge?.releaseCall(call)
+        }
     }
     
     @objc func internalNavigateToPoi(_ call: CAPPluginCall){
+        self.bridge?.saveCall(call)
+        let buildingId = call.getString("buildingId","")
+        let poiID = call.getString("id","")
+        self.situmWayFindingWrapper.navigateToPoi(buildingId: buildingId, poiId: poiID) { result in
+            switch result {
+            case .success:
+                call.resolve()
+            case .failure(let error):
+                call.reject(error.localizedDescription)
+            }
+            self.bridge?.releaseCall(call)
+        }
     }
     
     @objc func internalNavigateToLocation(_ call: CAPPluginCall){
@@ -111,7 +127,13 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
         call.keepAlive = true
         self.onFloorChangedCall = call
     }
-        
+    
+    //MARK: Error handling
+    private func handleLoadError(error:Error, call:CAPPluginCall){
+        call.reject(error.localizedDescription)
+        self.bridge?.releaseCall(call)
+    }
+    
     //MARK: Prepare WebView and GSMMapView for SitumWayfinding
     
     private func getGMSMapView() -> GMSMapView?{
@@ -137,7 +159,7 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
             //Add transparent view to decide whom should be responsible of touch events
             touchDistributorView = self.addTouchDistributorView(uMapContainerView,webScrollView: uScrollView)
         } else {
-            throw(CapPluginError.noProperViewHierarchy)
+            throw(CapWayfindingError.noProperViewHierarchy)
         }
     }
     
