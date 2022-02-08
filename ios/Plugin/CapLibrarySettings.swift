@@ -34,11 +34,11 @@ public class CapLibrarySettings: NSObject {
         capacitorLibrarySettings.userPositionIcon = jsonObject["userPositionIcon"]  as? String ?? ""
         capacitorLibrarySettings.userPositionArrowIcon = jsonObject["userPositionArrowIcon"]  as? String ?? ""
         if capacitorLibrarySettings.user.isEmpty || capacitorLibrarySettings.apiKey.isEmpty {
-            throw CapSitumWayfinding.CapSitumWayfindingError.noSitumCredentials
+            throw CapWayfindingError.noSitumCredentials
         }
         
         if capacitorLibrarySettings.googleMapsApiKey.isEmpty {
-            throw CapSitumWayfinding.CapSitumWayfindingError.noGoogleMapsApiKey
+            throw CapWayfindingError.noGoogleMapsApiKey
         }
         
         return capacitorLibrarySettings
