@@ -24,7 +24,7 @@ import Foundation
 public class CapTouchDistributorView:UIView{
     var webScrollView:UIView? = nil
     var screenInfo: CapScreenInfo?
-    var isGestureAllowed: Bool = true
+    var isMapTouchEventsAllowed: Bool = true
     
     //MARK: Init
     
@@ -55,7 +55,7 @@ public class CapTouchDistributorView:UIView{
     // MARK: Functions to decide where touch event has happened
     
     func shouldTouchEventGoToMap(_ point: CGPoint) ->Bool{
-        if isTouchEventOnMap(point) == true && isTouchEventOnHtmlOverlays(point)==false && self.isGestureAllowed == true {
+        if isTouchEventOnMap(point) == true && isTouchEventOnHtmlOverlays(point)==false && self.isMapTouchEventsAllowed == true {
             return true
         }
         return false
@@ -75,8 +75,8 @@ public class CapTouchDistributorView:UIView{
         return false
     }
 
-    public func setIsGesturesAllowed(isGestureAllowed: Bool) {
-        self.isGestureAllowed = isGestureAllowed
+    public func setIsMapTouchEventsAllowed(_ isMapTouchEventsAllowed: Bool) {
+        self.isMapTouchEventsAllowed = isMapTouchEventsAllowed
     }
     
 }
