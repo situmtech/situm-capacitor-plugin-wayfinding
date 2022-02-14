@@ -12,7 +12,8 @@ import type {
   CaptureTouchEvents,
   Poi,
   Building,
-  BuildingLocation
+  Point,
+  OnNavigationResult
 } from './definitions';
 
 const SitumWayfindingInternal = registerPlugin<SitumWayfindingPlugin>(
@@ -153,12 +154,28 @@ class WayfindingTSWrapper {
     return await SitumWayfindingInternal.internalNavigateToPoi(poi);
   }
 
-  async navigateToLocation(location: BuildingLocation): Promise<void> {
+  async navigateToLocation(location: Point): Promise<void> {
     return await SitumWayfindingInternal.internalNavigateToLocation(location);
   }
 
   async stopPositioning(): Promise<void> {
     return await SitumWayfindingInternal.internalStopPositioning();
+  }
+
+  async onNavigationRequested(callback: (data: OnNavigationResult) => void) {
+    return await SitumWayfindingInternal.internalOnNavigationRequested(callback);
+  }
+
+  async onNavigationFinished(callback: (data: OnNavigationResult) => void) {
+    return await SitumWayfindingInternal.internalOnNavigationFinished(callback);
+  }
+
+  async onNavigationError(callback: (data: OnNavigationResult) => void) {
+    return await SitumWayfindingInternal.internalOnNavigationError(callback);
+  }
+
+  async stopNavigation(): Promise<void> {
+    return await SitumWayfindingInternal.internalStopNavigation();
   }
 
 };

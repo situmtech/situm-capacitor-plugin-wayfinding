@@ -65,11 +65,29 @@ export interface Poi {
 export interface Building {
     id: String;
 }
-export interface BuildingLocation {
+export interface Point {
     buildingId: String
     floorId: String
     latitude: Number
     longitude: Number
+}
+export interface Error {
+    code: Number
+    message: String
+}
+export interface Destination {
+    category: String
+    identifier?: String
+    name?: String
+    point: Point
+}
+export interface Navigation {
+    status: String
+    destination: Destination
+}
+export interface OnNavigationResult{
+    navigation: Navigation
+    error?: Error
 }
 export interface SitumWayfindingPlugin {
     // The real native call.
@@ -83,6 +101,10 @@ export interface SitumWayfindingPlugin {
     internalSelectBuilding(building: Building): Promise<void>;
     internalSelectPoi(poi: Poi): Promise<void>;
     internalNavigateToPoi(poi: Poi): Promise<void>;
-    internalNavigateToLocation(location: BuildingLocation): Promise<void>;
+    internalNavigateToLocation(location: Point): Promise<void>;
     internalStopPositioning(): Promise<void>;
+    internalOnNavigationRequested(callback: (data: OnNavigationResult) => void): Promise<CallbackID>;
+    internalOnNavigationFinished(callback: (data: OnNavigationResult) => void): Promise<CallbackID>;
+    internalOnNavigationError(callback: (data: OnNavigationResult) => void): Promise<CallbackID>;
+    internalStopNavigation(): Promise<any>;
 }

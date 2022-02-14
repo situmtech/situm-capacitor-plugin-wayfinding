@@ -22,6 +22,7 @@ import es.situm.wayfinding.OnPoiSelectedListener;
 import es.situm.wayfinding.SitumMapsLibrary;
 import es.situm.wayfinding.SitumMapsListener;
 import es.situm.wayfinding.actions.ActionsCallback;
+import es.situm.wayfinding.navigation.OnNavigationListener;
 
 public class CapSitumWayfinding {
 
@@ -172,6 +173,16 @@ public class CapSitumWayfinding {
     public void stopPositioning() {
         this.capacitorLibrarySettings.activity.runOnUiThread(() -> {
             library.stopPositioning();
+        });
+    }
+
+    public void setOnNavigationListener(OnNavigationListener onNavigationListener) {
+        library.setOnNavigationListener(onNavigationListener);
+    }
+
+    public void stopNavigation() {
+        this.capacitorLibrarySettings.activity.runOnUiThread(() -> {
+            library.stopNavigation();
         });
     }
 

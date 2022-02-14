@@ -12,7 +12,8 @@ import {
   CaptureTouchEvents,
   Poi,
   Building,
-  BuildingLocation
+  Point,
+  OnNavigationResult
 } from './definitions';
 
 export class SitumWayfindingWeb extends WebPlugin implements SitumWayfindingPlugin {
@@ -72,13 +73,33 @@ export class SitumWayfindingWeb extends WebPlugin implements SitumWayfindingPlug
     throw new Error('Method not implemented.');
   }
 
-  internalNavigateToLocation(location: BuildingLocation): Promise<void> {
+  internalNavigateToLocation(location: Point): Promise<void> {
     console.log(`SitumWayfindingPlugin#internalNavigateToLocation() call with params ${location}.`)
     throw new Error('Method not implemented.');
   }
 
   internalStopPositioning(): Promise<void> {
     console.log(`SitumWayfindingPlugin#internalStopPositioning() call.`);
+    throw new Error('Method not implemented.');
+  }
+
+  internalOnNavigationRequested(callback: (data: OnNavigationResult) => void): Promise<string> {
+    console.log(`SitumWayfindingPlugin#internalOnNavigationRequested() call with params ${callback}.`);
+    throw new Error('Method not implemented.');
+  }
+
+  internalOnNavigationFinished(callback: (data: OnNavigationResult) => void): Promise<string> {
+    console.log(`SitumWayfindingPlugin#internalOnNavigationFinished() call with params ${callback}.`);
+    throw new Error('Method not implemented.');
+  }
+
+  internalOnNavigationError(callback: (data: OnNavigationResult) => void): Promise<string> {
+    console.log(`SitumWayfindingPlugin#internalOnNavigationError() call with params ${callback}.`);
+    throw new Error('Method not implemented.');
+  }
+
+  internalStopNavigation(): Promise<any> {
+    console.log(`SitumWayfindingPlugin#internalStopNavigation() call.`);
     throw new Error('Method not implemented.');
   }
 }

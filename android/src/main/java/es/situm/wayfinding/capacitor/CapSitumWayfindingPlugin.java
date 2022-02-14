@@ -23,10 +23,13 @@ import org.json.JSONException;
 import java.lang.reflect.Field;
 import java.util.Map;
 
+import es.situm.sdk.error.Error;
 import es.situm.sdk.model.cartography.Building;
 import es.situm.sdk.model.cartography.Floor;
 import es.situm.sdk.model.cartography.Poi;
 import es.situm.wayfinding.OnPoiSelectedListener;
+import es.situm.wayfinding.navigation.Navigation;
+import es.situm.wayfinding.navigation.OnNavigationListener;
 
 @CapacitorPlugin(name = "SitumWayfinding")
 public class CapSitumWayfindingPlugin extends Plugin {
@@ -67,6 +70,37 @@ public class CapSitumWayfindingPlugin extends Plugin {
         }
     };
 
+    // Keep alive callbacks:
+    private String onNavigationRequestedCallbackId = null;
+    private String onNavigationErrorCallbackId = null;
+    private String onNavigationFinishedCallbackId = null;
+
+    private OnNavigationListener onNavigationListener = new OnNavigationListener() {
+        @Override
+        public void onNavigationRequested(Navigation navigation) {
+            if (onNavigationRequestedCallbackId != null) {
+                JSObject jsNav = CapMapper.fromNavigation(navigation, null);
+                resultForCallbackId(onNavigationRequestedCallbackId, jsNav);
+            }
+        }
+
+        @Override
+        public void onNavigationError(Navigation navigation, Error error) {
+            if (onNavigationErrorCallbackId != null) {
+                JSObject jsNav = CapMapper.fromNavigation(navigation, error);
+                resultForCallbackId(onNavigationErrorCallbackId, jsNav);
+            }
+        }
+
+        @Override
+        public void onNavigationFinished(Navigation navigation) {
+            if (onNavigationFinishedCallbackId != null) {
+                JSObject jsNav = CapMapper.fromNavigation(navigation, null);
+                resultForCallbackId(onNavigationFinishedCallbackId, jsNav);
+            }
+        }
+    };
+
     @PluginMethod
     public void internalLoad(PluginCall call) {
         try {
@@ -93,6 +127,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
                 }
                 libraryTargetView = activity.findViewById(es.situm.maps.library.R.id.situm_maps_library_target);
                 implementation.setOnPoiSelectedListener(onPoiSelectedListener);
+                implementation.setOnNavigationListener(onNavigationListener);
                 setupTouchEventsDispatching();
                 JSObject response = new JSObject();
                 response.put("loadResult", libraryResult);
@@ -312,7 +347,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
         final String floorId = call.getString("floorId", null);
         final Double latitude = call.getDouble("latitude");
         final Double longitude = call.getDouble("longitude");
-        if (buildingId != null && floorId != null && latitude!=null && longitude != null) {
+        if (buildingId != null && floorId != null && latitude != null && longitude != null) {
             implementation.navigateToLocation(buildingId, floorId, latitude, longitude);
             call.resolve();
         } else {
@@ -323,6 +358,38 @@ public class CapSitumWayfindingPlugin extends Plugin {
     @PluginMethod(returnType = PluginMethod.RETURN_NONE)
     public void internalStopPositioning(PluginCall call) {
         implementation.stopPositioning();
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
+    public void internalStopNavigation(PluginCall call) {
+        implementation.stopNavigation();
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
+    public void internalOnNavigationRequested(PluginCall call) {
+        call.setKeepAlive(true);
+        if (onNavigationRequestedCallbackId != null) {
+            releaseCallbackById(onNavigationRequestedCallbackId);
+        }
+        onNavigationRequestedCallbackId = call.getCallbackId();
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
+    public void internalOnNavigationError(PluginCall call) {
+        call.setKeepAlive(true);
+        if (onNavigationErrorCallbackId != null) {
+            releaseCallbackById(onNavigationErrorCallbackId);
+        }
+        onNavigationErrorCallbackId = call.getCallbackId();
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
+    public void internalOnNavigationFinished(PluginCall call) {
+        call.setKeepAlive(true);
+        if (onNavigationFinishedCallbackId != null) {
+            releaseCallbackById(onNavigationFinishedCallbackId);
+        }
+        onNavigationFinishedCallbackId = call.getCallbackId();
     }
 
     private void releaseCallbackById(String callbackId) {
@@ -336,4 +403,5 @@ public class CapSitumWayfindingPlugin extends Plugin {
         PluginCall call = bridge.getSavedCall(callbackId);
         call.resolve(result);
     }
+
 }
