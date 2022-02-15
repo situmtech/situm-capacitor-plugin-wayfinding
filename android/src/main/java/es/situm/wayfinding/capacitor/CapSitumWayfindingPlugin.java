@@ -75,7 +75,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
     private String onNavigationErrorCallbackId = null;
     private String onNavigationFinishedCallbackId = null;
 
-    private OnNavigationListener onNavigationListener = new OnNavigationListener() {
+    private final OnNavigationListener onNavigationListener = new OnNavigationListener() {
         @Override
         public void onNavigationRequested(Navigation navigation) {
             if (onNavigationRequestedCallbackId != null) {
