@@ -11,6 +11,7 @@ export interface LibrarySettings {
     userPositionIcon?: String;
     userPositionArrowIcon?: String;
     captureTouchEvents?: Boolean;
+    useRemoteConfig?: Boolean;
 }
 export interface ScreenInfo {
     devicePixelRatio: Number;
