@@ -49,7 +49,8 @@ const librarySettings = {
     hasSearchView: true,
     searchViewPlaceholder: "Capacitor WYF",
     useDashboardTheme: false,
-    captureTouchEvents: true
+    captureTouchEvents: true,
+    useRemoteConfig: false
 };
 await SitumWayfinding.load(element, librarySettings);
 ```
@@ -423,6 +424,7 @@ stopPositioning()
 | **`userPositionIcon?`**      | `String` | |
 | **`userPositionArrowIcon?`** | `String` | |
 | **`captureTouchEvents?`** | `Boolean` | true |
+| **`useRemoteConfig?`** | `Boolean` | false |
 
 
 #### ScreenInfo
