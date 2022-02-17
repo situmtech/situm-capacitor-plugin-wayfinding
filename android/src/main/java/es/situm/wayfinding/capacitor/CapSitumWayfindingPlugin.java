@@ -29,6 +29,7 @@ import es.situm.sdk.model.cartography.Floor;
 import es.situm.sdk.model.cartography.Poi;
 import es.situm.wayfinding.OnPoiSelectedListener;
 import es.situm.wayfinding.navigation.Navigation;
+import es.situm.wayfinding.navigation.NavigationError;
 import es.situm.wayfinding.navigation.OnNavigationListener;
 
 @CapacitorPlugin(name = "SitumWayfinding")
@@ -85,7 +86,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
         }
 
         @Override
-        public void onNavigationError(Navigation navigation, Error error) {
+        public void onNavigationError(Navigation navigation, NavigationError error) {
             if (onNavigationErrorCallbackId != null) {
                 JSObject jsNav = CapMapper.fromNavigation(navigation, error);
                 resultForCallbackId(onNavigationErrorCallbackId, jsNav);

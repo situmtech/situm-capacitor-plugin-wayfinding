@@ -1,19 +1,17 @@
 package es.situm.wayfinding.capacitor;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.getcapacitor.JSObject;
 
-import es.situm.sdk.error.Error;
 import es.situm.sdk.model.cartography.Point;
 import es.situm.wayfinding.navigation.Destination;
 import es.situm.wayfinding.navigation.Navigation;
+import es.situm.wayfinding.navigation.NavigationError;
 
 public class CapMapper {
-    public static JSObject fromNavigation(@NonNull Navigation navigation, @Nullable Error error) {
+    public static JSObject fromNavigation(@NonNull Navigation navigation, @Nullable NavigationError error) {
         JSObject jsResult = new JSObject();
         JSObject jsNav = new JSObject();
         JSObject jsDest = new JSObject();
