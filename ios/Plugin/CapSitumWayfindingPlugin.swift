@@ -31,20 +31,26 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
             let googleMapView:GMSMapView = self.getGMSMapView()!
             self.containerView = self.replaceMapWithContainerView(googleMapView)
             self.screenInfo = CapScreenInfo.from(pixelRatio: devicePixelRatio, screenInfo: screenInfoJsonObject)
-            self.situmWayFindingWrapper.load(containerView: self.containerView, googleMapView: googleMapView, librarySettings: settingsJsonObject) { result in
-                switch result {
-                case .success:
-                    do{
-                        self.situmWayFindingWrapper.delegate = self
-                        try self.enableHtmlOverMap()
-                        call.resolve()
-                        self.bridge?.releaseCall(call)
-                    }catch{
+            do{
+                let librarySettings = try CapLibrarySettings.from(settingsJsonObject)
+                self.situmWayFindingWrapper.load(containerView: self.containerView, librarySettings: librarySettings.toWyfLibraySettings(googleMap: googleMapView)) { result in
+                    switch result {
+                    case .success:
+                        do{
+                            self.situmWayFindingWrapper.delegate = self
+                            //After next instruction events will be captured by the native map if librarySettings.captureTouchEvents is true
+                            try self.enableHtmlOverMap(isMapTouchEventsAllowed: librarySettings.captureTouchEvents)
+                            call.resolve()
+                            self.bridge?.releaseCall(call)
+                        }catch{
+                            self.handleLoadError(error: error, call: call)
+                        }
+                    case .failure(let error):
                         self.handleLoadError(error: error, call: call)
                     }
-                case .failure(let error):
-                    self.handleLoadError(error: error, call: call)
                 }
+            }catch{
+                self.handleLoadError(error: error, call: call)
             }
         }
     }
@@ -67,9 +73,11 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
         call.resolve()
     }
     
+    // Set if touch events are captured by html view or native map
     @objc func internalSetCaptureTouchEvents(_ call: CAPPluginCall){
-        // Check if touch events are captura by native view or map..
-        self.touchDistributorView?.setIsGesturesAllowed(isGestureAllowed: call.getBool("captureEvents", true))
+        //In this method the varibale name is captureEvents. However in LibrarySettings the same variable its named captureTouchEvents. Being overprotective here to avoid misspelling errors
+        let captureTouchEvents = call.getBool("captureEvents", true) && call.getBool("captureTouchEvents", true)
+        self.touchDistributorView?.setIsMapTouchEventsAllowed(captureTouchEvents)
         call.resolve()
     }
     
@@ -110,6 +118,8 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
     }
     
     @objc func internalStopPositioning(_ call: CAPPluginCall){
+        self.situmWayFindingWrapper.stopPositioning()
+        call.resolve()
     }
     
     //MARK: Set callbacks to notify on events over the plugin
@@ -148,7 +158,7 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
         return view;
     }
     
-    private func enableHtmlOverMap() throws {
+    private func enableHtmlOverMap(isMapTouchEventsAllowed:Bool) throws {
         let scrollView = getViewFromHierarchy(classOfView: UIScrollView.self)
         let mapContainerView = getViewFromHierarchy(classOfView: CapMapContainerView.self)
         if let uScrollView = scrollView, let uMapContainerView = mapContainerView {
@@ -157,7 +167,7 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
             //Now webView dont let us see map. Make webView transparent
             makeWebViewTransparent()
             //Add transparent view to decide whom should be responsible of touch events
-            touchDistributorView = self.addTouchDistributorView(uMapContainerView,webScrollView: uScrollView)
+            touchDistributorView = self.addTouchDistributorView(uMapContainerView, webScrollView: uScrollView, isMapTouchEventsAllowed: isMapTouchEventsAllowed)
         } else {
             throw(CapWayfindingError.noProperViewHierarchy)
         }
@@ -176,9 +186,10 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
         return capacitorViews?.first(where: {$0 is T})
     }
     
-    private func addTouchDistributorView(_ mapContainerView:UIView, webScrollView: UIView) -> CapTouchDistributorView{
+    private func addTouchDistributorView(_ mapContainerView:UIView, webScrollView: UIView, isMapTouchEventsAllowed: Bool) -> CapTouchDistributorView{
         let touchDistributorView = CapTouchDistributorView.init(frame: webScrollView.frame)
         touchDistributorView.webScrollView = webScrollView
+        touchDistributorView.setIsMapTouchEventsAllowed(isMapTouchEventsAllowed)
         self.bridge?.viewController?.view.addSubview(touchDistributorView)
         return touchDistributorView
     }

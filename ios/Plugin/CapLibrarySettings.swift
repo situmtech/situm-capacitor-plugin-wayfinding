@@ -21,6 +21,7 @@ public class CapLibrarySettings: NSObject {
     var useDashboardTheme = true
     var userPositionIcon = ""
     var userPositionArrowIcon = ""
+    var captureTouchEvents = true
     
     public static func from(_ jsonObject: JSObject) throws -> CapLibrarySettings {
         let capacitorLibrarySettings=CapLibrarySettings()
@@ -33,6 +34,8 @@ public class CapLibrarySettings: NSObject {
         capacitorLibrarySettings.useDashboardTheme = (jsonObject["useDashboardTheme"]  as? Bool ?? false)
         capacitorLibrarySettings.userPositionIcon = jsonObject["userPositionIcon"]  as? String ?? ""
         capacitorLibrarySettings.userPositionArrowIcon = jsonObject["userPositionArrowIcon"]  as? String ?? ""
+        capacitorLibrarySettings.captureTouchEvents = jsonObject["captureTouchEvents", default: true] as! Bool
+        
         if capacitorLibrarySettings.user.isEmpty || capacitorLibrarySettings.apiKey.isEmpty {
             throw CapWayfindingError.noSitumCredentials
         }
