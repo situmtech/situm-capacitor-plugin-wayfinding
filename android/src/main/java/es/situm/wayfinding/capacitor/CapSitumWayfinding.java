@@ -18,7 +18,7 @@ import es.situm.sdk.model.cartography.Poi;
 import es.situm.sdk.utils.Handler;
 import es.situm.wayfinding.LibrarySettings;
 import es.situm.wayfinding.OnFloorChangeListener;
-import es.situm.wayfinding.OnPoiSelectedListener;
+import es.situm.wayfinding.OnPoiSelectionListener;
 import es.situm.wayfinding.SitumMapsLibrary;
 import es.situm.wayfinding.SitumMapsListener;
 import es.situm.wayfinding.actions.ActionsCallback;
@@ -104,12 +104,12 @@ public class CapSitumWayfinding {
         });
     }
 
-    public void setOnPoiSelectedListener(OnPoiSelectedListener listener) {
-        library.setOnPoiSelectedListener(listener);
+    public void setOnPoiSelectionListener(OnPoiSelectionListener listener) {
+        library.setOnPoiSelectionListener(listener);
     }
 
     public void setOnFloorSelectedListener(OnFloorChangeListener listener) {
-        library.setOnFloorSelectedListener(listener);
+        library.setOnFloorChangeListener(listener);
     }
 
     public void centerBuilding(@NonNull String buildingId, @NonNull Callback<Building> callback) {
@@ -135,7 +135,7 @@ public class CapSitumWayfinding {
         CapCommunicationManager.fetchPoi(buildingId, poiId, new CapCommunicationManager.Callback<Poi>() {
             @Override
             public void onSuccess(Poi poi) {
-                library.centerPoi(poi, new ActionsCallback() {
+                library.selectPoi(poi, new ActionsCallback() {
                     @Override
                     public void onActionConcluded() {
                         callback.onSuccess(poi);
