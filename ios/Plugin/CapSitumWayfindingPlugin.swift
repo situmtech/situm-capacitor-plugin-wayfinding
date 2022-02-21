@@ -121,7 +121,10 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
         self.situmWayFindingWrapper.stopPositioning()
         call.resolve()
     }
-    
+
+    @objc func internalStopNavigation(_ call: CAPPluginCall){
+    }
+
     //MARK: Set callbacks to notify on events over the plugin
     @objc func internalOnPoiSelected(_ call: CAPPluginCall){
         call.keepAlive = true
@@ -137,7 +140,16 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
         call.keepAlive = true
         self.onFloorChangedCall = call
     }
-    
+
+    @objc func internalOnNavigationRequested(_ call: CAPPluginCall){
+    }
+
+    @objc func internalOnNavigationError(_ call: CAPPluginCall){
+    }
+
+    @objc func internalOnNavigationFinished(_ call: CAPPluginCall){
+    }
+
     //MARK: Error handling
     private func handleLoadError(error:Error, call:CAPPluginCall){
         call.reject(error.localizedDescription)

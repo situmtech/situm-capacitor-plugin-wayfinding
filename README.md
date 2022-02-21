@@ -233,11 +233,15 @@ To solve this inconvenience you can call `load(HTMLElement element, ...)` as man
 * [`onPoiSelected(...)`](#onPoiSelected)
 * [`onPoiDeselected(...)`](#onPoiDeselected)
 * [`onFloorChange(...)`](#onFloorChange)
+* [`onNavigationRequested(...)`](#onNavigationRequested)
+* [`onNavigationFinished(...)`](#internalOnNavigationFinished)
+* [`onNavigationError(...)`](#internalOnNavigationError)
 * [`setCaptureTouchEvents(...)`](#setCaptureTouchEvents)
 * [`selectBuilding(...)`](#selectBuilding)
 * [`selectPoi(...)`](#selectPoi)
 * [`navigateToPoi(...)`](#navigateToPoi)
 * [`navigateToLocation(...)`](#navigateToLocation)
+* [`stopNavigation(...)`](#stopNavigation)
 * [`stopPositioning()`](#stopPositioning)
 * [Interfaces](#interfaces)
 
@@ -319,6 +323,61 @@ SitumWayfinding.onFloorChange((result: OnFloorChangeResult) => {
 --------------------
 
 
+### onNavigationRequested
+
+Get notified when the navigation to a `Poi` or `Location` is requested.
+
+```typescript
+onNavigationRequested(callback: (data: OnNavigationResult) => void)
+
+// Example:
+SitumWayfinding.onNavigationRequested((result: OnNavigationResult) => {
+  console.log(`Navigation requested to ${result.navigation.destination}.`);
+});
+```
+
+**Returns:** `void`
+
+--------------------
+
+
+### onNavigationFinished
+
+Get notified when the navigation to a `Poi` or `Location` finishes. Query `NavigationResult.Navigation.status`
+to check if the route was canceled or the user reached the destination.
+
+```typescript
+onNavigationFinished(callback: (data: OnNavigationResult) => void)
+
+// Example:
+SitumWayfinding.onNavigationFinished((result: OnNavigationResult) => {
+  console.log(`Navigation to ${result.navigation.destination} finished with status ${result.navigation.status}.`);
+});
+```
+
+**Returns:** `void`
+
+--------------------
+
+
+### onNavigationError
+
+Get notified when the floor displayed in the map is changed.
+
+```typescript
+onNavigationError(callback: (data: OnNavigationResult) => void)
+
+// Example:
+SitumWayfinding.onNavigationError((result: OnNavigationResult) => {
+  console.log(`Navigation to ${result.navigation.destination} failed with error ${result.error}`);
+});
+```
+
+**Returns:** `void`
+
+--------------------
+
+
 ### setCaptureTouchEvents
 
 Use this method to disable the capture of touch events. This is useful to enable events on HTML elements defined outside the map div.
@@ -376,7 +435,20 @@ navigateToPoi(poi: Poi)
 Use this method to request navigation to a given location, in a given floor.
 
 ```typescript
-navigateToLocation(location: BuildingLocation)
+navigateToLocation(location: Point)
+```
+
+**Returns:** `Promise<void>`
+
+--------------------
+
+
+### stopNavigation
+
+Use this method to stop navigation (if it was started).
+
+```typescript
+stopNavigation()
 ```
 
 **Returns:** `Promise<void>`
@@ -470,6 +542,14 @@ stopPositioning()
 | **`toFloorName`**   | `String` |
 
 
+#### OnNavigationResult
+
+| Prop                | Type     |
+| ------------------- | -------- |
+| **`navigation`**    | `Navigation` |
+| **`error?`**        | `Error` |
+
+
 #### Building
 
 | Prop                | Type     |
@@ -477,7 +557,7 @@ stopPositioning()
 | **`id`**            | `String` |
 
 
-#### BuildingLocation
+#### Point
 
 | Prop                | Type     |
 | ------------------- | -------- |
@@ -493,6 +573,32 @@ stopPositioning()
 | ------------------- | -------- |
 | **`id`**            | `String` |
 | **`buildingId`**    | `String` |
+
+
+#### Navigation
+
+| Prop                | Type     |
+| ------------------- | -------- |
+| **`status`**        | `String` |
+| **`destination`**   | `Destination` |
+
+
+#### Destination
+
+| Prop                | Type     |
+| ------------------- | -------- |
+| **`category`**      | `String` |
+| **`identifier?`**   | `String` |
+| **`name?`**         | `String` |
+| **`point`**         | `Point` |
+
+
+#### Error
+
+| Prop                | Type     |
+| ------------------- | -------- |
+| **`code`**          | `String` |
+| **`message`**       | `String` |
 
 
 #### CaptureTouchEvents
