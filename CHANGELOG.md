@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2022-02-21
+
+# Added
+
+* Added iOS implementation of method `stopPositioning` that can be used to stop positioning. This method also stops navigation if it was started.
+* Added a new parameter `useRemoteConfig` in `LibrarySettings` to enable the [Remote Configuration](https://situm.com/docs/07-remote-configuration/) when positioning. This parameter only works in Android right now.
+* New method `stopNavigation` to stop navigation if it was started. Working only in Android.
+* New methods for watching the navigation process (also working in Android right now):
+  * `onNavigationRequested` to get notified when the navigation was requested.
+  * `onNavigationError` to get notified in the case that an error was produced during navigation.
+  * `onNavigationFinished` to get notified when the navigation finishes.
+
+### Changed
+* Renamed `BuildingLocation` exported interface to `Point`.
+* Changed `captureTouchEvents` behaviour in iOS to be equal to Android behaviour as described in Version 0.0.9. 
+
 ## [0.1.0] - 2022-02-08
 
 ### Added

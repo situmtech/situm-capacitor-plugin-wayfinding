@@ -16,4 +16,8 @@ CAP_PLUGIN(CapSitumWayfindingPlugin, "SitumWayfinding",
            CAP_PLUGIN_METHOD(internalNavigateToPoi, CAPPluginReturnNone);
            CAP_PLUGIN_METHOD(internalNavigateToLocation, CAPPluginReturnNone);
            CAP_PLUGIN_METHOD(internalStopPositioning, CAPPluginReturnNone);
+           CAP_PLUGIN_METHOD(internalStopNavigation, CAPPluginReturnNone);
+           CAP_PLUGIN_METHOD(internalOnNavigationRequested, CAPPluginReturnCallback);
+           CAP_PLUGIN_METHOD(internalOnNavigationError, CAPPluginReturnCallback);
+           CAP_PLUGIN_METHOD(internalOnNavigationFinished, CAPPluginReturnCallback);
 )

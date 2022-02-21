@@ -15,12 +15,11 @@ class CapSitumWayfinding: NSObject, OnPoiSelectionListener, OnFloorChangeListene
 
     var delegate: WayfindingNativeToCapProtocol?
     
-    func load(containerView:UIView?, googleMapView:GMSMapView, librarySettings:JSObject, completion: @escaping (Result<SitumMap, Error>) -> Void){
+    func load(containerView:UIView?, librarySettings:LibrarySettings, completion: @escaping (Result<SitumMap, Error>) -> Void){
+        self.library = SitumMapsLibrary.init(containedBy: containerView!, controlledBy: containerView!.parentViewController!, withSettings: librarySettings)
+        self.library?.setOnFloorChangeListener(listener: self)
+        self.library?.setOnPoiSelectionListener(listener: self)
         do{
-            let librarySettings = try CapLibrarySettings.from(librarySettings).toWyfLibraySettings(googleMap: googleMapView)
-            self.library = SitumMapsLibrary.init(containedBy: containerView!, controlledBy: containerView!.parentViewController!, withSettings: librarySettings)
-            self.library?.setOnFloorChangeListener(listener: self)
-            self.library?.setOnPoiSelectionListener(listener: self)
             // We notify the Capacitor module is ready using the resolve of CapSitumWayfindingPlugin load()
             // The native delegation is handled by CapMapReadyListener and propagated to CapSitumWayfindingPlugin using the completion passed as function parameter
             self.library?.setOnMapReadyListener(listener: CapMapReadyListener(withCompletion: completion))
@@ -38,6 +37,7 @@ class CapSitumWayfinding: NSObject, OnPoiSelectionListener, OnFloorChangeListene
         CapCommunicatonManager.fetchPoi(buildingId: buildingId, poiId: poiId) { result in
             switch result {
             case .success(let poi):
+                //SITCommunication completions return in the main thread thats why we dont need to go to main thread
                 ulibrary.selectPoi(poi: poi, completion: completion)
             case .failure(let error):
                 completion(.failure(error))
@@ -54,6 +54,7 @@ class CapSitumWayfinding: NSObject, OnPoiSelectionListener, OnFloorChangeListene
         CapCommunicatonManager.fetchPoi(buildingId: buildingId, poiId: poiId) { result in
             switch result {
             case .success(let poi):
+                //SITCommunication completions return in the main thread thats why we dont need to go to main thread
                 ulibrary.navigateToPoi(poi: poi)
             case .failure(let error):
                 completion(.failure(error))
@@ -61,6 +62,13 @@ class CapSitumWayfinding: NSObject, OnPoiSelectionListener, OnFloorChangeListene
         }
     }
     
+    func stopPositioning(){
+        if let ulibrary = library{
+            DispatchQueue.main.sync{
+                ulibrary.stopPositioning()
+            }
+        }
+    }
     
     func stop(){
         if let ulibrary = library{
