@@ -57,7 +57,7 @@ dependencies {
     implementation project(':capacitor-community-capacitor-googlemaps-native')
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
 
-    implementation ('es.situm:situm-wayfinding:0.10.0-alpha@aar') {
+    implementation ('es.situm:situm-wayfinding:0.11.0-alpha@aar') {
         transitive = true
     }
 }
