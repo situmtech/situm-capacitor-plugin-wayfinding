@@ -2,6 +2,10 @@
 
 Situm Wayfinding Plugin for Capacitor has been designed to create indoor location applications in the simplest way. It has been built in the top of the Situm SDK.
 
+## Submitting Contributions
+
+You will need to sign a Contributor License Agreement (CLA) before making a submission. [Learn more here.](https://situm.com/contributions/)
+
 ## Configuration
 
 First of all, you must configure your Capacitor project. This has been already done for you in [the sample application](https://github.com/situmtech/situm-capacitor-plugin-wayfinding-getting-started), but nonetheless you can read the official [Capacitor documentation](https://capacitorjs.com/docs/getting-started).
