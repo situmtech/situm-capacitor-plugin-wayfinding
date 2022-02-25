@@ -9,7 +9,7 @@ import Foundation
 import SitumSDK
 
 struct CapCommunicatonManager{
-    //TODO: Do this part in wyf native and offer methods with ids instead of dowloading them here
+    //TODO: Analize to place this part in wyf native and offer methods with ids instead of dowloading them here
     static func fetchPoi(buildingId:String, poiId:String, completion:@escaping (Result<SITPOI, Error>) -> Void){
         SITCommunicationManager.shared().fetchPois(ofBuilding: buildingId, withOptions: nil){ result in
             let pois = result?["results"] as? [SITPOI] ?? []

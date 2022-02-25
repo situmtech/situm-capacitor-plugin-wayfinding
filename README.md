@@ -581,17 +581,18 @@ stopPositioning()
 
 #### Navigation
 
-| Prop                | Type     |
-| ------------------- | -------- |
-| **`status`**        | `String` |
+| Prop                | Type     |  Values |
+| ------------------- | -------- | ------- |
+| **`status`**        | `String` | `REQUESTED`, `ERROR`, `DESTINATION_REACHED`, `CANCELED` |  
 | **`destination`**   | `Destination` |
+
 
 
 #### Destination
 
-| Prop                | Type     |
-| ------------------- | -------- |
-| **`category`**      | `String` |
+| Prop                | Type     | Values |
+| ------------------- | -------- |--------|
+| **`category`**      | `String` | `POI`, `LOCATION`| 
 | **`identifier?`**   | `String` |
 | **`name?`**         | `String` |
 | **`point`**         | `Point` |

@@ -78,7 +78,6 @@ class CapSitumWayfinding: NSObject, OnPoiSelectionListener, OnFloorChangeListene
                 ulibrary.navigateToLocation(floor: floor, lat: latitude, lng: longitude)
             case .failure(let error):
                 completion(.failure(error))
-                
             }
         }
     }
