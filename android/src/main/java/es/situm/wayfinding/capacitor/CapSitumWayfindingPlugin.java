@@ -258,7 +258,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
     public void internalOnFloorChange(PluginCall call) {
         call.setKeepAlive(true);
         final String callbackId = call.getCallbackId();
-        implementation.setOnFloorSelectedListener((from, to, building) -> {
+        implementation.setOnFloorChangeListener((from, to, building) -> {
             JSObject result = new JSObject();
             result.put("key", "onFloorChanged");
             result.put("buildingId", building.getIdentifier());

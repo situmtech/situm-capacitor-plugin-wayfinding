@@ -108,7 +108,7 @@ public class CapSitumWayfinding {
         library.setOnPoiSelectionListener(listener);
     }
 
-    public void setOnFloorSelectedListener(OnFloorChangeListener listener) {
+    public void setOnFloorChangeListener(OnFloorChangeListener listener) {
         library.setOnFloorChangeListener(listener);
     }
 
