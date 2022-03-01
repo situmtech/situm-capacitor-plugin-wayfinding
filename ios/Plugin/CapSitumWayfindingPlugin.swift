@@ -16,9 +16,14 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
     private var screenInfo: CapScreenInfo?
     private var touchDistributorView:CapTouchDistributorView?
     
+    
+    //Capacitor callbacks
     private var onPoiSelectedCall: CAPPluginCall?
     private var onPoiDeselectedCall: CAPPluginCall?
     private var onFloorChangedCall: CAPPluginCall?
+    private var onNavigationRequestedCallback: CAPPluginCall?
+    private var onNavigationErrorCallback: CAPPluginCall?
+    private var onNavigationFinishedCallback: CAPPluginCall?
     
     //MARK: Public methods implementation
     
@@ -100,10 +105,16 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
     }
     
     @objc func internalNavigateToPoi(_ call: CAPPluginCall){
+        let buildingId = call.getString("buildingId")
+        let poiID = call.getString("id")
+        
+        guard let uBuildingId = buildingId, let uPoiID = poiID else{
+            call.reject("All required parameters must be set: buildingId, poiID")
+            return
+        }
+        
         self.bridge?.saveCall(call)
-        let buildingId = call.getString("buildingId","")
-        let poiID = call.getString("id","")
-        self.situmWayFindingWrapper.navigateToPoi(buildingId: buildingId, poiId: poiID) { result in
+        self.situmWayFindingWrapper.navigateToPoi(buildingId: uBuildingId, poiId: uPoiID) { result in
             switch result {
             case .success:
                 call.resolve()
@@ -115,6 +126,26 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
     }
     
     @objc func internalNavigateToLocation(_ call: CAPPluginCall){
+        let buildingId = call.getString("buildingId")
+        let floorId = call.getString("floorId")
+        let latitude = call.getDouble("latitude")
+        let longitude = call.getDouble("longitude")
+        
+        guard let uBuildingId = buildingId, let uFloorId = floorId, let uLatitude = latitude, let uLongitude = longitude else{
+            call.reject("All required parameters must be set: buildingId, floorId, latitude, longitude")
+            return
+        }
+        
+        self.bridge?.saveCall(call)
+        self.situmWayFindingWrapper.navigateToLocation(buildingId: uBuildingId, floorId: uFloorId, latitude: uLatitude, longitude: uLongitude) { result in
+            switch result {
+            case .success:
+                call.resolve()
+            case .failure(let error):
+                call.reject(error.localizedDescription)
+            }
+            self.bridge?.releaseCall(call)
+        }
     }
     
     @objc func internalStopPositioning(_ call: CAPPluginCall){
@@ -123,6 +154,8 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
     }
 
     @objc func internalStopNavigation(_ call: CAPPluginCall){
+        self.situmWayFindingWrapper.stopNavigation()
+        call.resolve()
     }
 
     //MARK: Set callbacks to notify on events over the plugin
@@ -142,12 +175,18 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
     }
 
     @objc func internalOnNavigationRequested(_ call: CAPPluginCall){
+        call.keepAlive = true
+        self.onNavigationRequestedCallback = call
     }
 
     @objc func internalOnNavigationError(_ call: CAPPluginCall){
+        call.keepAlive = true
+        self.onNavigationErrorCallback = call
     }
 
     @objc func internalOnNavigationFinished(_ call: CAPPluginCall){
+        call.keepAlive = true
+        self.onNavigationFinishedCallback = call
     }
 
     //MARK: Error handling
@@ -207,7 +246,7 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
     }
 
     // MARK: CapSitumWayfindingNativeToCap methods
-    public func onPoiSelected(poi: SITPOI, level: SITFloor, building: SITBuilding) {
+    internal func onPoiSelected(poi: SITPOI, level: SITFloor, building: SITBuilding) {
         if let call = self.onPoiSelectedCall {
             let result: Dictionary = [
                 "buildingId" : building.identifier,
@@ -221,7 +260,7 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
         }
     }
     
-    public func onPoiDeselected(building: SITBuilding) {
+    internal func onPoiDeselected(building: SITBuilding) {
         if let call = self.onPoiDeselectedCall {
             let result: Dictionary = [
                 "buildingId" : building.identifier,
@@ -231,7 +270,7 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
         }
     }
     
-    public func onFloorChanged(from: SITFloor, to: SITFloor, building: SITBuilding) {
+    internal func onFloorChanged(from: SITFloor, to: SITFloor, building: SITBuilding) {
         if let call = self.onFloorChangedCall {
             let result: Dictionary = [
                 "buildingId" : building.identifier,
@@ -243,6 +282,25 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
             ]
             call.resolve(result)
         }
+    }
+    
+    internal func onNavigationRequested(navigationResult:Dictionary<String, Any>){
+        if let call = self.onNavigationRequestedCallback {
+            call.resolve(navigationResult)
+        }
+    }
+    
+    internal func onNavigationError(navigationResult:Dictionary<String, Any>){
+        if let call = self.onNavigationErrorCallback {
+            call.resolve(navigationResult)
+        }
+    }
+    
+    internal func onNavigationFinished(navigationResult:Dictionary<String, Any>){
+        if let call = self.onNavigationFinishedCallback {
+            call.resolve(navigationResult)
+        }
+        
     }
 }
 

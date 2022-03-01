@@ -11,8 +11,9 @@ enum CapWayfindingError: Error {
     case noSitumCredentials
     case noGoogleMapsApiKey
     case noProperViewHierarchy
-    case unknownPoiDownloadError
+    case unknownDownloadError
     case noPoiInBuilding(buildingId:String, poiId:String)
+    case noFloorInBuilding(buildingId:String, floorId:String)
     case unknownError
 }
 
@@ -25,10 +26,12 @@ extension CapWayfindingError: LocalizedError {
             return "GoogleMaps apikey is missing"
         case .noProperViewHierarchy:
             return "Unexpected error loading WYF module"
-        case .unknownPoiDownloadError:
-            return "Unexpected error obtaining Poi info"
+        case .unknownDownloadError:
+            return "Unexpected error obtaining dashboard info"
         case .noPoiInBuilding(let buildingId,let poiId):
             return "The poi with id \(poiId) was not found in building with id \(buildingId) "
+        case .noFloorInBuilding(let buildingId,let floorId):
+            return "The floor with id \(floorId) was not found in building with id \(buildingId) "
         case .unknownError:
             return "Unknown error"
         }

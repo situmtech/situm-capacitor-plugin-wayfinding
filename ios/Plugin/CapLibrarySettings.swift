@@ -22,6 +22,7 @@ public class CapLibrarySettings: NSObject {
     var userPositionIcon = ""
     var userPositionArrowIcon = ""
     var captureTouchEvents = true
+    var useRemoteConfig = false
     
     public static func from(_ jsonObject: JSObject) throws -> CapLibrarySettings {
         let capacitorLibrarySettings=CapLibrarySettings()
@@ -35,6 +36,7 @@ public class CapLibrarySettings: NSObject {
         capacitorLibrarySettings.userPositionIcon = jsonObject["userPositionIcon"]  as? String ?? ""
         capacitorLibrarySettings.userPositionArrowIcon = jsonObject["userPositionArrowIcon"]  as? String ?? ""
         capacitorLibrarySettings.captureTouchEvents = jsonObject["captureTouchEvents", default: true] as! Bool
+        capacitorLibrarySettings.useRemoteConfig = jsonObject["useRemoteConfig", default: false] as! Bool
         
         if capacitorLibrarySettings.user.isEmpty || capacitorLibrarySettings.apiKey.isEmpty {
             throw CapWayfindingError.noSitumCredentials
@@ -55,6 +57,7 @@ public class CapLibrarySettings: NSObject {
             .setSearchViewPlaceholder(searchViewPlaceholder: searchViewPlaceholder)
             .setUserPositionIcon(userPositionIcon: userPositionIcon)
             .setUserPositionArrowIcon(userPositionArrowIcon: userPositionArrowIcon)
+            .setUseRemoteConfig(useRemoteConfig: useRemoteConfig)
             .build()
         return librarySettings
     }
