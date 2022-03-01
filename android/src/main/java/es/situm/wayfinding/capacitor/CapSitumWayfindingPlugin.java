@@ -23,11 +23,10 @@ import org.json.JSONException;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-import es.situm.sdk.error.Error;
 import es.situm.sdk.model.cartography.Building;
 import es.situm.sdk.model.cartography.Floor;
 import es.situm.sdk.model.cartography.Poi;
-import es.situm.wayfinding.OnPoiSelectedListener;
+import es.situm.wayfinding.OnPoiSelectionListener;
 import es.situm.wayfinding.navigation.Navigation;
 import es.situm.wayfinding.navigation.NavigationError;
 import es.situm.wayfinding.navigation.OnNavigationListener;
@@ -45,9 +44,9 @@ public class CapSitumWayfindingPlugin extends Plugin {
     private String onPoiDeselectedCallbackId = null;
 
     // WYF Android uses a single listener for both onPoiSelected and onPoiDeselected:
-    private final OnPoiSelectedListener onPoiSelectedListener = new OnPoiSelectedListener() {
+    private final OnPoiSelectionListener onPoiSelectionListener = new OnPoiSelectionListener() {
         @Override
-        public void onPOISelected(Poi poi, Floor floor, Building building) {
+        public void onPoiSelected(Poi poi, Floor floor, Building building) {
             if (onPoiSelectedCallbackId != null) {
                 JSObject result = new JSObject();
                 result.put("buildingId", building.getIdentifier());
@@ -127,7 +126,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
                     return;
                 }
                 libraryTargetView = activity.findViewById(es.situm.maps.library.R.id.situm_maps_library_target);
-                implementation.setOnPoiSelectedListener(onPoiSelectedListener);
+                implementation.setOnPoiSelectionListener(onPoiSelectionListener);
                 implementation.setOnNavigationListener(onNavigationListener);
                 setupTouchEventsDispatching();
                 JSObject response = new JSObject();
@@ -259,7 +258,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
     public void internalOnFloorChange(PluginCall call) {
         call.setKeepAlive(true);
         final String callbackId = call.getCallbackId();
-        implementation.setOnFloorSelectedListener((from, to, building) -> {
+        implementation.setOnFloorChangeListener((from, to, building) -> {
             JSObject result = new JSObject();
             result.put("key", "onFloorChanged");
             result.put("buildingId", building.getIdentifier());

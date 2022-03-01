@@ -11,3 +11,4 @@
   * [onNavigationError](https://github.com/situmtech/situm-capacitor-plugin-wayfinding#internalOnNavigationError) to get notified in the case that an error was produced during navigation.
   * [onNavigationFinished](https://github.com/situmtech/situm-capacitor-plugin-wayfinding#internalOnNavigationFinished) to get notified when the navigation finishes.
 * iOS implmentation of method [navigateToLocation(...)](https://github.com/situmtech/situm-capacitor-plugin-wayfinding#navigateToLocation) to request navigation to a location.
+
