@@ -4,9 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.1] - 2022-03-04
+
+### Removed
+* Removed popups containing information about events and geofences during positioning in Android.
+
 ## [0.3.0] - 2022-03-01
 
-# Added
+### Added
 
 * iOS implentation of parameter `useRemoteConfig` in `LibrarySettings` to enable the [Remote Configuration](https://situm.com/docs/07-remote-configuration/) of location request. 
 * iOS implementation of method [stopNavigation](https://github.com/situmtech/situm-capacitor-plugin-wayfinding#stopNavigation) to stop navigation if it was already started.
@@ -23,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.0] - 2022-02-21
 
-# Added
+### Added
 
 * Added iOS implementation of method `stopPositioning` that can be used to stop positioning. This method also stops navigation if it was started.
 * Added a new parameter `useRemoteConfig` in `LibrarySettings` to enable the [Remote Configuration](https://situm.com/docs/07-remote-configuration/) when positioning. This parameter only works in Android right now.
@@ -46,12 +51,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.9] - 2022-01-28
 
-# Added
+### Added
+
 * Added in Android a new method `stopPositioning` that can be used to stop positioning. This method also stops navigation if it was started.
 * Added iOS functionality for onPoiSelected, onPoiDeselected and onFloorChange methods for listening POIs and floors events.
 * Added iOS functionality to setCaptureTouchEvents method to disable/enable the capture of UI events inside the map box.
 
-# Changed
+### Changed
+
 * Updated iOS WYF native dependency to version to 0.1.19
 * Now the method `SitumWayfinding.load(HTMLElement element, ...)` can be called repeatedly.
     * In the first call the native module will be loaded.
