@@ -501,6 +501,7 @@ stopPositioning()
 | **`userPositionArrowIcon?`** | `String` | |
 | **`captureTouchEvents?`** | `Boolean` | true |
 | **`useRemoteConfig?`** | `Boolean` | false |
+| **`showPoiNames?`** | `Boolean` | false |
 
 
 #### ScreenInfo
