@@ -12,3 +12,15 @@
         "situm-capacitor-googlemaps-native": "0.0.1",
         ...
   ```
+  To do so, first uninstall the obsolete dependency:
+  ```
+  $ npm uninstall @capacitor-community/capacitor-googlemaps-native
+  ```
+  Install the new dependency:
+  ```
+  $ npm install situm-capacitor-googlemaps-native
+  ```
+  And finally synchronize your capacitor project:
+  ```
+  $ npx cap sync
+  ```
