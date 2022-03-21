@@ -95,10 +95,10 @@ const librarySettings = {
 
 ### Dependencies:
 
-At this moment this module uses [Capacitor Google Maps](https://github.com/situmtech/capacitor-google-maps). Add this dependency to your `package.json` to let Capacitor add the corresponding native project modules:
+At this moment this module uses [Capacitor Google Maps](https://github.com/situmtech/capacitor-google-maps). Add this dependency to your `package.json` to let Capacitor add the corresponding native project modules (a fork of the original repository):
 ```json
 "dependencies": {
-    "@capacitor-community/capacitor-googlemaps-native": "git+https://github.com/situmtech/capacitor-google-maps.git#situm-alpha.0"
+    "situm-capacitor-googlemaps-native": "0.0.1"
 ```
 
 #### Android

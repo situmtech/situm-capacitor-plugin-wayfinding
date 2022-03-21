@@ -53,7 +53,7 @@
     "@capacitor/core": "^3.0.0"
   },
   "dependencies": {
-    "@capacitor-community/capacitor-googlemaps-native": "git+https://github.com/situmtech/capacitor-google-maps.git#situm-alpha.0"
+    "situm-capacitor-googlemaps-native": "0.0.1"
   },
   "capacitor": {
     "ios": {
