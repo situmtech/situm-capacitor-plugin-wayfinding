@@ -9,7 +9,7 @@
   To:
   ```json
     "dependencies": {
-        "situm-capacitor-googlemaps-native": "0.0.1",
+        "situm-capacitor-googlemaps-native": "latest",
         ...
   ```
   To do so, first uninstall the obsolete dependency:
