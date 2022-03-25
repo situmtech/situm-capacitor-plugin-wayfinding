@@ -25,7 +25,7 @@
      ```
   3. Update the plugin:
      ```
-     $ npm update situm-capacitor-plugin-wayfinding
+     $ npm install situm-capacitor-plugin-wayfinding@latest
      ```
   4. Finally synchronize and run your capacitor project:
      ```
