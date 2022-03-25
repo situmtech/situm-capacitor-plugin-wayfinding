@@ -12,15 +12,22 @@
         "situm-capacitor-googlemaps-native": "0.0.3",
         ...
   ```
-  To do so, first uninstall the obsolete dependency:
-  ```
-  $ npm uninstall @capacitor-community/capacitor-googlemaps-native
-  ```
-  Install the new dependency:
-  ```
-  $ npm install situm-capacitor-googlemaps-native
-  ```
-  And finally synchronize your capacitor project:
-  ```
-  $ npx cap sync
-  ```
+
+  __To update to this version follow the steps described below__:
+
+  1. First uninstall the obsolete dependency:
+     ```
+     $ npm uninstall @capacitor-community/capacitor-googlemaps-native
+     ```
+  2. Install the new dependency:
+     ```
+     $ npm install situm-capacitor-googlemaps-native
+     ```
+  3. Update the plugin:
+     ```
+     $ npm update situm-capacitor-plugin-wayfinding
+     ```
+  4. Finally synchronize and run your capacitor project:
+     ```
+     $ npx cap run
+     ```
