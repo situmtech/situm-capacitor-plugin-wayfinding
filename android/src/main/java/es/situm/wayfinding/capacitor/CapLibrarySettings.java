@@ -20,6 +20,7 @@ public class CapLibrarySettings {
     String userPositionArrowIcon;
     Boolean captureTouchEvents;
     Boolean useRemoteConfig;
+    Boolean showPoiNames;
 
     AppCompatActivity activity;
 
@@ -42,6 +43,7 @@ public class CapLibrarySettings {
         s.userPositionArrowIcon = o.getString("userPositionArrowIcon", null);
         s.captureTouchEvents = o.getBoolean("captureTouchEvents", true);
         s.useRemoteConfig = o.getBoolean("useRemoteConfig", false);
+        s.showPoiNames = o.getBoolean("showPoiNames", false);
         return s;
     }
 
@@ -55,6 +57,7 @@ public class CapLibrarySettings {
         s.setUserPositionIcon(userPositionIcon);
         s.setUserPositionArrowIcon(userPositionArrowIcon);
         s.setUseRemoteConfig(useRemoteConfig);
+        s.setShowPoiNames(showPoiNames);
         return s;
     }
 
