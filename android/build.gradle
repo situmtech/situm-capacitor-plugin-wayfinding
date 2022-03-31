@@ -54,10 +54,10 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
-    implementation project(':capacitor-community-capacitor-googlemaps-native')
+    implementation project(':situm-capacitor-googlemaps-native')
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
 
-    implementation ('es.situm:situm-wayfinding:0.15.0-alpha@aar') {
+    implementation ('es.situm:situm-wayfinding:0.15.1-alpha@aar') {
         transitive = true
     }
 }

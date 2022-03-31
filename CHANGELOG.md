@@ -4,6 +4,45 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2022-03-31
+
+### Changed
+
+* The plugin dependency `@capacitor-community/capacitor-googlemaps-native` has been changed to `situm-capacitor-googlemaps-native`.
+  :warning: You must update the dependency in your project from:
+  ```json
+    "dependencies": {
+        "@capacitor-community/capacitor-googlemaps-native": "git+https://github.com/situmtech/capacitor-google-maps.git#situm-alpha.0",
+        ...
+  ```
+  To:
+  ```json
+    "dependencies": {
+        "situm-capacitor-googlemaps-native": "0.0.3",
+        ...
+  ```
+
+  __To update to this version follow the steps described below__:
+
+  1. First uninstall the obsolete dependency:
+     ```
+     $ npm uninstall @capacitor-community/capacitor-googlemaps-native
+     ```
+  2. Install the new dependency:
+     ```
+     $ npm install situm-capacitor-googlemaps-native
+     ```
+  3. Update the plugin:
+     ```
+     $ npm install situm-capacitor-plugin-wayfinding@latest
+     ```
+  4. Finally synchronize and run your capacitor project:
+     ```
+     $ npx cap run
+     ```
+* Updated iOS WYF native dependency to version to 0.4.0.
+* Updated native Wayfinding Android to version 0.15.1.
+
 ## [0.5.0] - 2022-03-25
 
 ### Added

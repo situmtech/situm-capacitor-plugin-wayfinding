@@ -1,5 +1,5 @@
 import { registerPlugin } from '@capacitor/core';
-import { CapacitorGoogleMaps } from '@capacitor-community/capacitor-googlemaps-native';
+import { CapacitorGoogleMaps } from 'situm-capacitor-googlemaps-native';
 
 import type { 
   SitumWayfindingPlugin,
