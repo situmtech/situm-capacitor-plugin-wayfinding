@@ -1,4 +1,5 @@
 ### Changed
+* Updated iOS WYF native dependency to version to 0.4.0
 * The plugin dependency `@capacitor-community/capacitor-googlemaps-native` has been changed to `situm-capacitor-googlemaps-native`.
   :warning: You must update the dependency in your project from:
   ```json
