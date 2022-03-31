@@ -31,3 +31,4 @@
      ```
      $ npx cap run
      ```
+* Updated native Wayfinding Android to version 0.15.1.
