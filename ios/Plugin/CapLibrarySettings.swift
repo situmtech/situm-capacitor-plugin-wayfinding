@@ -25,7 +25,6 @@ public class CapLibrarySettings: NSObject {
     var useRemoteConfig = false
     var showPoiNames = false
     var showSearchBar = true
-    var showBackButton = false
     
     public static func from(_ jsonObject: JSObject) throws -> CapLibrarySettings {
         let capacitorLibrarySettings=CapLibrarySettings()
@@ -41,7 +40,7 @@ public class CapLibrarySettings: NSObject {
         capacitorLibrarySettings.captureTouchEvents = jsonObject["captureTouchEvents", default: true] as! Bool
         capacitorLibrarySettings.useRemoteConfig = jsonObject["useRemoteConfig", default: false] as! Bool
         capacitorLibrarySettings.showPoiNames = jsonObject["showPoiNames", default: false] as! Bool
-        capacitorLibrarySettings.showBackButton = false
+        capacitorLibrarySettings.showBackButton = false // In capacitor it does not make sense to show the button backwards so it is disabled
         capacitorLibrarySettings.showSearchBar = jsonObject["hasSearchView", default: true] as! Bool
         
         if capacitorLibrarySettings.user.isEmpty || capacitorLibrarySettings.apiKey.isEmpty {
