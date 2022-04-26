@@ -40,7 +40,6 @@ public class CapLibrarySettings: NSObject {
         capacitorLibrarySettings.captureTouchEvents = jsonObject["captureTouchEvents", default: true] as! Bool
         capacitorLibrarySettings.useRemoteConfig = jsonObject["useRemoteConfig", default: false] as! Bool
         capacitorLibrarySettings.showPoiNames = jsonObject["showPoiNames", default: false] as! Bool
-        capacitorLibrarySettings.showBackButton = false // In capacitor it does not make sense to show the back button in the navigation bar so it is disabled
         capacitorLibrarySettings.showSearchBar = jsonObject["hasSearchView", default: true] as! Bool
         
         if capacitorLibrarySettings.user.isEmpty || capacitorLibrarySettings.apiKey.isEmpty {
@@ -64,7 +63,7 @@ public class CapLibrarySettings: NSObject {
             .setUserPositionArrowIcon(userPositionArrowIcon: userPositionArrowIcon)
             .setUseRemoteConfig(useRemoteConfig: useRemoteConfig)
             .setShowPoiNames(showPoiNames: showPoiNames)
-            .setShowBackButton(showBackButton: showBackButton)
+            .setShowBackButton(showBackButton: false) // In capacitor it does not make sense to show the back button in the navigation bar so it is disabled
             .setShowSearchBar(showSearchBar: showSearchBar)
             .build()
         return librarySettings
