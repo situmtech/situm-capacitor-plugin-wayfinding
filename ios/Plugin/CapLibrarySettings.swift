@@ -16,7 +16,7 @@ public class CapLibrarySettings: NSObject {
     var apiKey:String = ""
     var googleMapsApiKey:String = ""
     var buildingId:String = ""
-    //var hasSearchView = true
+    var hasSearchView = true
     var searchViewPlaceholder = ""
     var useDashboardTheme = true
     var userPositionIcon = ""
@@ -24,7 +24,6 @@ public class CapLibrarySettings: NSObject {
     var captureTouchEvents = true
     var useRemoteConfig = false
     var showPoiNames = false
-    var showSearchBar = true
     
     public static func from(_ jsonObject: JSObject) throws -> CapLibrarySettings {
         let capacitorLibrarySettings=CapLibrarySettings()
@@ -40,7 +39,7 @@ public class CapLibrarySettings: NSObject {
         capacitorLibrarySettings.captureTouchEvents = jsonObject["captureTouchEvents", default: true] as! Bool
         capacitorLibrarySettings.useRemoteConfig = jsonObject["useRemoteConfig", default: false] as! Bool
         capacitorLibrarySettings.showPoiNames = jsonObject["showPoiNames", default: false] as! Bool
-        capacitorLibrarySettings.showSearchBar = jsonObject["hasSearchView", default: true] as! Bool
+        capacitorLibrarySettings.hasSearchView = jsonObject["hasSearchView", default: true] as! Bool
         
         if capacitorLibrarySettings.user.isEmpty || capacitorLibrarySettings.apiKey.isEmpty {
             throw CapWayfindingError.noSitumCredentials
@@ -64,7 +63,7 @@ public class CapLibrarySettings: NSObject {
             .setUseRemoteConfig(useRemoteConfig: useRemoteConfig)
             .setShowPoiNames(showPoiNames: showPoiNames)
             .setShowBackButton(showBackButton: false) // In capacitor it does not make sense to show the back button in the navigation bar so it is disabled
-            .setShowSearchBar(showSearchBar: showSearchBar)
+            .setShowSearchBar(showSearchBar: hasSearchView)
             .build()
         return librarySettings
     }

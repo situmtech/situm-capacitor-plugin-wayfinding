@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-* Added new option `showSearchBar` to `LibrarySettings` to show or hide the search bar. If it is set to true, the search bar display, if it is set to false, the search bar hidden. By default it is set to true.
+* iOS implementation of `hasSearchView` in `LibrarySettings`. If it is set to true, the search bar will be shown , if it is set to false, the search bar will be hidden. By default it is set to true.
 
 
 ## [0.6.0] - 2022-03-31
