@@ -21,6 +21,7 @@ public class CapLibrarySettings {
     Boolean captureTouchEvents;
     Boolean useRemoteConfig;
     Boolean showPoiNames;
+    Boolean lockCameraToBuilding;
 
     AppCompatActivity activity;
 
@@ -44,6 +45,7 @@ public class CapLibrarySettings {
         s.captureTouchEvents = o.getBoolean("captureTouchEvents", true);
         s.useRemoteConfig = o.getBoolean("useRemoteConfig", false);
         s.showPoiNames = o.getBoolean("showPoiNames", false);
+        s.lockCameraToBuilding = o.getBoolean("lockCameraToBuilding", false);
         return s;
     }
 

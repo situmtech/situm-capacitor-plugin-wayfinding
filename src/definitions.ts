@@ -13,6 +13,7 @@ export interface LibrarySettings {
     captureTouchEvents?: Boolean;
     useRemoteConfig?: Boolean;
     showPoiNames?: Boolean;
+    lockCameraToBuilding?: Boolean;
 }
 export interface ScreenInfo {
     devicePixelRatio: Number;
