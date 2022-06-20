@@ -107,9 +107,7 @@ class CapSitumWayfinding: NSObject, OnPoiSelectionListener, OnFloorChangeListene
     
     func unlockCameraToBuilding() {
         if let ulibrary = library{
-            DispatchQueue.main.sync{
-                ulibrary.unlockCamera()
-            }
+            ulibrary.unlockCamera()
         }
     }
     

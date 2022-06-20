@@ -34,6 +34,7 @@ export interface WayfindingSettings {
     mapId: String;
     librarySettings: LibrarySettings;
     screenInfo: ScreenInfo;
+    buildingId: String;
 }
 export interface WayfindingResult {
 }
@@ -109,6 +110,4 @@ export interface SitumWayfindingPlugin {
     internalOnNavigationFinished(callback: (data: OnNavigationResult) => void): Promise<CallbackID>;
     internalOnNavigationError(callback: (data: OnNavigationResult) => void): Promise<CallbackID>;
     internalStopNavigation(): Promise<any>;
-    internalLockCameraToBuilding(building: Building): Promise<void>;
-    internalUnlockCameraToBuilding(): Promise<void>;
 }

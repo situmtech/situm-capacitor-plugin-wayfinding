@@ -28,7 +28,7 @@ class WayfindingTSWrapper {
   helper?: WayfindingHelper;
   moduleInitialized: Boolean = false;
 
-  async load(element: HTMLElement, librarySettings: LibrarySettings) : Promise<WayfindingResult> {
+  async load(element: HTMLElement, librarySettings: LibrarySettings, buildingId: String) : Promise<WayfindingResult> {
     element.style.background = '';
 
     if (!this.moduleInitialized) {
@@ -103,7 +103,8 @@ class WayfindingTSWrapper {
       const loadResponse = await SitumWayfindingInternal.internalLoad({
         mapId: result.googleMap.mapId,
         librarySettings: librarySettings,
-        screenInfo: screenInfo
+        screenInfo: screenInfo,
+        buildingId: buildingId
       });
       // Let the native layer know the areas of the screen where the touch events should be
       // dispatched by the webview.
@@ -176,14 +177,6 @@ class WayfindingTSWrapper {
 
   async stopNavigation(): Promise<void> {
     return await SitumWayfindingInternal.internalStopNavigation();
-  }
-
-  async lockCameraToBuilding(building: Building): Promise<void> {
-    return await SitumWayfindingInternal.internalLockCameraToBuilding(building);
-  }
-
-  async unlockCameraToBuilding(): Promise<void> {
-    return await SitumWayfindingInternal.internalUnlockCameraToBuilding();
   }
 };
 

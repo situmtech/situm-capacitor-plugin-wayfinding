@@ -33,6 +33,7 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
             let devicePixelRatio = call.getDouble("devicePixelRatio", 1.0)
             let settingsJsonObject = call.getObject("librarySettings", [:])
             let screenInfoJsonObject = call.getObject("screenInfo", [:])
+            let buildingId = call.getString("buildingId", "")
             let googleMapView:GMSMapView = self.getGMSMapView()!
             self.containerView = self.replaceMapWithContainerView(googleMapView)
             self.screenInfo = CapScreenInfo.from(pixelRatio: devicePixelRatio, screenInfo: screenInfoJsonObject)
@@ -45,6 +46,11 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
                             self.situmWayFindingWrapper.delegate = self
                             //After next instruction events will be captured by the native map if librarySettings.captureTouchEvents is true
                             try self.enableHtmlOverMap(isMapTouchEventsAllowed: librarySettings.captureTouchEvents)
+                            
+                            if (librarySettings.lockCameraToBuilding) {
+                                self.internalLockCameraToBuilding(buildingId: buildingId)
+                            }
+                            
                             call.resolve()
                             self.bridge?.releaseCall(call)
                         }catch{
@@ -84,9 +90,6 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
         let captureTouchEvents = call.getBool("captureEvents", true) && call.getBool("captureTouchEvents", true)
         self.touchDistributorView?.setIsMapTouchEventsAllowed(captureTouchEvents)
         call.resolve()
-    }
-    
-    @objc func internalSelectBuilding(_ call: CAPPluginCall){
     }
     
     @objc func internalSelectPoi(_ call: CAPPluginCall){
@@ -150,17 +153,6 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
     
     @objc func internalStopPositioning(_ call: CAPPluginCall){
         self.situmWayFindingWrapper.stopPositioning()
-        call.resolve()
-    }
-
-    @objc func internalStopNavigation(_ call: CAPPluginCall){
-        self.situmWayFindingWrapper.stopNavigation()
-        call.resolve()
-    }
-    
-    @objc func internalLockCameraToBuilding(_ call: CAPPluginCall) {
-        let buildingId = call.getString("id", "")
-        self.situmWayFindingWrapper.lockCameraToBuilding(buildingId: buildingId)
         call.resolve()
     }
     
@@ -312,6 +304,19 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
             call.resolve(navigationResult)
         }
         
+    }
+    
+    internal func internalStopNavigation(_ call: CAPPluginCall){
+        self.situmWayFindingWrapper.stopNavigation()
+        call.resolve()
+    }
+    
+    internal func internalLockCameraToBuilding(buildingId: String) {
+        self.situmWayFindingWrapper.lockCameraToBuilding(buildingId: buildingId)
+    }
+    
+    internal func internalSelectBuilding() {
+        self.situmWayFindingWrapper.unlockCameraToBuilding()
     }
 }
 
