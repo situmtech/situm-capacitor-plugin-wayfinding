@@ -103,8 +103,8 @@ export class SitumWayfindingWeb extends WebPlugin implements SitumWayfindingPlug
     throw new Error('Method not implemented.');
   }
 
-  internalLockCameraToBuilding(buildingId: String): Promise<void> {
-    console.log(`SitumWayfindingPlugin#internalLockCameraToBuilding() call with params ${buildingId}.`)
+  internalLockCameraToBuilding(building: Building): Promise<void> {
+    console.log(`SitumWayfindingPlugin#internalLockCameraToBuilding() call with params ${building.id}.`)
     throw new Error('Method not implemented.');
   }
 
