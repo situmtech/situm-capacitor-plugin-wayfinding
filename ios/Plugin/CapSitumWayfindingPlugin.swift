@@ -157,6 +157,19 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
         self.situmWayFindingWrapper.stopNavigation()
         call.resolve()
     }
+    
+    @objc func internalLockCameraToBuilding(_ call: CAPPluginCall) {
+        DispatchQueue.main.async {
+            let buildingId = call.getString("buildingId", "")
+            self.situmWayFindingWrapper.lockCameraToBuilding(buildingId: buildingId)
+            call.resolve()
+        }
+    }
+    
+    @objc func internalUnlockCameraToBuilding(_ call: CAPPluginCall) {
+        self.situmWayFindingWrapper.unlockCameraToBuilding()
+        call.resolve()
+    }
 
     //MARK: Set callbacks to notify on events over the plugin
     @objc func internalOnPoiSelected(_ call: CAPPluginCall){

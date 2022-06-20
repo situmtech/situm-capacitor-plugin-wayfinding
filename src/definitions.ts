@@ -109,4 +109,6 @@ export interface SitumWayfindingPlugin {
     internalOnNavigationFinished(callback: (data: OnNavigationResult) => void): Promise<CallbackID>;
     internalOnNavigationError(callback: (data: OnNavigationResult) => void): Promise<CallbackID>;
     internalStopNavigation(): Promise<any>;
+    internalLockCameraToBuilding(buildingId: String): Promise<void>;
+    internalUnlockCameraToBuilding(): Promise<void>;
 }

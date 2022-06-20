@@ -178,6 +178,13 @@ class WayfindingTSWrapper {
     return await SitumWayfindingInternal.internalStopNavigation();
   }
 
+  async lockCameraToBuilding(buildingId: String): Promise<void> {
+    return await SitumWayfindingInternal.internalLockCameraToBuilding(buildingId);
+  }
+
+  async unlockCameraToBuilding(): Promise<void> {
+    return await SitumWayfindingInternal.internalUnlockCameraToBuilding();
+  }
 };
 
 class WayfindingHelper {

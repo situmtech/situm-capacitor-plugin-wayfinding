@@ -99,6 +99,22 @@ class CapSitumWayfinding: NSObject, OnPoiSelectionListener, OnFloorChangeListene
         }
     }
     
+    func lockCameraToBuilding(buildingId: String) {
+        if let ulibrary = library{
+            DispatchQueue.main.sync{
+                ulibrary.lockCameraToBuilding(buildingId: buildingId) { _ in }
+            }
+        }
+    }
+    
+    func unlockCameraToBuilding() {
+        if let ulibrary = library{
+            DispatchQueue.main.sync{
+                ulibrary.unlockCamera()
+            }
+        }
+    }
+    
     func stop(){
         if let ulibrary = library{
             ulibrary.stopPositioning()

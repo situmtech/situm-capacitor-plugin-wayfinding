@@ -20,4 +20,6 @@ CAP_PLUGIN(CapSitumWayfindingPlugin, "SitumWayfinding",
            CAP_PLUGIN_METHOD(internalOnNavigationRequested, CAPPluginReturnCallback);
            CAP_PLUGIN_METHOD(internalOnNavigationError, CAPPluginReturnCallback);
            CAP_PLUGIN_METHOD(internalOnNavigationFinished, CAPPluginReturnCallback);
+           CAP_PLUGIN_METHOD(internalLockCameraToBuilding, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(internalUnlockCameraToBuilding, CAPPluginReturnPromise);
 )
