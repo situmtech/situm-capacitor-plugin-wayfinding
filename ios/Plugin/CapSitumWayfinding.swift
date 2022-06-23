@@ -124,6 +124,12 @@ class CapSitumWayfinding: NSObject, OnPoiSelectionListener, OnFloorChangeListene
             del.onFloorChanged(from: from, to: to, building: building)
         }
     }
+    
+    func lockCameraToBuilding(buildingId: String) {
+        if let ulibrary = library{
+            ulibrary.lockCameraToBuilding(buildingId: buildingId) { _ in }
+        }
+    }
 }
 
 extension CapSitumWayfinding:OnNavigationListener{

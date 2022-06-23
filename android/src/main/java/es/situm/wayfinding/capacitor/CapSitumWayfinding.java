@@ -61,10 +61,12 @@ public class CapSitumWayfinding {
                 public void onSuccess() {
                     result.library = library;
                     if (capacitorLibrarySettings.hasBuildingId()) {
-                        // TODO: decide one building mode vs center building.
                         centerBuilding(capacitorLibrarySettings.buildingId, new Callback<Building>() {
                             @Override
                             public void onSuccess(Building building) {
+                                if (capacitorLibrarySettings.lockCameraToBuilding) {
+                                    library.enableOneBuildingMode(capacitorLibrarySettings.buildingId);
+                                }
                                 callback.onLoadResult(result);
                             }
 

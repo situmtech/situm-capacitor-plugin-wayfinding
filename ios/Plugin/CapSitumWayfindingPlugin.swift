@@ -45,6 +45,11 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
                             self.situmWayFindingWrapper.delegate = self
                             //After next instruction events will be captured by the native map if librarySettings.captureTouchEvents is true
                             try self.enableHtmlOverMap(isMapTouchEventsAllowed: librarySettings.captureTouchEvents)
+                            
+                            if librarySettings.lockCameraToBuilding {
+                                self.situmWayFindingWrapper.lockCameraToBuilding(buildingId: librarySettings.buildingId)
+                            }
+                            
                             call.resolve()
                             self.bridge?.releaseCall(call)
                         }catch{
