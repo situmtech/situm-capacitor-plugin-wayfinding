@@ -25,6 +25,7 @@ public class CapLibrarySettings: NSObject {
     var useRemoteConfig = false
     var showPoiNames = false
     var showSearchBar = true
+    var lockCameraToBuilding = false
     
     public static func from(_ jsonObject: JSObject) throws -> CapLibrarySettings {
         let capacitorLibrarySettings=CapLibrarySettings()
@@ -41,6 +42,7 @@ public class CapLibrarySettings: NSObject {
         capacitorLibrarySettings.useRemoteConfig = jsonObject["useRemoteConfig", default: false] as! Bool
         capacitorLibrarySettings.showPoiNames = jsonObject["showPoiNames", default: false] as! Bool
         capacitorLibrarySettings.showSearchBar = jsonObject["hasSearchView", default: true] as! Bool
+        capacitorLibrarySettings.lockCameraToBuilding = jsonObject["lockCameraToBuilding", default: false] as! Bool
         
         if capacitorLibrarySettings.user.isEmpty || capacitorLibrarySettings.apiKey.isEmpty {
             throw CapWayfindingError.noSitumCredentials

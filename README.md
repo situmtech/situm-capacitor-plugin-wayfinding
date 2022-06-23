@@ -502,6 +502,7 @@ stopPositioning()
 | **`captureTouchEvents?`** | `Boolean` | true |
 | **`useRemoteConfig?`** | `Boolean` | false |
 | **`showPoiNames?`** | `Boolean` | false |
+| **`lockCameraToBuilding?`** | `Boolean` | false |
 
 
 #### ScreenInfo
