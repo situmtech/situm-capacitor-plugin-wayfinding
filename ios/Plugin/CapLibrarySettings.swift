@@ -26,6 +26,7 @@ public class CapLibrarySettings: NSObject {
     var showPoiNames = false
     var showSearchBar = true
     var lockCameraToBuilding = false
+    var enablePoisClustering = false
     
     public static func from(_ jsonObject: JSObject) throws -> CapLibrarySettings {
         let capacitorLibrarySettings=CapLibrarySettings()
@@ -43,6 +44,7 @@ public class CapLibrarySettings: NSObject {
         capacitorLibrarySettings.showPoiNames = jsonObject["showPoiNames", default: false] as! Bool
         capacitorLibrarySettings.showSearchBar = jsonObject["hasSearchView", default: true] as! Bool
         capacitorLibrarySettings.lockCameraToBuilding = jsonObject["lockCameraToBuilding", default: false] as! Bool
+        capacitorLibrarySettings.enablePoisClustering = jsonObject["enablePoisClustering", default: false] as! Bool
         
         if capacitorLibrarySettings.user.isEmpty || capacitorLibrarySettings.apiKey.isEmpty {
             throw CapWayfindingError.noSitumCredentials
@@ -67,6 +69,7 @@ public class CapLibrarySettings: NSObject {
             .setShowPoiNames(showPoiNames: showPoiNames)
             .setShowBackButton(showBackButton: false) // In capacitor it does not make sense to show the back button in the navigation bar so it is disabled
             .setShowSearchBar(showSearchBar: showSearchBar)
+            .setEnablePoiClustering(enablePoisClustering: enablePoisClustering)
             .build()
         return librarySettings
     }
