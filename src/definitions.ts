@@ -14,6 +14,7 @@ export interface LibrarySettings {
     useRemoteConfig?: Boolean;
     showPoiNames?: Boolean;
     lockCameraToBuilding?: Boolean;
+    enablePoiClustering?: Boolean;
 }
 export interface ScreenInfo {
     devicePixelRatio: Number;
