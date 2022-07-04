@@ -503,6 +503,7 @@ stopPositioning()
 | **`useRemoteConfig?`** | `Boolean` | false |
 | **`showPoiNames?`** | `Boolean` | false |
 | **`lockCameraToBuilding?`** | `Boolean` | false |
+| **`enablePoiClustering?`** | `Boolean` | false |
 
 
 #### ScreenInfo
