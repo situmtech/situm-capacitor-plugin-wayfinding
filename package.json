@@ -1,6 +1,6 @@
 {
   "name": "situm-capacitor-plugin-wayfinding",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Situm Wayfinding Plugin for Capacitor has been designed to create indoor location applications in the simplest way. It has been built in the top of the Situm SDK.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
