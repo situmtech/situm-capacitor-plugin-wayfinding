@@ -47,7 +47,7 @@ public class CapLibrarySettings {
         s.useRemoteConfig = o.getBoolean("useRemoteConfig", false);
         s.showPoiNames = o.getBoolean("showPoiNames", false);
         s.lockCameraToBuilding = o.getBoolean("lockCameraToBuilding", false);
-        s.enablePoiClustering = o.getBoolean("enablePoiClustering", true);
+        s.enablePoiClustering = o.getBoolean("enablePoiClustering", false);
         return s;
     }
 
