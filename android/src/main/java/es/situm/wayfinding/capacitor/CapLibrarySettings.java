@@ -22,6 +22,7 @@ public class CapLibrarySettings {
     Boolean useRemoteConfig;
     Boolean showPoiNames;
     Boolean lockCameraToBuilding;
+    Boolean enablePoiClustering;
 
     AppCompatActivity activity;
 
@@ -46,6 +47,7 @@ public class CapLibrarySettings {
         s.useRemoteConfig = o.getBoolean("useRemoteConfig", false);
         s.showPoiNames = o.getBoolean("showPoiNames", false);
         s.lockCameraToBuilding = o.getBoolean("lockCameraToBuilding", false);
+        s.enablePoiClustering = o.getBoolean("enablePoiClustering", true);
         return s;
     }
 
@@ -60,6 +62,7 @@ public class CapLibrarySettings {
         s.setUserPositionArrowIcon(userPositionArrowIcon);
         s.setUseRemoteConfig(useRemoteConfig);
         s.setShowPoiNames(showPoiNames);
+        s.setEnablePoiClustering(enablePoiClustering);
         return s;
     }
 
