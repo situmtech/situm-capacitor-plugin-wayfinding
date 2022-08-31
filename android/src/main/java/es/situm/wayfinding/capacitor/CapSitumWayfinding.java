@@ -61,12 +61,15 @@ public class CapSitumWayfinding {
                 public void onSuccess() {
                     result.library = library;
                     if (capacitorLibrarySettings.hasBuildingId()) {
+                        // Moved this call before centerBuilding. The call to enableOneBuildingMode
+                        // in the success callback of centerBuilding is not working.
+                        // TODO: fix native module.
+                        if (capacitorLibrarySettings.lockCameraToBuilding) {
+                            library.enableOneBuildingMode(capacitorLibrarySettings.buildingId);
+                        }
                         centerBuilding(capacitorLibrarySettings.buildingId, new Callback<Building>() {
                             @Override
                             public void onSuccess(Building building) {
-                                if (capacitorLibrarySettings.lockCameraToBuilding) {
-                                    library.enableOneBuildingMode(capacitorLibrarySettings.buildingId);
-                                }
                                 callback.onLoadResult(result);
                             }
 
@@ -79,7 +82,6 @@ public class CapSitumWayfinding {
                     } else {
                         callback.onLoadResult(result);
                     }
-
                 }
 
                 @Override
