@@ -85,6 +85,11 @@ public class CapSitumWayfindingPlugin extends Plugin {
         }
 
         @Override
+        public void onNavigationStarted(Navigation navigation) {
+            // TODO: add navigationStarted callback.
+        }
+
+        @Override
         public void onNavigationError(Navigation navigation, NavigationError error) {
             if (onNavigationErrorCallbackId != null) {
                 JSObject jsNav = CapMapper.fromNavigation(navigation, error);
