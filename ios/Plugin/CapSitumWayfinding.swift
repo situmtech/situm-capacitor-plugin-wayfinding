@@ -9,6 +9,7 @@ protocol WayfindingNativeToCapProtocol {
     func onPoiDeselected(building: SITBuilding)
     func onFloorChanged(from:SITFloor, to:SITFloor, building:SITBuilding)
     func onNavigationRequested(navigationResult:Dictionary<String, Any>)
+    func onNavigationStarted(navigationResult:Dictionary<String, Any>)
     func onNavigationError(navigationResult:Dictionary<String, Any>)
     func onNavigationFinished(navigationResult:Dictionary<String, Any>)
 }
@@ -133,10 +134,17 @@ class CapSitumWayfinding: NSObject, OnPoiSelectionListener, OnFloorChangeListene
 }
 
 extension CapSitumWayfinding:OnNavigationListener{
+    
     //MARK: OnNavigationListener delegate methods
     func onNavigationRequested(navigation: Navigation) {
         if let del = self.delegate {
             del.onNavigationRequested(navigationResult: navigation.jsValue)
+        }
+    }
+    
+    func onNavigationStarted(navigation: Navigation) {
+        if let del = self.delegate {
+            del.onNavigationStarted(navigationResult: navigation.jsValue)
         }
     }
     
@@ -196,6 +204,8 @@ extension NavigationStatus{
         switch self{
         case .requested:
             return  "REQUESTED"
+        case .started:
+            return  "STARTED"
         case .error(_):
             return "ERROR"
         case .destinationReached:
