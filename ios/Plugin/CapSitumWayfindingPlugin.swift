@@ -11,6 +11,7 @@ import SitumSDK
  */
 @objc(CapSitumWayfindingPlugin)
 public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol {
+    
     private var containerView: UIView?
     private let situmWayFindingWrapper = CapSitumWayfinding()
     private var screenInfo: CapScreenInfo?
@@ -22,6 +23,7 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
     private var onPoiDeselectedCall: CAPPluginCall?
     private var onFloorChangedCall: CAPPluginCall?
     private var onNavigationRequestedCallback: CAPPluginCall?
+    private var onNavigationStartedCallback: CAPPluginCall?
     private var onNavigationErrorCallback: CAPPluginCall?
     private var onNavigationFinishedCallback: CAPPluginCall?
     
@@ -183,6 +185,11 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
         call.keepAlive = true
         self.onNavigationRequestedCallback = call
     }
+    
+    @objc func internalOnNavigationStarted(_ call: CAPPluginCall){
+        call.keepAlive = true
+        self.onNavigationStartedCallback = call
+    }
 
     @objc func internalOnNavigationError(_ call: CAPPluginCall){
         call.keepAlive = true
@@ -288,9 +295,15 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
             call.resolve(result)
         }
     }
-    
+        
     internal func onNavigationRequested(navigationResult:Dictionary<String, Any>){
         if let call = self.onNavigationRequestedCallback {
+            call.resolve(navigationResult)
+        }
+    }
+    
+    internal func onNavigationStarted(navigationResult: Dictionary<String, Any>) {
+        if let call = self.onNavigationStartedCallback {
             call.resolve(navigationResult)
         }
     }
