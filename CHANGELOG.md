@@ -4,12 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.6] - 2023-01-04
+
+### Changed
+* Updated WYF Android version to 0.23.3. Checkout the [Situm WYF changelog](https://situm.com/docs/android-wyf-changelog/#0-toc-title) to see the changes in this new version.
+
 ## [0.9.5] - 2022-12-28
+
+> **Warning**
+> Version affected by [Zip Path Traversal vulnerability](https://developer.android.com/topic/security/risks/zip-path-traversal) (android). Fixed in version 0.9.6.
 
 ### Changed
 * Updated WYF iOS version to 0.17.1.
 
 ## [0.9.4] - 2022-12-05
+
+> **Warning**
+> Version affected by [Zip Path Traversal vulnerability](https://developer.android.com/topic/security/risks/zip-path-traversal) (android). Fixed in version 0.9.6.
 
 ### Changed
 * Updated WYF Android version to 0.21.1.
@@ -17,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.9.3] - 2022-12-02
 
 ### Changed
-* Updated WYF Android version to 0.21.0. Checkout the [Situm WYF changelog](https://situm.com/docs/01-android-wyf-changelog/#0-toc-title) to see all the features and optimizations added in this new version.
+* Updated WYF Android version to 0.21.0. Checkout the [Situm WYF changelog](https://situm.com/docs/android-wyf-changelog/#0-toc-title) to see all the features and optimizations added in this new version.
 
 ## [0.9.2] - 2022-08-31
 
