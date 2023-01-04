@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.9.3] - 2022-12-02
 
 ### Changed
-* Updated WYF Android version to 0.21.0. Checkout the [Situm WYF changelog](https://situm.com/docs/01-android-wyf-changelog/#0-toc-title) to see all the features and optimizations added in this new version.
+* Updated WYF Android version to 0.21.0. Checkout the [Situm WYF changelog](https://situm.com/docs/android-wyf-changelog/#0-toc-title) to see all the features and optimizations added in this new version.
 
 ## [0.9.2] - 2022-08-31
 
