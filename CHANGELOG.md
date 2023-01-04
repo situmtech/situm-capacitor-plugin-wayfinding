@@ -11,10 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.9.5] - 2022-12-28
 
+> **Warning**
+> Version affected by [Zip Path Traversal vulnerability](https://developer.android.com/topic/security/risks/zip-path-traversal) (android). Fixed in version 0.9.6.
+
 ### Changed
 * Updated WYF iOS version to 0.17.1.
 
 ## [0.9.4] - 2022-12-05
+
+> **Warning**
+> Version affected by [Zip Path Traversal vulnerability](https://developer.android.com/topic/security/risks/zip-path-traversal) (android). Fixed in version 0.9.6.
 
 ### Changed
 * Updated WYF Android version to 0.21.1.
