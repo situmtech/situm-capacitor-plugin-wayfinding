@@ -48,7 +48,7 @@ public class CapLibrarySettings {
         s.userPositionArrowIcon = o.getString("userPositionArrowIcon", null);
         s.captureTouchEvents = o.getBoolean("captureTouchEvents", true);
         s.useRemoteConfig = o.getBoolean("useRemoteConfig", true);
-        s.showPoiNames = o.getBoolean("showPoiNames", false);
+        s.showPoiNames = o.getBoolean("showPoiNames", true);
         s.lockCameraToBuilding = o.getBoolean("lockCameraToBuilding", false);
         s.enablePoiClustering = o.getBoolean("enablePoiClustering", true);
         s.maxZoom = o.getInteger("maxZoom", -1);
