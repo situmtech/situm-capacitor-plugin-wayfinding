@@ -53,7 +53,7 @@ public class CapLibrarySettings {
         s.enablePoiClustering = o.getBoolean("enablePoiClustering", true);
         s.maxZoom = o.getInteger("maxZoom", -1);
         s.minZoom = o.getInteger("minZoom", -1);
-        s.initialZoom = o.getInteger("initialZoom", 18);
+        s.initialZoom = o.getInteger("initialZoom", -1);
         return s;
     }
 
