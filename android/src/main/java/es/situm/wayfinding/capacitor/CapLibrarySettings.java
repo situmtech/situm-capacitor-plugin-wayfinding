@@ -69,7 +69,9 @@ public class CapLibrarySettings {
         s.setUseRemoteConfig(useRemoteConfig);
         s.setShowPoiNames(showPoiNames);
         s.setEnablePoiClustering(enablePoiClustering);
-        s.setMaxZoom(maxZoom);
+        if (maxZoom > 0) {
+            s.setMaxZoom(maxZoom);
+        }
         s.setMinZoom(minZoom);
         s.setInitialZoom(initialZoom);
         return s;
