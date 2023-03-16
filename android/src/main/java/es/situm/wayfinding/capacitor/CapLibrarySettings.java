@@ -23,6 +23,9 @@ public class CapLibrarySettings {
     Boolean showPoiNames;
     Boolean lockCameraToBuilding;
     Boolean enablePoiClustering;
+    int maxZoom;
+    int minZoom;
+    int initialZoom;
 
     AppCompatActivity activity;
 
@@ -40,14 +43,17 @@ public class CapLibrarySettings {
         s.buildingId = o.getString("buildingId", "-1");
         s.hasSearchView = o.getBoolean("hasSearchView", true);
         s.searchViewPlaceholder = o.getString("searchViewPlaceholder");
-        s.useDashboardTheme = o.getBoolean("useDashboardTheme", false);
+        s.useDashboardTheme = o.getBoolean("useDashboardTheme", true);
         s.userPositionIcon = o.getString("userPositionIcon", null);
         s.userPositionArrowIcon = o.getString("userPositionArrowIcon", null);
         s.captureTouchEvents = o.getBoolean("captureTouchEvents", true);
-        s.useRemoteConfig = o.getBoolean("useRemoteConfig", false);
-        s.showPoiNames = o.getBoolean("showPoiNames", false);
+        s.useRemoteConfig = o.getBoolean("useRemoteConfig", true);
+        s.showPoiNames = o.getBoolean("showPoiNames", true);
         s.lockCameraToBuilding = o.getBoolean("lockCameraToBuilding", false);
-        s.enablePoiClustering = o.getBoolean("enablePoiClustering", false);
+        s.enablePoiClustering = o.getBoolean("enablePoiClustering", true);
+        s.maxZoom = o.getInteger("maxZoom", -1);
+        s.minZoom = o.getInteger("minZoom", -1);
+        s.initialZoom = o.getInteger("initialZoom", -1);
         return s;
     }
 
@@ -63,6 +69,11 @@ public class CapLibrarySettings {
         s.setUseRemoteConfig(useRemoteConfig);
         s.setShowPoiNames(showPoiNames);
         s.setEnablePoiClustering(enablePoiClustering);
+        if (maxZoom > 0) {
+            s.setMaxZoom(maxZoom);
+        }
+        s.setMinZoom(minZoom);
+        s.setInitialZoom(initialZoom);
         return s;
     }
 

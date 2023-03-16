@@ -16,17 +16,18 @@ public class CapLibrarySettings: NSObject {
     var apiKey:String = ""
     var googleMapsApiKey:String = ""
     var buildingId:String = ""
-    //var hasSearchView = true
     var searchViewPlaceholder = ""
     var useDashboardTheme = true
     var userPositionIcon = ""
     var userPositionArrowIcon = ""
     var captureTouchEvents = true
-    var useRemoteConfig = false
-    var showPoiNames = false
+    var useRemoteConfig = true
+    var showPoiNames = true
     var showSearchBar = true
     var lockCameraToBuilding = false
-    var enablePoiClustering = false
+    var enablePoiClustering = true
+    var maxZoom:Float = -1
+    var minZoom:Float = -1
     
     public static func from(_ jsonObject: JSObject) throws -> CapLibrarySettings {
         let capacitorLibrarySettings=CapLibrarySettings()
@@ -34,17 +35,18 @@ public class CapLibrarySettings: NSObject {
         capacitorLibrarySettings.apiKey = jsonObject["apiKey"]  as? String ?? ""
         capacitorLibrarySettings.googleMapsApiKey = jsonObject["iosGoogleMapsApiKey"]  as? String ?? ""
         capacitorLibrarySettings.buildingId = jsonObject["buildingId"]  as? String ?? ""
-        //capacitorLibrarySettings.hasSearchView = (jsonObject["hasSearchView"]  as? NSString ?? "").boolValue
-        capacitorLibrarySettings.searchViewPlaceholder = jsonObject["searchViewPlaceholder"]  as? String ?? ""
-        capacitorLibrarySettings.useDashboardTheme = (jsonObject["useDashboardTheme"]  as? Bool ?? false)
+        capacitorLibrarySettings.searchViewPlaceholder = jsonObject["searchViewPlaceholder", default: ""]  as! String
+        capacitorLibrarySettings.useDashboardTheme = jsonObject["useDashboardTheme", default: true]  as! Bool
         capacitorLibrarySettings.userPositionIcon = jsonObject["userPositionIcon"]  as? String ?? ""
         capacitorLibrarySettings.userPositionArrowIcon = jsonObject["userPositionArrowIcon"]  as? String ?? ""
         capacitorLibrarySettings.captureTouchEvents = jsonObject["captureTouchEvents", default: true] as! Bool
-        capacitorLibrarySettings.useRemoteConfig = jsonObject["useRemoteConfig", default: false] as! Bool
-        capacitorLibrarySettings.showPoiNames = jsonObject["showPoiNames", default: false] as! Bool
+        capacitorLibrarySettings.useRemoteConfig = jsonObject["useRemoteConfig", default: true] as! Bool
+        capacitorLibrarySettings.showPoiNames = jsonObject["showPoiNames", default: true] as! Bool
         capacitorLibrarySettings.showSearchBar = jsonObject["hasSearchView", default: true] as! Bool
         capacitorLibrarySettings.lockCameraToBuilding = jsonObject["lockCameraToBuilding", default: false] as! Bool
-        capacitorLibrarySettings.enablePoiClustering = jsonObject["enablePoiClustering", default: false] as! Bool
+        capacitorLibrarySettings.enablePoiClustering = jsonObject["enablePoiClustering", default: true] as! Bool
+        capacitorLibrarySettings.maxZoom = jsonObject["maxZoom", default: Float(-1)] as! Float
+        capacitorLibrarySettings.minZoom = jsonObject["minZoom",default: Float(-1)] as! Float
         
         if capacitorLibrarySettings.user.isEmpty || capacitorLibrarySettings.apiKey.isEmpty {
             throw CapWayfindingError.noSitumCredentials
@@ -70,6 +72,8 @@ public class CapLibrarySettings: NSObject {
             .setShowBackButton(showBackButton: false) // In capacitor it does not make sense to show the back button in the navigation bar so it is disabled
             .setShowSearchBar(showSearchBar: showSearchBar)
             .setEnablePoiClustering(enablePoisClustering: enablePoiClustering)
+            .setMinZoom(minZoom: minZoom)
+            .setMaxZoom(maxZoom: maxZoom)
             .build()
         return librarySettings
     }
