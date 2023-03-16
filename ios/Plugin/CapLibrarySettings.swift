@@ -45,8 +45,8 @@ public class CapLibrarySettings: NSObject {
         capacitorLibrarySettings.showSearchBar = jsonObject["hasSearchView", default: true] as! Bool
         capacitorLibrarySettings.lockCameraToBuilding = jsonObject["lockCameraToBuilding", default: false] as! Bool
         capacitorLibrarySettings.enablePoiClustering = jsonObject["enablePoiClustering", default: true] as! Bool
-        capacitorLibrarySettings.maxZoom = jsonObject["maxZoom", default: -1] as! Float
-        capacitorLibrarySettings.minZoom = jsonObject["minZoom", default: -1] as! Float
+        capacitorLibrarySettings.maxZoom = jsonObject["maxZoom", default: Float(-1)] as! Float
+        capacitorLibrarySettings.minZoom = jsonObject["minZoom",default: Float(-1)] as! Float
         
         if capacitorLibrarySettings.user.isEmpty || capacitorLibrarySettings.apiKey.isEmpty {
             throw CapWayfindingError.noSitumCredentials
