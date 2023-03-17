@@ -4,10 +4,10 @@ export interface LibrarySettings {
     apiKey: String;
     iosGoogleMapsApiKey: String;
     buildingId : String;
-    dashboardUrl: String;
-    hasSearchView: Boolean;
-    searchViewPlaceholder: String;
-    useDashboardTheme: Boolean;
+    dashboardUrl?: String;
+    hasSearchView?: Boolean;
+    searchViewPlaceholder?: String;
+    useDashboardTheme?: Boolean;
     userPositionIcon?: String;
     userPositionArrowIcon?: String;
     captureTouchEvents?: Boolean;
@@ -15,6 +15,9 @@ export interface LibrarySettings {
     showPoiNames?: Boolean;
     lockCameraToBuilding?: Boolean;
     enablePoiClustering?: Boolean;
+    maxZoom?: Number;
+    minZoom?: Number;
+    initialZoom?: Number;
 }
 export interface ScreenInfo {
     devicePixelRatio: Number;
