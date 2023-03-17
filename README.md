@@ -493,17 +493,20 @@ stopPositioning()
 | **`apiKey`**                 | `String` | |
 | **`iosGoogleMapsApiKey`**    | `String` | |
 | **`buildingId`**             | `String` | |
-| **`dashboardUrl`**           | `String` | |
+| **`dashboardUrl?`**           | `String` | |
 | **`hasSearchView`**          | `Boolean` | true |
 | **`searchViewPlaceholder`**  | `String` | |
-| **`useDashboardTheme`**      | `Boolean` | false |
+| **`useDashboardTheme?`**      | `Boolean` | true |
 | **`userPositionIcon?`**      | `String` | |
 | **`userPositionArrowIcon?`** | `String` | |
 | **`captureTouchEvents?`** | `Boolean` | true |
-| **`useRemoteConfig?`** | `Boolean` | false |
-| **`showPoiNames?`** | `Boolean` | false |
+| **`useRemoteConfig?`** | `Boolean` | true |
+| **`showPoiNames?`** | `Boolean` | true |
 | **`lockCameraToBuilding?`** | `Boolean` | false |
-| **`enablePoiClustering?`** | `Boolean` | false |
+| **`enablePoiClustering?`** | `Boolean` | true |
+| **`maxZoom?`** | `Number` | 21 |
+| **`minZoom?`** | `Number` | 0 |
+| **`initialZoom?`** | `Number` | 18 |
 
 
 #### ScreenInfo
