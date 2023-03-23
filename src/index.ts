@@ -111,11 +111,13 @@ class WayfindingTSWrapper {
       this.helper.init();
       return loadResponse;
     } else {
-      // Update the map div reference. This is applies to (for example) Angular view recreations.
+      // Update the map div reference. This applies to (for example) Angular view recreations.
       // When the view is distroyed/recreated, our HTMLElement reference gets obsolete. A new
       // reference is needed to perform dom observations.
       this.helper?.onHTMLElementRecreated(element);
-      return {};
+      return {
+        status: 'ALREADY_DONE'
+      };
     }
   }
 
@@ -124,6 +126,7 @@ class WayfindingTSWrapper {
     if (this.helper) {
       this.helper.stop();
     }
+    this.moduleInitialized = false;
   }
 
   async onPoiSelected(callback: (data: OnPoiSelectedResult) => void) {

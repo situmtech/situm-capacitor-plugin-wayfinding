@@ -59,6 +59,7 @@ public class CapSitumWayfinding {
             library.setSitumMapsListener(new SitumMapsListener() {
                 @Override
                 public void onSuccess() {
+                    library.setPositioningFabVisible(capacitorLibrarySettings.showPositioningButton);
                     result.library = library;
                     if (capacitorLibrarySettings.hasBuildingId()) {
                         // Moved this call before centerBuilding. The call to enableOneBuildingMode
