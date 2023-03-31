@@ -499,6 +499,7 @@ stopPositioning()
 | **`useDashboardTheme?`**      | `Boolean` | true |
 | **`userPositionIcon?`**      | `String` | |
 | **`userPositionArrowIcon?`** | `String` | |
+| **`showPositioningButton?`** | `Boolean` | true |
 | **`captureTouchEvents?`** | `Boolean` | true |
 | **`useRemoteConfig?`** | `Boolean` | true |
 | **`showPoiNames?`** | `Boolean` | true |

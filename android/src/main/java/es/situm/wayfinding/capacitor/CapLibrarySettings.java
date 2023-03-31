@@ -18,6 +18,7 @@ public class CapLibrarySettings {
     Boolean useDashboardTheme;
     String userPositionIcon;
     String userPositionArrowIcon;
+    Boolean showPositioningButton;
     Boolean captureTouchEvents;
     Boolean useRemoteConfig;
     Boolean showPoiNames;
@@ -46,6 +47,7 @@ public class CapLibrarySettings {
         s.useDashboardTheme = o.getBoolean("useDashboardTheme", true);
         s.userPositionIcon = o.getString("userPositionIcon", null);
         s.userPositionArrowIcon = o.getString("userPositionArrowIcon", null);
+        s.showPositioningButton = o.getBoolean("showPositioningButton", true);
         s.captureTouchEvents = o.getBoolean("captureTouchEvents", true);
         s.useRemoteConfig = o.getBoolean("useRemoteConfig", true);
         s.showPoiNames = o.getBoolean("showPoiNames", true);

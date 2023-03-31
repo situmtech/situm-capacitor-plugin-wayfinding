@@ -20,6 +20,7 @@ public class CapLibrarySettings: NSObject {
     var useDashboardTheme = true
     var userPositionIcon = ""
     var userPositionArrowIcon = ""
+    var showPositioningButton = true
     var captureTouchEvents = true
     var useRemoteConfig = true
     var showPoiNames = true
@@ -39,6 +40,7 @@ public class CapLibrarySettings: NSObject {
         capacitorLibrarySettings.useDashboardTheme = jsonObject["useDashboardTheme", default: true]  as! Bool
         capacitorLibrarySettings.userPositionIcon = jsonObject["userPositionIcon"]  as? String ?? ""
         capacitorLibrarySettings.userPositionArrowIcon = jsonObject["userPositionArrowIcon"]  as? String ?? ""
+        capacitorLibrarySettings.showPositioningButton = jsonObject["showPositioningButton", default: true] as! Bool
         capacitorLibrarySettings.captureTouchEvents = jsonObject["captureTouchEvents", default: true] as! Bool
         capacitorLibrarySettings.useRemoteConfig = jsonObject["useRemoteConfig", default: true] as! Bool
         capacitorLibrarySettings.showPoiNames = jsonObject["showPoiNames", default: true] as! Bool
@@ -67,6 +69,7 @@ public class CapLibrarySettings: NSObject {
             .setSearchViewPlaceholder(searchViewPlaceholder: searchViewPlaceholder)
             .setUserPositionIcon(userPositionIcon: userPositionIcon)
             .setUserPositionArrowIcon(userPositionArrowIcon: userPositionArrowIcon)
+            .setPositioningFabVisible(positioningFabVisible: showPositioningButton)
             .setUseRemoteConfig(useRemoteConfig: useRemoteConfig)
             .setShowPoiNames(showPoiNames: showPoiNames)
             .setShowBackButton(showBackButton: false) // In capacitor it does not make sense to show the back button in the navigation bar so it is disabled

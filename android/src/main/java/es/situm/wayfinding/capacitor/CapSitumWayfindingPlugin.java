@@ -136,6 +136,7 @@ public class CapSitumWayfindingPlugin extends Plugin {
                 setupTouchEventsDispatching();
                 JSObject response = new JSObject();
                 response.put("loadResult", libraryResult);
+                response.put("status", "SUCCESS");
                 this.captureTouchEvents = capacitorLibrarySettings.captureTouchEvents;
                 call.resolve(response);
                 getBridge().releaseCall(callbackId);

@@ -52,7 +52,10 @@ public class CapSitumWayfindingPlugin: CAPPlugin, WayfindingNativeToCapProtocol 
                                 self.situmWayFindingWrapper.lockCameraToBuilding(buildingId: librarySettings.buildingId)
                             }
                             
-                            call.resolve()
+                            let result: Dictionary = [
+                                "status" : "SUCCESS",
+                            ]
+                            call.resolve(result)
                             self.bridge?.releaseCall(call)
                         }catch{
                             self.handleLoadError(error: error, call: call)
