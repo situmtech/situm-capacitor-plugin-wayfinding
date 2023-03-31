@@ -41,6 +41,8 @@ export interface WayfindingSettings {
     screenInfo: ScreenInfo;
 }
 export interface WayfindingResult {
+    status: String;
+    error?: String;
 }
 export interface OnPoiSelectedResult {
     buildingId: String;
