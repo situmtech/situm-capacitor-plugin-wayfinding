@@ -24,7 +24,7 @@ resources:
     ref: master
 
 jobs:
-- ${{ if contains(variables['Build.SourceBranch'], 'release/') }}:
+- ${{ if contains(variables['Build.SourceBranch'], 'feature/') }}:
   - job: Generate_Release
     pool:
       vmImage: $(ubuntuVersion)
