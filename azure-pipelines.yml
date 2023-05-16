@@ -24,7 +24,7 @@ resources:
     ref: master
 
 jobs:
-- ${{ if contains(variables['Build.SourceBranch'], 'feature/') }}:
+- ${{ if contains(variables['Build.SourceBranch'], 'release/') }}:
   - job: Generate_Release
     pool:
       vmImage: $(ubuntuVersion)
@@ -84,23 +84,23 @@ jobs:
           system: "N/A"
           server: "github"
           mergeBranches:
-            - "master-test"
+            - "master"
 
-              #      - bash: |
-              #          echo -e "\n[+] Fetch all branches\n"
-              #          git fetch
-              #      
-              #          echo -e "\n[+] Checkout and Pull to master branch\n"
-              #          git checkout master
-              #          git pull origin master
-              #      
-              #          echo -e "\n[+] Configure NPM login"
-              #          echo "//registry.npmjs.org/:_authToken=$(NPM_TOKEN)" > ~/.npmrc
-              #      
-              #          echo -e "\n[+] Publish NPM packages"
-              #          npm publish 
-              #      
-              #        displayName: NPM publish
+      - bash: |
+          echo -e "\n[+] Fetch all branches\n"
+          git fetch
+      
+          echo -e "\n[+] Checkout and Pull to master branch\n"
+          git checkout master
+          git pull origin master
+      
+          echo -e "\n[+] Configure NPM login"
+          echo "//registry.npmjs.org/:_authToken=$(NPM_TOKEN)" > ~/.npmrc
+      
+          echo -e "\n[+] Publish NPM packages"
+          npm publish 
+      
+        displayName: NPM publish
       
       - bash: |
 
@@ -129,8 +129,5 @@ jobs:
           git push origin master
           
         displayName: Execute example app 
-
-
-
 
 
