@@ -86,18 +86,51 @@ jobs:
           mergeBranches:
             - "master-test"
 
+              #      - bash: |
+              #          echo -e "\n[+] Fetch all branches\n"
+              #          git fetch
+              #      
+              #          echo -e "\n[+] Checkout and Pull to master branch\n"
+              #          git checkout master
+              #          git pull origin master
+              #      
+              #          echo -e "\n[+] Configure NPM login"
+              #          echo "//registry.npmjs.org/:_authToken=$(NPM_TOKEN)" > ~/.npmrc
+              #      
+              #          echo -e "\n[+] Publish NPM packages"
+              #          npm publish 
+              #      
+              #        displayName: NPM publish
+      
       - bash: |
-          echo -e "\n[+] Fetch all branches\n"
-          git fetch
+
+          echo -e "\n[+] Clone getting-started repository \n"
+          
+          git clone git@github.com:situmtech/situm-capacitor-plugin-wayfinding-getting-started.git
+
+          cd situm-capacitor-plugin-wayfinding-getting-started
+
+          echo -e "\n[+] Setting git remote credentials\n"
+          git remote set-url origin https://situmops:$(github_token)@github.com/situmtech/situm-capacitor-plugin-wayfinding-getting-started.git
+          
+          cat .git/config
       
-          echo -e "\n[+] Checkout and Pull to master branch\n"
+          echo -e "\n[+] Fetch branches"
+          git fetch origin master
+          echo -e "\n[+] Checkout to master branch\n"
           git checkout master
-          git pull origin master
+
+          echo -e "\n[+] Update plugin version in app example\n"
+          sed -i "s/\"situm-capacitor-plugin-wayfinding\":.*/\"situm-capacitor-plugin-wayfinding\": \"0.12.2\",/g" angular/package.json
       
-          echo -e "\n[+] Configure NPM login"
-          echo "//registry.npmjs.org/:_authToken=$(NPM_TOKEN)" > ~/.npmrc
-      
-          echo -e "\n[+] Publish NPM packages"
-          npm publish 
-      
-        displayName: NPM publish
+          echo -e "\n[+] Commit empty change to run examples repo\n"
+          git add *
+          git commit -m "Upadate capacitor plugin version $(version)"
+          git push origin master
+          
+        displayName: Execute example app 
+
+
+
+
+
