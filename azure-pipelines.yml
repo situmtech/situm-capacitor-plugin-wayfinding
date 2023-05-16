@@ -106,7 +106,7 @@ jobs:
 
           echo -e "\n[+] Clone getting-started repository \n"
           
-          git clone git@github.com:situmtech/situm-capacitor-plugin-wayfinding-getting-started.git
+          git clone https://github.com/situmtech/situm-capacitor-plugin-wayfinding-getting-started.git
 
           cd situm-capacitor-plugin-wayfinding-getting-started
 
@@ -121,7 +121,7 @@ jobs:
           git checkout master
 
           echo -e "\n[+] Update plugin version in app example\n"
-          sed -i "s/\"situm-capacitor-plugin-wayfinding\":.*/\"situm-capacitor-plugin-wayfinding\": \"0.12.2\",/g" angular/package.json
+          sed -i "s/\"situm-capacitor-plugin-wayfinding\":.*/\"situm-capacitor-plugin-wayfinding\": \"$(version)\",/g" angular/package.json
       
           echo -e "\n[+] Commit empty change to run examples repo\n"
           git add *
