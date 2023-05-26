@@ -34,7 +34,7 @@ jobs:
       - task: NodeTool@0
         inputs:
           versionSource: 'spec' 
-          versionSpec: $(nodeVersion)
+          versionSpec: 14
 
       - bash: |
           echo -e "\n[+] Installing NPM version $(npmVersion)\n"
@@ -94,6 +94,9 @@ jobs:
           git checkout master
           git pull origin master
       
+          echo -e "\n[+] Install plugin dependenceis \n"
+          npm install
+
           echo -e "\n[+] Configure NPM login"
           echo "//registry.npmjs.org/:_authToken=$(NPM_TOKEN)" > ~/.npmrc
       
