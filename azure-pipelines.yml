@@ -24,7 +24,7 @@ resources:
     ref: master
 
 jobs:
-- ${{ if contains(variables['Build.SourceBranch'], 'fix/') }}:
+- ${{ if contains(variables['Build.SourceBranch'], 'release/') }}:
   - job: Generate_Release
     pool:
       vmImage: $(ubuntuVersion)
@@ -55,36 +55,36 @@ jobs:
 
         displayName: Initial Vars & Configs
 
-          #      - bash: |
-          #
-          #          echo -e "\n[+] Setting NPM version to $(version)"
-          #          npm version $(version) --no-git-tag-version
-          #
-          #          echo -e "\n[+] Setting git to push NPM version\n"
-          #          git config --global user.email "sistemas@situm.es"
-          #          git config --global user.name "Situmops"
-          #
-          #          echo -e "\n[+] Fetch branches \n"
-          #          git fetch
-          #
-          #          echo -e "\n[+] Changing to $(currentBranch)"
-          #          git checkout $(currentBranch)
-          #
-          #          echo -e "\n[+] Add,Commit and Push to $(currentBranch)"
-          #          git commit -am "Setting the NPM version to $(version)"
-          #          git push --set-upstream origin $(currentBranch)
-          #          git push
-          #        displayName: Make changes
-          #
-          #
-          #      - template: azure-templates/publish_release.yml@sys_kubernetes_templates
-          #        parameters:
-          #          bitbucket:
-          #            bitbucket_user: situmops
-          #          system: "N/A"
-          #          server: "github"
-          #          mergeBranches:
-          #            - "master"
+      - bash: |
+
+          echo -e "\n[+] Setting NPM version to $(version)"
+          npm version $(version) --no-git-tag-version
+
+          echo -e "\n[+] Setting git to push NPM version\n"
+          git config --global user.email "sistemas@situm.es"
+          git config --global user.name "Situmops"
+
+          echo -e "\n[+] Fetch branches \n"
+          git fetch
+
+          echo -e "\n[+] Changing to $(currentBranch)"
+          git checkout $(currentBranch)
+
+          echo -e "\n[+] Add,Commit and Push to $(currentBranch)"
+          git commit -am "Setting the NPM version to $(version)"
+          git push --set-upstream origin $(currentBranch)
+          git push
+        displayName: Make changes
+
+
+      - template: azure-templates/publish_release.yml@sys_kubernetes_templates
+        parameters:
+          bitbucket:
+            bitbucket_user: situmops
+          system: "N/A"
+          server: "github"
+          mergeBranches:
+            - "master"
 
       - bash: |
           echo -e "\n[+] Fetch all branches\n"
@@ -101,36 +101,36 @@ jobs:
           echo "//registry.npmjs.org/:_authToken=$(NPM_TOKEN)" > ~/.npmrc
       
           echo -e "\n[+] Publish NPM packages"
-          npm publish  --dry-run
+          npm publish 
       
         displayName: NPM publish
       
-          #      - bash: |
-          #
-          #          echo -e "\n[+] Clone getting-started repository \n"
-          #          
-          #          git clone https://github.com/situmtech/situm-capacitor-plugin-wayfinding-getting-started.git
-          #
-          #          cd situm-capacitor-plugin-wayfinding-getting-started
-          #
-          #          echo -e "\n[+] Setting git remote credentials\n"
-          #          git remote set-url origin https://situmops:$(github_token)@github.com/situmtech/situm-capacitor-plugin-wayfinding-getting-started.git
-          #          
-          #          cat .git/config
-          #      
-          #          echo -e "\n[+] Fetch branches"
-          #          git fetch origin master
-          #          echo -e "\n[+] Checkout to master branch\n"
-          #          git checkout master
-          #
-          #          echo -e "\n[+] Update plugin version in app example\n"
-          #          sed -i "s/\"situm-capacitor-plugin-wayfinding\":.*/\"situm-capacitor-plugin-wayfinding\": \"$(version)\",/g" angular/package.json
-          #      
-          #          echo -e "\n[+] Commit empty change to run examples repo\n"
-          #          git add *
-          #          git commit -m "Upadate capacitor plugin version $(version)"
-          #          git push origin master
-          #          
-          #        displayName: Execute example app 
-          #
-          #
+      - bash: |
+
+          echo -e "\n[+] Clone getting-started repository \n"
+          
+          git clone https://github.com/situmtech/situm-capacitor-plugin-wayfinding-getting-started.git
+
+          cd situm-capacitor-plugin-wayfinding-getting-started
+
+          echo -e "\n[+] Setting git remote credentials\n"
+          git remote set-url origin https://situmops:$(github_token)@github.com/situmtech/situm-capacitor-plugin-wayfinding-getting-started.git
+          
+          cat .git/config
+      
+          echo -e "\n[+] Fetch branches"
+          git fetch origin master
+          echo -e "\n[+] Checkout to master branch\n"
+          git checkout master
+
+          echo -e "\n[+] Update plugin version in app example\n"
+          sed -i "s/\"situm-capacitor-plugin-wayfinding\":.*/\"situm-capacitor-plugin-wayfinding\": \"$(version)\",/g" angular/package.json
+      
+          echo -e "\n[+] Commit empty change to run examples repo\n"
+          git add *
+          git commit -m "Upadate capacitor plugin version $(version)"
+          git push origin master
+          
+        displayName: Execute example app 
+
+
